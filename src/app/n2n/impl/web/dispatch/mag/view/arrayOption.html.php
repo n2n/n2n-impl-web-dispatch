@@ -22,8 +22,8 @@
 
 	use n2n\web\dispatch\map\PropertyPath;
 	use n2n\web\dispatch\mag\Mag;
-	use n2n\web\ui\view\impl\html\HtmlElement;
-	use n2n\web\ui\view\impl\html\HtmlBuilder;
+	use n2n\impl\web\ui\view\html\HtmlElement;
+	use n2n\impl\web\ui\view\html\HtmlBuilder;
 
 	$propertyPath = $view->getParam('propertyPath');
 	$view->assert($propertyPath instanceof PropertyPath);
