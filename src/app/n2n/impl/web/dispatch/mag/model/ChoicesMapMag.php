@@ -19,17 +19,17 @@
  * Bert Hofmänner.......: Idea, Community Leader, Marketing
  * Thomas Günther.......: Developer, Hangar
  */
-namespace n2n\web\dispatch\mag\impl\model;
+namespace n2n\impl\web\dispatch\mag\model;
 
 use n2n\web\dispatch\map\PropertyPath;
-use n2n\web\ui\view\impl\html\HtmlView;
+use n2n\impl\web\ui\view\html\HtmlView;
 use n2n\reflection\property\AccessProxy;
 use n2n\util\ex\NotYetImplementedException;
 use n2n\web\ui\UiComponent;
 use n2n\web\dispatch\property\ManagedProperty;
 use n2n\web\dispatch\map\bind\BindingDefinition;
-use n2n\web\dispatch\property\impl\ScalarProperty;
-use n2n\web\dispatch\property\impl\ObjectProperty;
+use n2n\impl\web\dispatch\property\ScalarProperty;
+use n2n\impl\web\dispatch\property\ObjectProperty;
 
 class ChoicesMapMag extends MagAdapter {
 	

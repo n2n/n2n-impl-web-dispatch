@@ -19,17 +19,17 @@
  * Bert Hofmänner.......: Idea, Community Leader, Marketing
  * Thomas Günther.......: Developer, Hangar
  */
-namespace n2n\web\dispatch\mag\impl\model;
+namespace n2n\impl\web\dispatch\mag\model;
 
 use n2n\web\dispatch\map\BindingConstraints;
-use n2n\web\ui\view\impl\html\HtmlView;
+use n2n\impl\web\ui\view\html\HtmlView;
 use n2n\web\dispatch\map\PropertyPath;
 use n2n\web\dispatch\DispatchableTypeAnalyzer;
-use n2n\web\dispatch\map\val\impl\ValArraySize;
+use n2n\impl\web\dispatch\map\val\ValArraySize;
 use n2n\web\dispatch\mag\Mag;
 use n2n\util\ex\IllegalStateException;
 use n2n\web\dispatch\ManagedPropertyType;
-use n2n\web\ui\view\impl\html\HtmlUtils;
+use n2n\impl\web\ui\view\html\HtmlUtils;
 use n2n\web\ui\UiComponent;
 
 class MagArrayMag extends MagAdapter {

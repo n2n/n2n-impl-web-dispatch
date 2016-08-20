@@ -19,7 +19,7 @@
  * Bert Hofmänner.......: Idea, Community Leader, Marketing
  * Thomas Günther.......: Developer, Hangar
  */
-namespace n2n\web\dispatch\map\val\impl;
+namespace n2n\impl\web\dispatch\map\val;
 
 use n2n\web\dispatch\map\val\SimplePropertyValidator;
 use n2n\reflection\ArgUtils;
@@ -38,7 +38,7 @@ class ValFileExtensions extends SimplePropertyValidator {
 		$this->allowedExtensions = $allowedExtensions;
 		$this->caseSensitive = $caseSensitive;
 		
-		$this->restrictType(array('n2n\web\dispatch\property\impl\FileProperty'));
+		$this->restrictType(array('n2n\impl\web\dispatch\property\FileProperty'));
 	}
 	
 	protected function validateValue($value) {

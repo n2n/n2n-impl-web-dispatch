@@ -19,7 +19,7 @@
  * Bert Hofmänner.......: Idea, Community Leader, Marketing
  * Thomas Günther.......: Developer, Hangar
  */
-namespace n2n\web\dispatch\property\impl;
+namespace n2n\impl\web\dispatch\property;
 
 use n2n\web\dispatch\property\ManagedProperty;
 use n2n\reflection\property\AccessProxy;

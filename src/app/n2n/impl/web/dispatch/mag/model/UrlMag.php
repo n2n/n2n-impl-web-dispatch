@@ -19,12 +19,12 @@
  * Bert Hofmänner.......: Idea, Community Leader, Marketing
  * Thomas Günther.......: Developer, Hangar
  */
-namespace n2n\web\dispatch\mag\impl\model;
+namespace n2n\impl\web\dispatch\mag\model;
 
 use n2n\web\dispatch\map\bind\BindingDefinition;
 use n2n\reflection\ArgUtils;
 use n2n\util\uri\Url;
-use n2n\web\dispatch\map\val\impl\ValUrl;
+use n2n\impl\web\dispatch\map\val\ValUrl;
 use n2n\util\ex\UnsupportedOperationException;
 use n2n\web\dispatch\map\bind\MappingDefinition;
 
