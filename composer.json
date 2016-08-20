@@ -15,6 +15,7 @@
     ],
     "require": {
         "php": ">=7.0",
+        "n2n/n2n-web": "master-dev",
         "n2n/n2n-io": "master-dev",
         "n2n/n2n-l10n": "master-dev",
         "n2n/n2n-reflection": "master-dev",
