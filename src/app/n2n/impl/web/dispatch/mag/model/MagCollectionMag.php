@@ -52,7 +52,7 @@ class MagCollectionMag extends MagAdapter {
 	 * @return UiComponent
 	 */
 	public function createUiField(PropertyPath $propertyPath, HtmlView $view): UiComponent {
-		return $view->getImport('\n2n\web\dispatch\mag\impl\view\magCollectionOption.html',
+		return $view->getImport('\n2n\impl\web\dispatch\mag\view\magCollectionOption.html',
 				array('propertyPath' => $propertyPath));
 	}
 

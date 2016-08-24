@@ -129,7 +129,7 @@ class MagCollectionArrayMag extends MagAdapter {
 		$this->setContainerAttrs(
 				HtmlUtils::mergeAttrs(array('data-num' => $num), $this->getContainerAttrs($view)));
 					
-		return $view->getImport('\n2n\web\dispatch\mag\impl\view\magCollectionArrayOption.html',
+		return $view->getImport('\n2n\impl\web\dispatch\mag\view\magCollectionArrayOption.html',
 				array('propertyPath' => $propertyPath, 'numExisting' => $numExisting, 'num' => $num, 
 						'min' => $this->min));
 	}
