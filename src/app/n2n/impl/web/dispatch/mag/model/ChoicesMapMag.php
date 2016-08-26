@@ -47,7 +47,7 @@ class ChoicesMapMag extends MagAdapter {
 	
 
 	public function createUiField(PropertyPath $propertyPath, HtmlView $view): UiComponent {
-		return $view->getImport('\n2n\web\dispatch\mag\impl\view\choicesMapForm.html',
+		return $view->getImport('\n2n\impl\web\dispatch\mag\view\choicesMapForm.html',
 				array('propertyPath' => $propertyPath));
 	}
 	
