@@ -47,7 +47,7 @@ class EnumMag extends MagAdapter {
 		$this->inputAttrs = $inputAttrs;
 	}	
 
-	public function isMandatory() {
+	public function isMandatory(): bool {
 		return $this->mandatory;
 	}
 	

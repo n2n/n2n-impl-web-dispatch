@@ -55,7 +55,7 @@ class FileMag extends MagAdapter {
 		$this->mandatory = (boolean) $mandatory;
 	}
 	
-	public function isMandatory() {
+	public function isMandatory(): bool {
 		return $this->mandatory;
 	}
 	

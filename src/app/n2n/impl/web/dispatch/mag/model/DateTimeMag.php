@@ -24,7 +24,7 @@ namespace n2n\impl\web\dispatch\mag\model;
 use n2n\impl\web\dispatch\map\val\ValIsset;
 use n2n\web\dispatch\map\PropertyPath;
 use n2n\impl\web\ui\view\html\HtmlView;
-use util\jquery\datepicker\DatePickerHtmlBuilder;
+use n2nutil\jquery\datepicker\DatePickerHtmlBuilder;
 use n2n\impl\web\dispatch\property\DateTimeProperty;
 use n2n\reflection\property\AccessProxy;
 use n2n\web\dispatch\map\bind\BindingDefinition;
