@@ -102,6 +102,6 @@ class EnumMag extends MagAdapter {
 	public function setupBindingDefinition(BindingDefinition $bd) {
 		$bd->val($this->getPropertyName(), new ValEnum(array_keys($this->options),
 				new MessageCode(ValEnum::DEFAULT_ERROR_TEXT_CODE, array('field' => $this->labelLstr), 
-						N2N::NS)));
+						'n2n\impl\web\dispatch')));
 	}
 }
