@@ -51,7 +51,7 @@ class ValArrayValues extends SinglePropertyValidator {
 
 			ValidationUtils::registerErrorMessage($mappingResult, 
 					new PropertyPathPart($managedProperty->getName(), true, $aKey),
-					self::DEFAULT_ERROR_TEXT_CODE, array(), N2N::NS, $this->errorMessage);
+					self::DEFAULT_ERROR_TEXT_CODE, array(), 'n2n\impl\web\dispatch', $this->errorMessage);
 		}
 	}
 }

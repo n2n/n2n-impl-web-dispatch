@@ -62,19 +62,19 @@ class ValNumeric extends SimplePropertyValidator {
 		if ($mapValue === null) return;
 		
 		if (!is_numeric($mapValue)) {
-			$this->failed($this->numericErrorMessage, self::DEFAULT_NUMERIC_ERROR_TEXT_CODE, array(), N2N::NS);
+			$this->failed($this->numericErrorMessage, self::DEFAULT_NUMERIC_ERROR_TEXT_CODE, array(), 'n2n\impl\web\dispatch');
 			return;
 		}
 		
 		if ($this->min !== null && $mapValue < $this->min) {
 			$this->failed($this->minErrorMessage, 
-					self::DEFAULT_MIN_ERROR_TEXT_CODE, array(), N2N::NS);
+					self::DEFAULT_MIN_ERROR_TEXT_CODE, array(), 'n2n\impl\web\dispatch');
 			return;
 		}
 		
 		if ($this->max !== null && $mapValue > $this->max) {
 			$this->failed($this->maxErrorMessage, 
-					self::DEFAULT_MAX_ERROR_TEXT_CODE, array(), N2N::NS);
+					self::DEFAULT_MAX_ERROR_TEXT_CODE, array(), 'n2n\impl\web\dispatch');
 			return;
 		}
 		

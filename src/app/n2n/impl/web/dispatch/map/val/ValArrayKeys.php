@@ -44,7 +44,7 @@ class ValArrayKeys extends SinglePropertyValidator {
 		
 		foreach ($mapValue as $aKey => $aValue) {
 			if (in_array($aKey, $this->allowedKeys)) continue;
-			$this->failed($this->errorMessage, self::DEFAULT_ERROR_TEXT_CODE, array(), N2N::NS);
+			$this->failed($this->errorMessage, self::DEFAULT_ERROR_TEXT_CODE, array(), 'n2n\impl\web\dispatch');
 		}
 	}
 }

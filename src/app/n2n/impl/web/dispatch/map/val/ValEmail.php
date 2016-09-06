@@ -37,7 +37,7 @@ class ValEmail extends SimplePropertyValidator {
 	protected function validateValue($value) {
 		if ($value === null || self::isEMail($value)) return;
 	
-		$this->failed($this->errorMessage, self::DEFAULT_ERROR_TEXT_CODE, array(), N2N::NS);
+		$this->failed($this->errorMessage, self::DEFAULT_ERROR_TEXT_CODE, array(), 'n2n\impl\web\dispatch');
 		$this->restrictType(array('n2n\web\dispatch\property\SimpleProperty'));
 	}
 	/**

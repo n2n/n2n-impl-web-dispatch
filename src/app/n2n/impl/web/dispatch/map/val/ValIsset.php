@@ -46,6 +46,6 @@ class ValIsset extends SimplePropertyValidator {
 	protected function validateValue($mapValue) {
 		if ($mapValue !== null) return;
 
-		$this->failed($this->errorMessage, self::DEFAULT_ERROR_TEXT_CODE, array(), N2N::NS);
+		$this->failed($this->errorMessage, self::DEFAULT_ERROR_TEXT_CODE, array(), 'n2n\impl\web\dispatch');
 	}
 }
