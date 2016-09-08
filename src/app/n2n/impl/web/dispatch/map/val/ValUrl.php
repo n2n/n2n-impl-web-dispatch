@@ -43,7 +43,7 @@ class ValUrl extends SimplePropertyValidator {
 		if ($value === null) return;
 		
 		if (!self::isUrl($value, !$this->relativeAllowed)) {
-			$this->failed($this->errorMessage, self::DEFAULT_ERROR_TEXT_CODE_INVALID, array(), N2N::NS);
+			$this->failed($this->errorMessage, self::DEFAULT_ERROR_TEXT_CODE_INVALID, array(), 'n2n\impl\web\dispatch');
 			return;
 		}
 		
@@ -56,7 +56,7 @@ class ValUrl extends SimplePropertyValidator {
 		}
 		
 		$this->failed($this->errorMessage, self::DEFAULT_ERROR_TEXT_CODE_INVALID_SCHEME, 
-				array('allowed_schemes' => implode(', ', $this->allowedSchemes)), N2N::NS);
+				array('allowed_schemes' => implode(', ', $this->allowedSchemes)), 'n2n\impl\web\dispatch');
 	}
 	/**
 	 * checks a string, if it is a valid url address

@@ -51,6 +51,6 @@ class ValMaxLength extends SimplePropertyValidator {
 		
 		ValidationUtils::registerErrorMessage($this->getMappingResult(), $this->getPathPart(), self::DEFAULT_ERROR_TEXT_CODE, 
 				array('max_length' => $this->maxLength, 'current_length' => $currentLength), 
-				N2N::NS, $this->errorMessage);
+				'n2n\impl\web\dispatch', $this->errorMessage);
 	}
 }

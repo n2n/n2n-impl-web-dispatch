@@ -71,7 +71,7 @@ class ValImageResourceMemory extends SimplePropertyValidator {
 				&& !$mapValue->getFileSource()->isImage())) return;
 
 		if (!$mapValue->isValid()) {
-			$this->failed('No file uploaded.', self::DEFAULT_ERROR_TEXT_CODE, array(), N2N::NS);
+			$this->failed('No file uploaded.', self::DEFAULT_ERROR_TEXT_CODE, array(), 'n2n\impl\web\dispatch');
 			return;
 		}
 				
@@ -80,7 +80,7 @@ class ValImageResourceMemory extends SimplePropertyValidator {
 		$memoryLimit = $this->getMemoryLimit();
 		
 		if (self::RESERVATED_MEMORY_SIZE + $requiredMemorySize > $memoryLimit) {
-			$this->failed($this->errorMessage, self::DEFAULT_ERROR_TEXT_CODE, array(), N2N::NS);
+			$this->failed($this->errorMessage, self::DEFAULT_ERROR_TEXT_CODE, array(), 'n2n\impl\web\dispatch');
 		}
 	}
 }

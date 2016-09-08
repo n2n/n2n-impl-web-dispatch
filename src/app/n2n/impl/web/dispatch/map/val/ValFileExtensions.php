@@ -51,6 +51,6 @@ class ValFileExtensions extends SimplePropertyValidator {
 		if (in_array($ext, $this->allowedExtensions)) return;
 		
 		$this->failed($this->errorMessage, self::DEFAULT_ERROR_TEXT_CODE, 
-				array('allowed_extensions' => implode(', ', $this->allowedExtensions)), N2N::NS);
+				array('allowed_extensions' => implode(', ', $this->allowedExtensions)), 'n2n\impl\web\dispatch');
 	}
 }

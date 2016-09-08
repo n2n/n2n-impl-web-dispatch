@@ -48,14 +48,14 @@ class ValImageFile extends SimplePropertyValidator {
 		
 		if (!in_array($mapValue->getOriginalExtension(), ImageSourceFactory::getSupportedExtensions())) {
 			if ($this->strict) {
-				$this->failed($this->notSupportedErrorMessage, self::DEFAULT_NOT_SUPPORTED_ERROR_TEXT_CODE, null, N2N::NS);
+				$this->failed($this->notSupportedErrorMessage, self::DEFAULT_NOT_SUPPORTED_ERROR_TEXT_CODE, null, 'n2n\impl\web\dispatch');
 			}
 			
 			return;
 		}
 
 		if (!$mapValue->getFileSource()->isImage()) {
-			$this->failed($this->corruptedErrorMessage, self::DEFAULT_CORRUPTED_ERROR_TEXT_CODE, null, N2N::NS);
+			$this->failed($this->corruptedErrorMessage, self::DEFAULT_CORRUPTED_ERROR_TEXT_CODE, null, 'n2n\impl\web\dispatch');
 		}
 	}
 }

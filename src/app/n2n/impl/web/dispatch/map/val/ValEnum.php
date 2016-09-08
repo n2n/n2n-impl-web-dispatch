@@ -41,6 +41,6 @@ class ValEnum extends SimplePropertyValidator {
 		if ($mapValue === null || ArrayUtils::inArrayLike($mapValue, $this->allowedValues)) return;
 		
 		ValidationUtils::registerErrorMessage($this->getMappingResult(), $this->getPathPart(), 
-				self::DEFAULT_ERROR_TEXT_CODE, array(), N2N::NS, $this->errorMessage);
+				self::DEFAULT_ERROR_TEXT_CODE, array(), 'n2n\impl\web\dispatch', $this->errorMessage);
 	}
 }

@@ -52,11 +52,11 @@ class ValArraySize extends SinglePropertyValidator {
 		$size = sizeof($mapValue);
 		
 		if ($this->min !== null && $size < $this->min) {
-			$this->failed($this->minErrorMessage, self::MIN_DEFAULT_ERROR_TEXT_CODE, array(), N2N::NS);
+			$this->failed($this->minErrorMessage, self::MIN_DEFAULT_ERROR_TEXT_CODE, array(), 'n2n\impl\web\dispatch');
 		}
 		
 		if ($this->max !== null && $size > $this->max) {
-			$this->failed($this->maxErrorMessage, self::MAX_DEFAULT_ERROR_TEXT_CODE, array(), N2N::NS);
+			$this->failed($this->maxErrorMessage, self::MAX_DEFAULT_ERROR_TEXT_CODE, array(), 'n2n\impl\web\dispatch');
 		}
 	}
 }

@@ -133,7 +133,7 @@ class DateTimeProperty extends ManagedPropertyAdapter implements SimpleProperty 
 			$bindingErrors->addError($pathPart, new MessageCode(self::PARSE_ERROR_CODE, 
 					array('field' => $mappingResult->getLabel($pathPart), 
 							'example' => $this->formatDateTime(new \DateTime(), $n2nLocale)),
-					Message::SEVERITY_ERROR, N2N::NS));
+					Message::SEVERITY_ERROR, 'n2n\impl\web\dispatch'));
 			return null;
 		}
 	}

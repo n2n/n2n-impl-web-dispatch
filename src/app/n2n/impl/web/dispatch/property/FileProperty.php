@@ -127,13 +127,13 @@ class FileProperty extends ManagedPropertyAdapter {
 									'field' => $mappingResult->getLabel($pathPart),
 									'file_name' => $uploadDefinition->getName(), 
 									'size' => $uploadDefinition->getSize()), 
-							null, N2N::NS));
+							null, 'n2n\impl\web\dispatch'));
 		} catch (IncompleteFileUploadException $e) {
 			$mappingResult->getBindingErrors()->addError($pathPart, 
 					new MessageCode(self::INCOMPLETE_ERROR_CODE, array( 
 									'field' => $mappingResult->getLabel($pathPart),
 									'file_name' => $uploadDefinition->getName()), 
-							null, N2N::NS));
+							null, 'n2n\impl\web\dispatch'));
 		}
 	}
 }

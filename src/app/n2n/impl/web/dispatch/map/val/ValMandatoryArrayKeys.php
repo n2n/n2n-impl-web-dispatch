@@ -45,7 +45,7 @@ class ValMandatoryArrayKeys extends SinglePropertyValidator {
 		foreach ($this->mandatoryKeys as $mandatoryKey) {
 			if (array_key_exists($mandatoryKey, $mapValue)) continue;
 
-			$this->failed($this->errorMessage, self::DEFAULT_ERROR_TEXT_CODE, array('key' => $mandatoryKey), N2N::NS);
+			$this->failed($this->errorMessage, self::DEFAULT_ERROR_TEXT_CODE, array('key' => $mandatoryKey), 'n2n\impl\web\dispatch');
 		}
 	}
 }

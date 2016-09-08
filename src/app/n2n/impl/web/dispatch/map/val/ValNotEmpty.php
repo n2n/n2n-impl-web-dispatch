@@ -36,6 +36,6 @@ class ValNotEmpty extends SimplePropertyValidator {
 	protected function validateValue($value) {
 		if ($value !== null && (!is_scalar($value) || mb_strlen(trim($value)))) return;
 		
-		$this->failed($this->errorMessage, self::DEFAULT_ERROR_TEXT_CODE, array(), N2N::NS);
+		$this->failed($this->errorMessage, self::DEFAULT_ERROR_TEXT_CODE, array(), 'n2n\impl\web\dispatch');
 	}
 }
