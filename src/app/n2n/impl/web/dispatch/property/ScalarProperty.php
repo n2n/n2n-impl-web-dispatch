@@ -45,9 +45,7 @@ class ScalarProperty extends ManagedPropertyAdapter implements SimpleProperty {
 
 	public function dispatch(ObjectItem $objectItem, BindingDefinition $bindingDefinition, 
 			ParamInvestigator $paramInvestigator, N2nContext $n2nContext) {
-		
-		$submitted = $objectItem->containsItemPropertyName($this->getName());
-				
+						
 		$propertyPath = null;
 		try {
 			if ($this->isArray()) {
@@ -60,11 +58,8 @@ class ScalarProperty extends ManagedPropertyAdapter implements SimpleProperty {
 		}
 		
 		$rawValue = $paramInvestigator->findValue($propertyPath);
-		if ($rawValue === null && !$submitted) {
-			$rawValue = $this->readValue($bindingDefinition->getMappingResult()->getObject());
-			if ($rawValue === null) $rawValue = $this->createEmptyValue();
-			
-			$bindingDefinition->getMappingResult()->__set($this->getName(), $rawValue);
+		if ($rawValue === null) {
+			$bindingDefinition->getMappingResult()->__set($this->getName(), $this->createEmptyValue());
 			return;
 		}
 		
@@ -78,8 +73,6 @@ class ScalarProperty extends ManagedPropertyAdapter implements SimpleProperty {
 			return;
 		}
 		
-		if ($rawValue === null) $rawValue = array();
-		
 		CorruptedDispatchException::assertTrue(is_array($rawValue));
 		$mapValue = $this->createEmptyValue();
 		foreach ($rawValue as $key => $rawFieldValue) {
@@ -90,15 +83,4 @@ class ScalarProperty extends ManagedPropertyAdapter implements SimpleProperty {
 		}
 		$bindingDefinition->getMappingResult()->__set($this->getName(), $mapValue);
 	}
-	
-	private function dispatchNonArray() {
-		
-	}
-	
-	private function dispatchArrayObject() {
-		
-	}
-	
-	
-	
 }

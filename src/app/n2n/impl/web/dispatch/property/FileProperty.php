@@ -78,8 +78,6 @@ class FileProperty extends ManagedPropertyAdapter {
 			} else if ($paramInvestigator->findAttr($propertyItem->getPropertyPath(), self::OPTION_KEEP_FILE)) {
 				if (null !== ($qualifiedName = $propertyItem->getAttr(self::OPTION_TMP_FILE))) {
 					$file = $tmpFileManager->getSessionFile($qualifiedName, $session);
-				} else {
-					$file = $this->readValue($mappingResult->getObject());
 				}
 			}		
 				

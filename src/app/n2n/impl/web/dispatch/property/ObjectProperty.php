@@ -44,7 +44,6 @@ use n2n\web\dispatch\DispatchContext;
 
 class ObjectProperty extends ManagedPropertyAdapter {
 	const CREATOR_KEY_PARAM = 'key';
-	const OPTION_OBJECT_ACTIVATED = 'optAct';
 	const OPTION_OBJECT_ENABLED = 'objEna';
 	
 	private $creator;
@@ -137,7 +136,7 @@ class ObjectProperty extends ManagedPropertyAdapter {
 		
 		$currentValue = $this->readValue($mappingResult->getObject());
 		
-		if ($this->creator !== null && null !== $objectItem->getAttr(self::OPTION_OBJECT_ACTIVATED)) {
+		if ($this->creator !== null) {
 			if (!$paramInvestigator->findAttr($propertyPath, self::OPTION_OBJECT_ENABLED)) {
 				return null;
 			}
@@ -170,7 +169,7 @@ class ObjectProperty extends ManagedPropertyAdapter {
 			$propertyPath = new PropertyPath(array(new PropertyPathPart($this->getName())));
 		}
 				
-		if ($this->creator === null || null === $objectArrayItem->getAttr(self::OPTION_OBJECT_ACTIVATED)) {
+		if ($this->creator === null) {
 			foreach ($currentValue as $key => $valueField) {
 				$objectMapper = new ObjectMapper($objectArrayItem->createObjectItem($key), null, 
 						$propertyPath->fieldExt($key));
@@ -181,7 +180,9 @@ class ObjectProperty extends ManagedPropertyAdapter {
 		}
 		
 		foreach ($objectArrayItem->getObjectItems() as $key => $objectItem) {
-			if (null === $paramInvestigator->findAttr($propertyPath->fieldExt($key), self::OPTION_OBJECT_ENABLED)) continue;
+			if (null === $paramInvestigator->findAttr($propertyPath->fieldExt($key), self::OPTION_OBJECT_ENABLED)) {
+				continue;
+			}
 
 			$objectMapper = new ObjectMapper($objectItem, null, $propertyPath->fieldExt($key));
 			$dispatchable = null;
@@ -199,6 +200,7 @@ class ObjectProperty extends ManagedPropertyAdapter {
 		
 		return $mapValue;
 	}
+	
 	/* (non-PHPdoc)
 	 * @see \n2n\web\dispatch\property\ManagedProperty::convertValueToMapValue()
 	 */
