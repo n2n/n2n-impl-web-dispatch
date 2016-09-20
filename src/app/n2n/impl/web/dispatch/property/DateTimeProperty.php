@@ -92,11 +92,10 @@ class DateTimeProperty extends ManagedPropertyAdapter implements SimpleProperty 
 		$rawValue = $paramInvestigator->findValue($bindingDefinition->getPropertyPath()->ext($this->getName()));
 		
 		if ($rawValue === null) {
-			$bindingDefinition->getMappingResult()->__set($this->getName(), 
-					$this->readValue($bindingDefinition->getMappingResult()->getObject()));
+			$mappingResult->__set($this->getName(), $this->createEmptyValue());
 			return;
 		}
-	
+		
 		if (!$this->isArray()) {
 			CorruptedDispatchException::assertTrue(is_scalar($rawValue));
 			

@@ -42,7 +42,6 @@
 	$html->meta()->addJs('js/array-option.js', null, false, false, null, HtmlBuilderMeta::TARGET_BODY_END);
 ?>
 
-<?php $formHtml->optionalObjectActivator($propertyPath) ?>
 <ul class="n2n-option-collection-array" data-num-existing="<?php $html->out($numExisting) ?>" data-min="<?php $html->out($min)?>">
 	<?php $formHtml->meta()->arrayProps($propertyPath, function() use ($formHtml, $view) { ?>
 		<li class="n2n-array-option-element">
