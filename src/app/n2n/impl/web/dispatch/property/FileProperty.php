@@ -78,6 +78,8 @@ class FileProperty extends ManagedPropertyAdapter {
 			} else if ($paramInvestigator->findAttr($propertyItem->getPropertyPath(), self::OPTION_KEEP_FILE)) {
 				if (null !== ($qualifiedName = $propertyItem->getAttr(self::OPTION_TMP_FILE))) {
 					$file = $tmpFileManager->getSessionFile($qualifiedName, $session);
+				} else {
+					$file = $this->readValue($mappingResult->getObject());
 				}
 			}		
 				
@@ -94,6 +96,7 @@ class FileProperty extends ManagedPropertyAdapter {
 			throw new CorruptedDispatchException('No ArrayItem.', 0, $e);
 		}
 		
+		$files = $this->readValue($mappingResult->getObject());
 		$mapValue = $this->createEmptyValue();
 		foreach ($arrayItem->getPropertyItems() as $key => $propertyItem) {
 			$uploadDefinition = $paramInvestigator->findUploadDefinition($propertyItem->getPropertyPath());
@@ -102,9 +105,12 @@ class FileProperty extends ManagedPropertyAdapter {
 					$uploadDefinition, $mappingResult);
 			if ($file !== null) {
 				$tmpFileManager->add($file, $session);
-			} else if ($paramInvestigator->findAttr($propertyItem->getPropertyPath(), self::OPTION_KEEP_FILE)
-					&& null !== ($qualifiedName = $propertyItem->getOption(self::OPTION_TMP_FILE))) {
-				$file = $tmpFileManager->getSessionFile($qualifiedName);
+			} else if ($paramInvestigator->findAttr($propertyItem->getPropertyPath(), self::OPTION_KEEP_FILE)) {
+				if (null !== ($qualifiedName = $propertyItem->getOption(self::OPTION_TMP_FILE))) {
+					$file = $tmpFileManager->getSessionFile($qualifiedName);
+				} else if (isset($files[$key])) {
+					$file = $files[$key];	
+				}
 			}
 			
 			if ($file !== null) $mapValue[$key] = $file;			
