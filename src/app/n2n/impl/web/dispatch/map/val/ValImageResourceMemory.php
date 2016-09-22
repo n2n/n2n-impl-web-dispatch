@@ -79,7 +79,7 @@ class ValImageResourceMemory extends SimplePropertyValidator {
 		$requiredMemorySize = $imageFile->getImageSource()->calcResourceMemorySize();
 		$memoryLimit = $this->getMemoryLimit();
 		
-		if (self::RESERVATED_MEMORY_SIZE + $requiredMemorySize > $memoryLimit) {
+		if (self::RESERVATED_MEMORY_SIZE + ($requiredMemorySize * 2) > $memoryLimit) {
 			$this->failed($this->errorMessage, self::DEFAULT_ERROR_TEXT_CODE, array(), 'n2n\impl\web\dispatch');
 		}
 	}
