@@ -170,6 +170,17 @@ class FormHtmlBuilderMeta {
 		return $messageTranslator->translateAll($messages);
 	}
 	
+	/**
+	 * @param mixed $propertyExpression
+	 * @return string
+	 */
+	public function getLabel($propertyExpression = null) {
+		$propertyPath = $this->createPropertyPath($propertyExpression);
+		$resolver = $this->getForm()->getMappingPathResolver();
+
+		return $resolver->analyze($propertyPath, null, null)->getLabel();
+	}
+	
 	public function getMapValue($propertyExpression = null) {
 		$propertyPath = $this->createPropertyPath($propertyExpression, true);
 		$resolver = $this->getForm()->getMappingPathResolver();
