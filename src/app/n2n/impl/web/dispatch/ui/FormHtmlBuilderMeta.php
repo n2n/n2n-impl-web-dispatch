@@ -51,21 +51,22 @@ class FormHtmlBuilderMeta {
 	 * @param string $propertyExpression
 	 * @return \n2n\web\dispatch\map\PropertyPath
 	 */
-	public function createPropertyPath($propertyExpression = null, bool $emptyAllowed = false): PropertyPath {
+	public function createPropertyPath($propertyExpression = null, bool $emptyAllowed = false) {
+		$propertyPath = null;
 		if ($propertyExpression instanceof PropertyPath) {
-			return $propertyExpression;
-		}
-		
-		$basePropertyPaths = $this->getForm()->getBasePropertyPaths();
-		if (0 != sizeof($basePropertyPaths)) {
-			if ($propertyExpression === null) {
-				return end($basePropertyPaths);
+			$propertyPath = $propertyExpression;
+		} else {
+			$basePropertyPaths = $this->getForm()->getBasePropertyPaths();
+			if (0 != sizeof($basePropertyPaths)) {
+				if ($propertyExpression === null) {
+					return end($basePropertyPaths);
+				}
+	
+				return end($basePropertyPaths)->ext($propertyExpression);
 			}
-
-			return end($basePropertyPaths)->ext($propertyExpression);
+			
+			$propertyPath = PropertyPath::createFromPropertyExpression($propertyExpression);
 		}
-		
-		$propertyPath = PropertyPath::createFromPropertyExpression($propertyExpression);
 		
 		if (!$emptyAllowed && $propertyPath->isEmpty()) {
 			throw new InvalidPropertyExpressionException('Property expression is empty.');
