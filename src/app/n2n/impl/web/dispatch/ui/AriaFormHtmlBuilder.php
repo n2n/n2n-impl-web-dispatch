@@ -28,7 +28,7 @@ class AriaFormHtmlBuilder {
 		$this->datePickerHtml = new DatePickerHtmlBuilder($view);
 		$this->autoCompletionHtml = new AutocompletionHtmlBuilder($view);
 		$this->view = $view;
-		$this->dtc = new DynamicTextCollection('ch\hnm\util', $view->getN2nContext()->getN2nLocale());
+		$this->dtc = new DynamicTextCollection('n2n\impl\web\dispatch', $view->getN2nContext()->getN2nLocale());
 	}
 	
 	public function open(Dispatchable $dispatchable, string $enctype = null, $method = null, 
@@ -54,7 +54,7 @@ class AriaFormHtmlBuilder {
 		if (!$required) return $label;
 		
 		return new HtmlSnippet($label, new HtmlElement('abbr', 
-				array('title' => $this->dtc->translate('aria_requred_label')), '*'));
+				array('title' => $this->dtc->translate('aria_required_label')), '*'));
 	}
 
 	public function input($propertyExpression = null, bool $required = false, array $attrs = null, $type = 'text',
