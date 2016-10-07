@@ -8,7 +8,6 @@ use n2n\l10n\DynamicTextCollection;
 use n2n\impl\web\ui\view\html\HtmlElement;
 use n2n\impl\web\dispatch\ui\FormHtmlBuilder;
 use n2n\impl\web\ui\view\html\HtmlSnippet;
-use n2n\web\ui\UiComponent;
 use n2n\impl\web\ui\view\html\HtmlUtils;
 use n2n\web\dispatch\Dispatchable;
 
@@ -45,17 +44,18 @@ class AriaFormHtmlBuilder {
 	}
 	
 	public function getLabel($forPropertyExpression = null, bool $required = false, $label = null, array $attrs = null) {
-		$label = $this->formHtml->getLabel($forPropertyExpression, $label, $attrs);
+		if ($required) {
+			if ($label === null) {
+				$label = $this->formHtml->meta()->getLabel($forPropertyExpression);
+			}
+			
+			$label = new HtmlSnippet($label, new HtmlElement('abbr', 
+					array('title' => $this->dtc->translate('aria_required_label')), '*'));
+		}
 		
-		return $this->improveLabel($label, $required);
+		return $this->formHtml->getLabel($forPropertyExpression, $label, $attrs);
 	}
 
-	private function improveLabel(UiComponent $label, bool $required) {
-		if (!$required) return $label;
-		
-		return new HtmlSnippet($label, new HtmlElement('abbr', 
-				array('title' => $this->dtc->translate('aria_required_label')), '*'));
-	}
 
 	public function input($propertyExpression = null, bool $required = false, array $attrs = null, $type = 'text',
 			$secret = false, $fixedValue = null, $tagName = 'input', $elementContents = null) {
