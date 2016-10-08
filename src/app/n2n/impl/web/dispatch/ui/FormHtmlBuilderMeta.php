@@ -247,7 +247,7 @@ class FormHtmlBuilderMeta {
 	}
 	
 	public function objectProps($objectPropertyExpression, \Closure $closure) {
-		$propertyPath = $this->createPropertyPath($objectPropertyExpression);
+		$propertyPath = $this->createPropertyPath($objectPropertyExpression, true);
 		$resolver = $this->getForm()->getMappingPathResolver();
 		$mappingResult = null;
 		if ($propertyPath->isEmpty()) {
