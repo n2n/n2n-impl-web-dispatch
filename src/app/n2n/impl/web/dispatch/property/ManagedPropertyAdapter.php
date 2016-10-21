@@ -26,7 +26,7 @@ use n2n\reflection\property\AccessProxy;
 use n2n\web\dispatch\Dispatchable;
 use n2n\core\container\N2nContext;
 use n2n\web\dispatch\map\AnalyzerResult;
-use n2n\web\dispatch\ui\Form;
+use n2n\impl\web\dispatch\ui\Form;
 use n2n\web\dispatch\map\MappingResult;
 use n2n\web\dispatch\map\PropertyPathPart;
 

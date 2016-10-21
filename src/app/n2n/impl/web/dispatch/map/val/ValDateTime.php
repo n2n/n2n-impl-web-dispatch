@@ -55,16 +55,12 @@ class ValDateTime extends SimplePropertyValidator {
 		ArgUtils::assertTrue($value instanceof \DateTime);
 		
 		if ($this->min !== null && $value < $this->min) {
-			ValidationUtils::registerErrorMessage($mappingResult, $pathPart,
-					self::DEFAULT_MIN_ERROR_TEXT_CODE, array(), 'n2n\impl\web\dispatch',
-					$this->minErrorMessage);
+			$this->failed($this->minErrorMessage, self::DEFAULT_MIN_ERROR_TEXT_CODE, array(), 'n2n\impl\web\dispatch');
 			return;
 		}
 	
 		if ($this->max !== null && $value > $this->max) {
-			ValidationUtils::registerErrorMessage($mappingResult, $pathPart,
-					self::DEFAULT_MAX_ERROR_TEXT_CODE, array(), 'n2n\impl\web\dispatch',
-					$this->maxErrorMessage);
+			$this->failed($this->maxErrorMessage, self::DEFAULT_MAX_ERROR_TEXT_CODE, array(), 'n2n\impl\web\dispatch');
 			return;
 		}
 	}

@@ -19,10 +19,28 @@
  * Bert Hofmänner.......: Idea, Community Leader, Marketing
  * Thomas Günther.......: Developer, Hangar
  */
-namespace n2n\impl\web\dispatch\map\val;
+namespace n2n\impl\web\dispatch\ui;
 
-use n2n\web\dispatch\DispatchException;
-
-class ValidatorInitializationException extends DispatchException {
+class SelectChoice {
+	private $value;
+	private $label;
+	private $attrs;
 	
+	public function __construct($value, $label, array $attrs = null) {
+		$this->value = $value;
+		$this->label = $label;
+		$this->attrs = (array) $attrs;
+	}
+	
+	public function getValue() {
+		return $this->value;
+	}
+	
+	public function getLabel(): string {
+		return $this->label;
+	}
+	
+	public function getAttrs() {
+		return $this->attrs;
+	}
 }
