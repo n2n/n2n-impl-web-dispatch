@@ -39,7 +39,6 @@ use n2n\web\dispatch\map\PropertyTypeMissmatchException;
 use n2n\impl\web\dispatch\property\ObjectProperty;
 use n2n\reflection\ReflectionUtils;
 use n2n\web\ui\UiComponent;
-use n2n\web\dispatch\target\PropertyPathMissmatchException;
 
 class FormUiComponentFactory {
 	const HTML_ID_PREFIX = 'n2n-';
@@ -246,7 +245,7 @@ class FormUiComponentFactory {
 	
 		if ($deleteLinkLabel === null) {
 			$deleteLinkLabel = $this->form->getView()->getL10nText(self::DELETE_LINK_DEFAULT_CODE,
-					null, null, 'n2n\impl\web\dispatch');
+					null, null, null, 'n2n\impl\web\dispatch');
 		}
 		
 		if (!isset($attrs['id'])) {
