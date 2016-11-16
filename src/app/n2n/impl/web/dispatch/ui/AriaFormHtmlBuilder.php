@@ -49,7 +49,7 @@ class AriaFormHtmlBuilder {
 				$label = $this->formHtml->meta()->getLabel($forPropertyExpression);
 			}
 			
-			$label = new HtmlSnippet($label, new HtmlElement('abbr', 
+			$label = new HtmlSnippet($label, PHP_EOL, new HtmlElement('abbr', 
 					array('title' => $this->dtc->translate('aria_required_label')), '*'));
 		}
 		
@@ -135,7 +135,7 @@ class AriaFormHtmlBuilder {
 	}
 
 	public function message($propertyExpression = null, string $containerTagName = 'div', array $containerAttrs = null) {
-		$this->view->out($this->getMessageFor($propertyExpression, $containerTagName, $containerAttrs));
+		$this->view->out($this->getMessage($propertyExpression, $containerTagName, $containerAttrs));
 	}
 	
 	public function getMessage($propertyExpression = null, string $containerTagName = 'div', array $containerAttrs = null) {
