@@ -285,9 +285,11 @@ class FormUiComponentFactory {
 		$elemAttrs = array('type' => 'submit', 'value' => 1);
 	
 		$dispatchModel = $this->form->getMappingPathResolver()->getBaseMappingResult()->getDispatchModel();
-		$dispatchModel->getMethodByName($methodName);
 		
-		$elemAttrs['name'] = $this->dte->buildMethodParamName($methodName);
+		if ($methodName !== null) {
+			$dispatchModel->getMethodByName($methodName);
+			$elemAttrs['name'] = $this->dte->buildMethodParamName($methodName);
+		}
 	
 		return new HtmlElement('button', HtmlUtils::mergeAttrs($elemAttrs, (array) $attrs), $label);
 	}
