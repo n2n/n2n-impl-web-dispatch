@@ -20,7 +20,7 @@
 	 * Thomas Günther.......: Developer, Hangar
 	 */
 
-use n2n\web\dispatch\map\PropertyPath;
+	use n2n\web\dispatch\map\PropertyPath;
 	use n2n\impl\web\ui\view\html\HtmlView;
 	
 	/**
@@ -31,10 +31,10 @@ use n2n\web\dispatch\map\PropertyPath;
 	
 	
 	$propertyPath = $view->getParam('propertyPath', false);
-	$view->assert($propertyPath instanceof PropertyPath);
+	$view->assert($propertyPath === null || $propertyPath instanceof PropertyPath);
 ?>
 
-<ul class="n2n-option-collection">
+<?php $view->out('<ul class="n2n-option-collection">') ?>
 	<?php $formHtml->meta()->objectProps($propertyPath, function () use ($formHtml) { ?>
 		<?php $formHtml->magOpen('li') ?>
 			<?php $formHtml->magLabel() ?>
@@ -43,4 +43,4 @@ use n2n\web\dispatch\map\PropertyPath;
 			</div>
 		<?php $formHtml->magClose() ?>
 	<?php }) ?>
-</ul>
+<?php $view->out('</ul>') ?>

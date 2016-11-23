@@ -77,6 +77,7 @@ class ReflectionClassMag extends MagAdapter {
 		if ($this->maxlength !== null) {
 			$bd->val($this->propertyName, new ValMaxLength((int) $this->maxlength));
 		}
+
 		$bd->val($this->propertyName, new ValReflectionClass($this->isAClass));
 	}
 	
