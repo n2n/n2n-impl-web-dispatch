@@ -199,7 +199,7 @@ class CommonManagedPropertyProvider implements ManagedPropertyProvider {
 				'n2n\web\dispatch\annotation\AnnoDispObject');
 		foreach ($annotations as $methodName => $annotation) {			
 			$objectProperty = new ObjectProperty($propertyAnalyzer->analyzeProperty(
-					PropertiesAnalyzer::parsePropertyName($methodName)), false);
+					PropertiesAnalyzer::parsePropertyName($annotation->getAnnotatedMethod())), false);
 			$objectProperty->setCreator($annotation->getCreator());
 			$setupProcess->provideManagedProperty($objectProperty, $annotation);
 		}
