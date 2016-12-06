@@ -508,7 +508,7 @@ class SelectOptionFactory {
 	public function applyChoicesMap(array $choicesMap, HtmlElement $contextElement, $multiple) {
 		foreach ($choicesMap as $key => $value) {
 			if ($value instanceof SelectChoice) {
-				$contextElement->appendNl(new HtmlElement('option', $this->completeOptionAttrs(
+				$contextElement->appendLn(new HtmlElement('option', $this->completeOptionAttrs(
 						$value->getValue(), $value->getAttrs()), $value->getLabel()));
 				continue;
 			}
@@ -516,18 +516,18 @@ class SelectOptionFactory {
 			if ($value instanceof SelectChoiceGroup) {
 				$element = new HtmlElement('optiongroup', $value->getAttrs());
 				$value->applyOptions($value->getOptions(), $element);
-				$contextElement->appendNl($element);
+				$contextElement->appendLn($element);
 				continue;
 			}
 	
 			if (is_array($value)) {
 				$element = new HtmlElement('optiongroup', array('label' => $key));
 				$this->applyChoicesMap($value, $element);
-				$contextElement->appendNl($element);
+				$contextElement->appendLn($element);
 				continue;
 			}
 			
-			$contextElement->appendNl(new HtmlElement('option', $this->completeOptionAttrs(
+			$contextElement->appendLn(new HtmlElement('option', $this->completeOptionAttrs(
 					$key, array()), $value));
 		}
 	}
