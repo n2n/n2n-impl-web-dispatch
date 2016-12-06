@@ -1,8 +1,6 @@
 <?php
 namespace n2n\impl\web\dispatch\ui;
 
-use n2nutil\jquery\datepicker\DatePickerHtmlBuilder;
-use n2nutil\jquery\autocomplete\ui\AutocompletionHtmlBuilder;
 use n2n\impl\web\ui\view\html\HtmlView;
 use n2n\l10n\DynamicTextCollection;
 use n2n\impl\web\ui\view\html\HtmlElement;
@@ -24,8 +22,6 @@ class AriaFormHtmlBuilder {
 
 	public function __construct(HtmlView $view) {
 		$this->formHtml = $view->getFormHtmlBuilder();
-		$this->datePickerHtml = new DatePickerHtmlBuilder($view);
-		$this->autoCompletionHtml = new AutocompletionHtmlBuilder($view);
 		$this->view = $view;
 		$this->dtc = new DynamicTextCollection('n2n\impl\web\dispatch', $view->getN2nContext()->getN2nLocale());
 	}
