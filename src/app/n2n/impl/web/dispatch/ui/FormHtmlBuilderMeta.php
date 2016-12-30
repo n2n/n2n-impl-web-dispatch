@@ -205,8 +205,12 @@ class FormHtmlBuilderMeta {
 			return $lastPathPart->getResolvedArrayKey();
 		}
 		
-		$this->getForm()->getMappingPathResolver()->analyze($propertyPath, null, true);
-		return $propertyPath->getResolvedArrayKey();
+		if (!$lastPathPart->isArray()) {
+			return null;
+		}
+		
+		$this->getForm()->getMappingPathResolver()->analyze($propertyPath);
+		return $lastPathPart->getResolvedArrayKey();
 	}
 
 	public function arrayProps($arrayPropertyExpression, \Closure $closure, $min = null, 
