@@ -24,6 +24,7 @@ namespace n2n\impl\web\dispatch\map\val;
 use n2n\web\dispatch\map\val\SimplePropertyValidator;
 use n2n\web\dispatch\map\val\ValidationUtils;
 use n2n\core\N2N;
+use n2n\util\uri\Url;
 
 class ValUrl extends SimplePropertyValidator {
 	const DEFAULT_ERROR_TEXT_CODE_INVALID = 'n2n.dispatch.val.ValUrl.invalid';
@@ -65,12 +66,18 @@ class ValUrl extends SimplePropertyValidator {
 	 * @return bool
 	 */
 	public static function isUrl($url, bool $schemeRequired = true) {
+		try {
+			$url = Url::create($url)->toIdnaAsciiString();
+		} catch (\InvalidArgumentException $e) {
+			return false;
+		}
+		
 		if ($schemeRequired) {
-			if (false !== filter_var(idn_to_ascii($url), FILTER_VALIDATE_URL, FILTER_FLAG_SCHEME_REQUIRED)) {
+			if (false !== filter_var($url, FILTER_VALIDATE_URL, FILTER_FLAG_SCHEME_REQUIRED)) {
 				return true;
 			}
 		} else {
-			if (false !== filter_var(idn_to_ascii($url), FILTER_VALIDATE_URL)) {
+			if (false !== filter_var($url, FILTER_VALIDATE_URL)) {
 				return true;
 			}
 		}
