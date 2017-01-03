@@ -218,7 +218,7 @@ class CommonManagedPropertyProvider implements ManagedPropertyProvider {
 		foreach ($annotations as $methodName => $annotation) {
 			$objectProperty = new ObjectProperty(
 					$propertyAnalyzer->analyzeProperty(
-							PropertiesAnalyzer::parsePropertyName($methodName)),
+							PropertiesAnalyzer::parsePropertyName($annotation->getAnnotatedMethod())),
 					true, $annotation->useArrayObject());
 			$objectProperty->setCreator($annotation->getCreator());
 			$setupProcess->provideManagedProperty($objectProperty, $annotation);
