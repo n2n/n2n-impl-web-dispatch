@@ -126,7 +126,7 @@ class MagCollectionArrayMag extends MagAdapter {
 		} else {
 			$num += self::DEFAULT_INC;
 		}
-		$this->setContainerAttrs(
+		$this->setAttrs(
 				HtmlUtils::mergeAttrs(array('data-num' => $num), $this->getContainerAttrs($view)));
 					
 		return $view->getImport('\n2n\impl\web\dispatch\mag\view\magCollectionArrayOption.html',

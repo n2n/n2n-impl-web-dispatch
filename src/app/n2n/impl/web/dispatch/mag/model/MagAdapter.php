@@ -26,17 +26,22 @@ use n2n\impl\web\ui\view\html\HtmlView;
 use n2n\web\dispatch\mag\Mag;
 use n2n\l10n\N2nLocale;
 use n2n\l10n\Lstr;
+use n2n\web\dispatch\mag\MagCollection;
+use n2n\impl\web\ui\view\html\HtmlUtils;
+use n2n\web\dispatch\mag\MarkableMag;
 
-abstract class MagAdapter implements Mag {
+abstract class MagAdapter implements Mag, MarkableMag {
 	protected $propertyName;
 	protected $labelLstr;
-	protected $containerAttrs = array();
+	private $containerAttrs = array();
+	protected $attrs = array();
+	protected $markAtters = array(); 
 	protected $value;
 	
-	public function __construct(string $propertyName, $labelLstr, $value = null, array $containerAttrs = null) {
+	public function __construct(string $propertyName, $labelLstr, $value = null, array $attrs = null) {
 		$this->propertyName = $propertyName;
 		$this->labelLstr = Lstr::create($labelLstr);
-		$this->containerAttrs = (array) $containerAttrs;
+		$this->attrs = (array) $attrs;
 		$this->value = $value;
 	}
 	
@@ -56,8 +61,18 @@ abstract class MagAdapter implements Mag {
 		return $this->containerAttrs;
 	}
 	
-	public function setContainerAttrs(array $containerAttrs) {
-		$this->containerAttrs = $containerAttrs;
+	public function getAttrs() {
+		return $this->attrs;
+	}
+	
+	public function setAttrs(array $attrs) {
+		$this->attrs = $attrs;
+		$this->containerAttrs = HtmlUtils::mergeAttrs($this->markAttrs, $attrs);
+	}
+	
+	public function addMarkAttrs(array $markAttrs) {
+		$this->containerAttrs = HtmlUtils::mergeAttrs($this->containerAttrs, $markAttrs);
+		$this->markAttrs = HtmlUtils::mergeAttrs($this->markAttrs, $markAttrs);
 	}
 	/* (non-PHPdoc)
 	 * @see \n2n\web\dispatch\mag\Mag::setupMappingDefinition()
@@ -88,5 +103,8 @@ abstract class MagAdapter implements Mag {
 	 */
 	public function setValue($value) {
 		$this->value = $value;
+	}
+	
+	public function whenAssigned(MagCollection $magCollection) {
 	}
 }

@@ -32,7 +32,6 @@ use n2n\web\dispatch\property\ManagedProperty;
 use n2n\web\ui\UiComponent;
 
 class NumericMag extends MagAdapter {
-	
 	private $mandatory;
 	private $minValue;
 	private $maxValue;
