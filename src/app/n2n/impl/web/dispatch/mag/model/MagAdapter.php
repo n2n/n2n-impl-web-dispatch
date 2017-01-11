@@ -35,13 +35,13 @@ abstract class MagAdapter implements Mag, MarkableMag {
 	protected $labelLstr;
 	private $containerAttrs = array();
 	protected $attrs = array();
-	protected $markAtters = array(); 
+	protected $markAttrs = array(); 
 	protected $value;
 	
 	public function __construct(string $propertyName, $labelLstr, $value = null, array $attrs = null) {
 		$this->propertyName = $propertyName;
 		$this->labelLstr = Lstr::create($labelLstr);
-		$this->attrs = (array) $attrs;
+		$this->setAttrs((array) $attrs);
 		$this->value = $value;
 	}
 	
@@ -74,30 +74,35 @@ abstract class MagAdapter implements Mag, MarkableMag {
 		$this->containerAttrs = HtmlUtils::mergeAttrs($this->containerAttrs, $markAttrs);
 		$this->markAttrs = HtmlUtils::mergeAttrs($this->markAttrs, $markAttrs);
 	}
+	
 	/* (non-PHPdoc)
 	 * @see \n2n\web\dispatch\mag\Mag::setupMappingDefinition()
 	 */
 	public function setupMappingDefinition(MappingDefinition $md) {
 		$md->getMappingResult()->setLabel($this->propertyName, (string) $this->labelLstr);
 	}
+	
 	/**
 	 * @return mixed
 	 */
 	public function getFormValue() {
 		return $this->value;
 	}
+	
 	/* (non-PHPdoc)
 	 * @see \n2n\web\dispatch\mag\Mag::setValue()
 	 */
 	public function setFormValue($formValue) {
 		$this->value = $formValue;
 	}
+	
 	/* (non-PHPdoc)
 	 * @see \n2n\web\dispatch\mag\Mag::getValue()
 	 */
 	public function getValue() {
 		return $this->value;
 	}
+	
 	/* (non-PHPdoc)
 	 * @see \n2n\web\dispatch\mag\Mag::setValue()
 	 */
