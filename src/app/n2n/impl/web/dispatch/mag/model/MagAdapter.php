@@ -30,7 +30,7 @@ use n2n\web\dispatch\mag\MagCollection;
 use n2n\impl\web\ui\view\html\HtmlUtils;
 use n2n\web\dispatch\mag\MarkableMag;
 
-abstract class MagAdapter implements Mag, MarkableMag {
+abstract class MagAdapter implements Mag {
 	protected $propertyName;
 	protected $labelLstr;
 	private $containerAttrs = array();
