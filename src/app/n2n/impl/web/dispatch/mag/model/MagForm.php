@@ -51,31 +51,30 @@ class MagForm implements MagDispatchable {
 	}
 	
 	public function getPropertyValue($name) {
-		return $this->magCollection->getMagByPropertyName($name)->getFormValue();
+		return $this->magCollection->getMagWrapperByPropertyName($name)->getMag()->getFormValue();
 	}
 	
 	public function setPropertyValue($name, $value) {
-		$this->magCollection->getMagByPropertyName($name)->setFormValue($value);
+		$this->magCollection->getMagWrapperByPropertyName($name)->getMag()->setFormValue($value);
 	}
 	/* (non-PHPdoc)
 	 * @see \n2n\web\dispatch\DynamicDispatchable::setup()
 	 */
 	public function setup(DispatchModel $dispatchModel) {
-		foreach ($this->magCollection->getMags() as $name => $option) {
-			$dispatchModel->addProperty($option->createManagedProperty(
-					new DynamicAccessProxy($name)));
+		foreach ($this->magCollection->getMagWrappers() as $name => $magWrapper) {
+			$dispatchModel->addProperty($magWrapper->getMag()->createManagedProperty(new DynamicAccessProxy($name)));
 		}
 	}
 	
 	private function _mapping(MappingDefinition $mappingDefinition) {
-		foreach ($this->magCollection->getMags() as $propertyName => $option) {
-			$option->setupMappingDefinition($mappingDefinition);
+		foreach ($this->magCollection->getMagWrappers() as $propertyName => $magWrapper) {
+			$magWrapper->getMag()->setupMappingDefinition($mappingDefinition);
 		}
 	}
 	
 	private function _validation(BindingDefinition $bindingDefinition) {
-		foreach ($this->magCollection->getMags() as $propertyName => $option) {
-			$option->setupBindingDefinition($bindingDefinition);
+		foreach ($this->magCollection->getMagWrappers() as $propertyName => $magWrapper) {
+			$magWrapper->getMag()->setupBindingDefinition($bindingDefinition);
 		}
 	}
 }

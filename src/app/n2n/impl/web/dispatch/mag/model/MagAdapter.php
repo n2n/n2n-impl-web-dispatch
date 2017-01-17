@@ -27,15 +27,11 @@ use n2n\web\dispatch\mag\Mag;
 use n2n\l10n\N2nLocale;
 use n2n\l10n\Lstr;
 use n2n\web\dispatch\mag\MagCollection;
-use n2n\impl\web\ui\view\html\HtmlUtils;
-use n2n\web\dispatch\mag\MarkableMag;
 
 abstract class MagAdapter implements Mag {
 	protected $propertyName;
 	protected $labelLstr;
-	private $containerAttrs = array();
 	protected $attrs = array();
-	protected $markAttrs = array(); 
 	protected $value;
 	
 	public function __construct(string $propertyName, $labelLstr, $value = null, array $attrs = null) {
@@ -58,7 +54,7 @@ abstract class MagAdapter implements Mag {
 	}
 	
 	public function getContainerAttrs(HtmlView $view): array {
-		return $this->containerAttrs;
+		return $this->attrs;
 	}
 	
 	public function getAttrs() {
@@ -67,12 +63,6 @@ abstract class MagAdapter implements Mag {
 	
 	public function setAttrs(array $attrs) {
 		$this->attrs = $attrs;
-		$this->containerAttrs = HtmlUtils::mergeAttrs($this->markAttrs, $attrs);
-	}
-	
-	public function addMarkAttrs(array $markAttrs) {
-		$this->containerAttrs = HtmlUtils::mergeAttrs($this->containerAttrs, $markAttrs);
-		$this->markAttrs = HtmlUtils::mergeAttrs($this->markAttrs, $markAttrs);
 	}
 	
 	/* (non-PHPdoc)

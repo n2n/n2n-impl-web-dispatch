@@ -297,9 +297,9 @@ class FormHtmlBuilderMeta {
 	/**
 	 * @param PropertyPath $propertyPath
 	 * @throws PropertyTypeMissmatchException
-	 * @return \n2n\web\dispatch\mag\Mag
+	 * @return \n2n\web\dispatch\mag\MagWrapper
 	 */
-	public function lookupOption(PropertyPath $propertyPath) {
+	public function lookupMagWrapper(PropertyPath $propertyPath) {
 		$form = $this->getForm();
 
 		$result = $form->getMappingPathResolver()->analyze($propertyPath, null, null);
@@ -313,7 +313,7 @@ class FormHtmlBuilderMeta {
 					. $propertyPath->__toString() . ')');
 		}
 		
-		return $dispatchable->getMagCollection()->getMagByPropertyName(
+		return $dispatchable->getMagCollection()->getMagWrapperByPropertyName(
 				$propertyPath->getLast()->getPropertyName());		
 	}
 }
