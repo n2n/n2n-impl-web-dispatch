@@ -165,7 +165,7 @@ class Form {
 		return $this->labeledIds[$propertyPath->__toString()];
 	}
 	
-	private function buildId(PropertyPath $propertyPath) {
+	public function buildId(PropertyPath $propertyPath) {
 		$propertyPath = $this->dispatchTargetEncoder->buildRealPropertyPath($propertyPath);
 		
 		$idPrefix = ReflectionUtils::encodeNamespace($this->view->getModuleNamespace()) 
