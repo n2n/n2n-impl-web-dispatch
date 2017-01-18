@@ -165,7 +165,7 @@ class Form {
 		return $this->labeledIds[$propertyPath->__toString()];
 	}
 	
-	public function buildId(PropertyPath $propertyPath) {
+	public function buildId(PropertyPath $propertyPath, string $suffix = null) {
 		$propertyPath = $this->dispatchTargetEncoder->buildRealPropertyPath($propertyPath);
 		
 		$idPrefix = ReflectionUtils::encodeNamespace($this->view->getModuleNamespace()) 
@@ -180,6 +180,11 @@ class Form {
 		}
 
 		$id = $idPrefix . $idSuffix;
+		
+		if ($suffix !== null) {
+			$id .= self::ID_PART_SEPARATOR . $suffix;
+		}
+		
 		for ($i = 2; !$this->view->getHtmlProperties()->registerId($id); $i++) {
 			$id = $idPrefix . self::ID_PART_SEPARATOR . $i;
 		}
