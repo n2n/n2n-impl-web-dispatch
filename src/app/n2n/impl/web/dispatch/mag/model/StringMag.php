@@ -43,7 +43,7 @@ class StringMag extends MagAdapter {
 		$this->mandatory = $mandatory;
 		$this->maxlength = $maxlength;
 		$this->multiline = $multiline;
-		$this->inputAttrs = $inputAttrs;
+		$this->inputAttrs = (array) $inputAttrs;
 	}	
 	
 	public function setMandatory(bool $mandatory) {
@@ -74,7 +74,7 @@ class StringMag extends MagAdapter {
 		$this->inputAttrs = $inputAttrs;
 	}
 	
-	public function getInputAttrs(): array {
+	public function getInputAttrs() {
 		return $this->inputAttrs;
 	}
 	
