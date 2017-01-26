@@ -26,17 +26,18 @@ use n2n\impl\web\ui\view\html\HtmlView;
 use n2n\web\dispatch\mag\Mag;
 use n2n\l10n\N2nLocale;
 use n2n\l10n\Lstr;
+use n2n\web\dispatch\mag\MagCollection;
 
 abstract class MagAdapter implements Mag {
 	protected $propertyName;
 	protected $labelLstr;
-	protected $containerAttrs = array();
+	protected $attrs = array();
 	protected $value;
 	
-	public function __construct(string $propertyName, $labelLstr, $value = null, array $containerAttrs = null) {
+	public function __construct(string $propertyName, $labelLstr, $value = null, array $attrs = null) {
 		$this->propertyName = $propertyName;
 		$this->labelLstr = Lstr::create($labelLstr);
-		$this->containerAttrs = (array) $containerAttrs;
+		$this->setAttrs((array) $attrs);
 		$this->value = $value;
 	}
 	
@@ -53,40 +54,52 @@ abstract class MagAdapter implements Mag {
 	}
 	
 	public function getContainerAttrs(HtmlView $view): array {
-		return $this->containerAttrs;
+		return $this->attrs;
 	}
 	
-	public function setContainerAttrs(array $containerAttrs) {
-		$this->containerAttrs = $containerAttrs;
+	public function getAttrs() {
+		return $this->attrs;
 	}
+	
+	public function setAttrs(array $attrs) {
+		$this->attrs = $attrs;
+	}
+	
 	/* (non-PHPdoc)
 	 * @see \n2n\web\dispatch\mag\Mag::setupMappingDefinition()
 	 */
 	public function setupMappingDefinition(MappingDefinition $md) {
 		$md->getMappingResult()->setLabel($this->propertyName, (string) $this->labelLstr);
 	}
+	
 	/**
 	 * @return mixed
 	 */
 	public function getFormValue() {
 		return $this->value;
 	}
+	
 	/* (non-PHPdoc)
 	 * @see \n2n\web\dispatch\mag\Mag::setValue()
 	 */
 	public function setFormValue($formValue) {
 		$this->value = $formValue;
 	}
+	
 	/* (non-PHPdoc)
 	 * @see \n2n\web\dispatch\mag\Mag::getValue()
 	 */
 	public function getValue() {
 		return $this->value;
 	}
+	
 	/* (non-PHPdoc)
 	 * @see \n2n\web\dispatch\mag\Mag::setValue()
 	 */
 	public function setValue($value) {
 		$this->value = $value;
+	}
+	
+	public function whenAssigned(MagCollection $magCollection) {
 	}
 }

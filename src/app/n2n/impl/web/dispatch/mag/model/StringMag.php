@@ -30,7 +30,6 @@ use n2n\impl\web\dispatch\property\ScalarProperty;
 use n2n\reflection\property\AccessProxy;
 use n2n\web\dispatch\property\ManagedProperty;
 use n2n\web\ui\UiComponent;
-use n2n\web\dispatch\map\bind\MappingDefinition;
 
 class StringMag extends MagAdapter {
 	private $mandatory;
@@ -39,12 +38,12 @@ class StringMag extends MagAdapter {
 	private $inputAttrs;
 	
 	public function __construct(string $propertyName, $label, $value = null, bool $mandatory = false, 
-			int $maxlength = null, bool $multiline = false, array $containerAttrs = null, array $inputAttrs = null) {
-		parent::__construct($propertyName, $label, $value, $containerAttrs);
+			int $maxlength = null, bool $multiline = false, array $attrs = null, array $inputAttrs = null) {
+		parent::__construct($propertyName, $label, $value, $attrs);
 		$this->mandatory = $mandatory;
 		$this->maxlength = $maxlength;
 		$this->multiline = $multiline;
-		$this->inputAttrs = $inputAttrs;
+		$this->inputAttrs = (array) $inputAttrs;
 	}	
 	
 	public function setMandatory(bool $mandatory) {
@@ -75,7 +74,7 @@ class StringMag extends MagAdapter {
 		$this->inputAttrs = $inputAttrs;
 	}
 	
-	public function getInputAttrs(): array {
+	public function getInputAttrs() {
 		return $this->inputAttrs;
 	}
 	

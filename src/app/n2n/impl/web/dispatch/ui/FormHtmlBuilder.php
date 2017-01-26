@@ -367,36 +367,36 @@ class FormHtmlBuilder {
 	}
 	
 	public function magOpen($tagName, $propertyExpression = null, array $attrs = null) {
-		$this->view->out($this->getOptionOpen($tagName, $propertyExpression, $attrs));
+		$this->view->out($this->getMagOpen($tagName, $propertyExpression, $attrs));
 	}
 	
-	public function getOptionOpen($tagName, $propertyExpression = null, array $attrs = null) {
+	public function getMagOpen($tagName, $propertyExpression = null, array $attrs = null) {
 		$propertyPath = $this->meta->createPropertyPath($propertyExpression);
-		$option = $this->meta->lookupOption($propertyPath);
-		$this->optionStack[] = array('tagName' => $tagName, 'propertyPath' => $propertyPath, 'option' => $option);
+		$magWrapper = $this->meta->lookupMagWrapper($propertyPath);
+		$this->magStack[] = array('tagName' => $tagName, 'propertyPath' => $propertyPath, 'magWrapper' => $magWrapper);
 		
 		return new Raw('<' . htmlspecialchars((string) $tagName) . HtmlElement::buildAttrsHtml(
-				HtmlUtils::mergeAttrs($option->getContainerAttrs($this->view), (array) $attrs)) . '>');
+				HtmlUtils::mergeAttrs($magWrapper->getContainerAttrs($this->view), (array) $attrs)) . '>');
 	}
 	
-	private function peakOptionInfo() {
-		if (!sizeof($this->optionStack)) {
+	private function peakMagInfo() {
+		if (!sizeof($this->magStack)) {
 			throw $this->view->decorateException(
 					new IllegalStateException('No option container opened.'));
 		}
 		
-		return end($this->optionStack);
+		return end($this->magStack);
 	}
 	
 	public function magLabel(array $attrs = null, $label = null) {
-		$this->view->out($this->getOptionLabel($attrs, $label));
+		$this->view->out($this->getMagLabel($attrs, $label));
 	}
 	
-	public function getOptionLabel(array $attrs = null, $label = null) {
-		$optionInfo = $this->peakOptionInfo();
+	public function getMagLabel(array $attrs = null, $label = null) {
+		$optionInfo = $this->peakMagInfo();
 		
 		return $this->getLabel($optionInfo['propertyPath'], 
-				($label === null ? $optionInfo['option']->getLabel($this->view->getN2nLocale()) : $label), $attrs);
+				($label === null ? $optionInfo['magWrapper']->getMag()->getLabel($this->view->getN2nLocale()) : $label), $attrs);
 	}
 	
 	public function magField() {
@@ -404,17 +404,17 @@ class FormHtmlBuilder {
 	}
 	
 	public function getMagField() {
-		$optionInfo = $this->peakOptionInfo();
-		return $optionInfo['option']->createUiField($optionInfo['propertyPath'], $this->view);
+		$optionInfo = $this->peakMagInfo();
+		return $optionInfo['magWrapper']->getMag()->createUiField($optionInfo['propertyPath'], $this->view);
 	}
 
 	public function magClose() {
-		$this->view->out($this->getOptionClose());
+		$this->view->out($this->getMagClose());
 	}
 	
-	public function getOptionClose() {
-		$optionInfo = $this->peakOptionInfo();
-		array_pop($this->optionStack);
+	public function getMagClose() {
+		$optionInfo = $this->peakMagInfo();
+		array_pop($this->magStack);
 		return new Raw('</' . htmlspecialchars((string) $optionInfo['tagName']) . '>');
 	}
 }

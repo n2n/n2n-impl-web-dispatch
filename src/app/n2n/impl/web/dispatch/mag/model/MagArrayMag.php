@@ -48,7 +48,7 @@ class MagArrayMag extends MagAdapter {
 			$this->min = 1;
 		}
 		
-		$this->setContainerAttrs(
+		$this->setAttrs(
 				HtmlUtils::mergeAttrs(array('class' => 'n2n-array-option'),
 						(array) $containerAttrs));
 	}

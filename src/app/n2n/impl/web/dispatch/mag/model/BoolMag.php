@@ -28,15 +28,31 @@ use n2n\web\dispatch\map\bind\BindingDefinition;
 use n2n\impl\web\dispatch\property\ScalarProperty;
 use n2n\web\dispatch\property\ManagedProperty;
 use n2n\web\ui\UiComponent;
+use n2n\reflection\ArgUtils;
 
 class BoolMag extends MagAdapter {
-	private $inputAttrs;
+	private $inputAttrs = array();
 	
 	public function __construct($propertyName, $labelLstr, bool $value = false, 
-			array $containerAttrs = null, array $inputAttrs = null) {
-		parent::__construct($propertyName, $labelLstr, $value, $containerAttrs);
-		$this->inputAttrs = $inputAttrs;
+			array $attrs = null, array $inputAttrs = null) {
+		parent::__construct($propertyName, $labelLstr, $value, $attrs);
+		$this->inputAttrs = (array) $inputAttrs;
 	}	
+	
+	/**
+	 * @param array $inputAttrs
+	 */
+	public function setInputAttrs(array $inputAttrs) {
+		ArgUtils::valArray($inputAttrs, 'scalar');
+		$this->inputAttrs = $inputAttrs;
+	}
+	
+	/**
+	 * @return array
+	 */
+	public function getInputAttrs() {
+		return $this->inputAttrs;
+	}
 	
 	public function createManagedProperty(AccessProxy $accessProxy): ManagedProperty {
 		return new ScalarProperty($accessProxy, false);

@@ -354,7 +354,7 @@ class FormUiComponentFactory {
 				$attrs['id'] = HtmlUtils::buildUniqueId('n2n-');
 			}
 			$labelAttrs['for'] = $attrs['id'];
-			$raw = new Raw(new HtmlElement('input', $attrs) . new HtmlElement('label', $labelAttrs, $label));
+			$raw = new Raw(new HtmlElement('input', $attrs) . ' ' . new HtmlElement('label', $labelAttrs, $label));
 		}
 		
 // 		$objectItem->setAttr(ObjectProperty::OPTION_OPTIONAL_OBJECT, 'check');
