@@ -82,15 +82,14 @@ class FormHtmlBuilder {
 		if ($action === null) {
 			$action = $this->view->getRequest()->getRelativeUrl();
 		}
-		$form->printOpenTag($this->view->getContentBuffer(), $action, $attrs);		
+		$form->printOpenTag($this->view->getActiveBuffer(), $action, $attrs);		
 	}
 	
 	public function close() {
 		$form = $this->meta->getForm();
 		
 		if (!$this->formCreated) {
-			throw $this->view->decorateException(new IllegalFormStateException(
-					'Can not close form which was opened in a parent view.'));
+			throw new IllegalFormStateException('Can not close form which was opened in a parent view.');
 		}
 		
 		
