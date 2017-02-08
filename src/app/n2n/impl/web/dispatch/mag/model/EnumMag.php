@@ -79,7 +79,7 @@ class EnumMag extends MagAdapter {
 		return $this->inputAttrs;
 	}
 	
-	public function setInputAttrs($inputAttrs) {
+	public function setInputAttrs(array $inputAttrs) {
 		$this->inputAttrs = $inputAttrs;
 	}
 

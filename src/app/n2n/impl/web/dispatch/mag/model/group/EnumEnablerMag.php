@@ -14,23 +14,24 @@ class EnumEnablerMag extends EnumMag {
 	private $associatedMagWrapperMap;
 	private $htmlId;
 	
-	public function __construct($propertyName, $label, array $options, $value = null) {
-		parent::__construct($propertyName, $labelLstr, $options, $value);
+	public function __construct($propertyName, $labelLstr, array $options, $value = null, bool $mandatory = false, 
+			array $associatedMagWrapperMap = null) {
+		parent::__construct($propertyName, $labelLstr, $options, $value, $mandatory);
 		
-		$this->setAssociatedMagWrappes((array) $associatedMagWrappers);
+		$this->setAssociatedMagWrapperMap((array) $associatedMagWrapperMap);
 		$this->htmlId = HtmlUtils::buildUniqueId('n2n-impl-web-dispatch-enum-enabler-group');
 		$this->setInputAttrs(array());
 	}
 	
 	public function setInputAttrs(array $inputAttrs) {
-		parent::setInputAttrs(HtmlUtils::mergeAttrs(array('class' => 'n2n-impl-web-dispatch-enum-enabler',
-				'data-n2n-impl-web-dispatch-enabler-class' => $this->htmlId)), $inputAttrs);
+		parent::setInputAttrs(HtmlUtils::mergeAttrs( array('class' => 'n2n-impl-web-dispatch-enum-enabler',
+				'data-n2n-impl-web-dispatch-enabler-class' => $this->htmlId), $inputAttrs), $inputAttrs);
 	}
 	
 	/**
 	 * @param MagWrapper[] $associatedMagWrappers
 	 */
-	public function setAssociatedMagWrappeMaps(array $associatedMagWrapperMap) {
+	public function setAssociatedMagWrapperMap(array $associatedMagWrapperMap) {
 		ArgUtils::valArray($associatedMagWrapperMap, TypeConstraint::createArrayLike('array', false, 
 				TypeConstraint::createSimple(MagWrapper::class)), false, 'associatedMagWrapperMap');
 		$this->associatedMagWrapperMap = $associatedMagWrapperMap;
@@ -39,7 +40,7 @@ class EnumEnablerMag extends EnumMag {
 	/**
 	 * @param MagWrapper[] $associatedMagWrappers
 	 */
-	public function setAssociatedMagWrappes($value, array $associatedMagWrappers) {
+	public function setAssociatedMagWrappers($value, array $associatedMagWrappers) {
 		ArgUtils::valArray($associatedMagWrappers, MagWrapper::class, false, 'associatedMagWrappers');
 		$this->associatedMagWrapperMap[$value] = $associatedMagWrappers;
 	}
