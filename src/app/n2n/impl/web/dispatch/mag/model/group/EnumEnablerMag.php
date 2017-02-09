@@ -9,10 +9,12 @@ use n2n\web\ui\UiComponent;
 use n2n\web\dispatch\mag\MagWrapper;
 use n2n\impl\web\dispatch\mag\model\EnumMag;
 use n2n\reflection\property\TypeConstraint;
+use n2n\web\dispatch\map\bind\MappingDefinition;
 
 class EnumEnablerMag extends EnumMag {
 	private $associatedMagWrapperMap;
 	private $htmlId;
+	private $disabledIgnored = true;
 	
 	public function __construct($propertyName, $labelLstr, array $options, $value = null, bool $mandatory = false, 
 			array $associatedMagWrapperMap = null) {
@@ -50,6 +52,21 @@ class EnumEnablerMag extends EnumMag {
 	 */
 	public function getAssociatedMagWrappers() {
 		return $this->associatedMagWrapperMap;
+	}
+	
+	public function setupMappingDefinition(MappingDefinition $md) {
+		parent::setupMappingDefinition($md);
+		
+		if (!$this->disabledIgnored || !$md->isDispatched()) return;
+		
+		$dispValue = $md->getDispatchedValue($this->propertyName);
+		
+		foreach ($this->associatedMagWrapperMap as $value => $associatedMagWrappers) {
+			$ignored = $dispValue != $value;
+			foreach ($associatedMagWrappers as $associatedMagWrapper) {
+				$associatedMagWrapper->setIgnored($ignored);
+			}
+		}
 	}
 	
 	public function createUiField(PropertyPath $propertyPath, HtmlView $view): UiComponent {
