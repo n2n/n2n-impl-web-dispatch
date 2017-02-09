@@ -45,7 +45,7 @@ n2n.dispatch.registerCallback(function () {
 			groupElems[i].style.display = "none"
 		}
 		
-		var groupElems = document.getElementsByClassName(groupClassName + elem.value);
+		var groupElems = document.getElementsByClassName(groupClassName + "-" + elem.value);
 		for (var i = 0, ii = groupElems.length; i < ii; i++) {
 			groupElems[i].style.display = "block"
 		}

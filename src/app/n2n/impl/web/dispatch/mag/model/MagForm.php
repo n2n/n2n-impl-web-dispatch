@@ -67,14 +67,10 @@ class MagForm implements MagDispatchable {
 	}
 	
 	private function _mapping(MappingDefinition $mappingDefinition) {
-		foreach ($this->magCollection->getMagWrappers() as $propertyName => $magWrapper) {
-			$magWrapper->getMag()->setupMappingDefinition($mappingDefinition);
-		}
+		$this->magCollection->setupMappingDefinition($mappingDefinition);
 	}
 	
 	private function _validation(BindingDefinition $bindingDefinition) {
-		foreach ($this->magCollection->getMagWrappers() as $propertyName => $magWrapper) {
-			$magWrapper->getMag()->setupBindingDefinition($bindingDefinition);
-		}
+		$this->magCollection->setupBindingDefinition($bindingDefinition);
 	}
 }
