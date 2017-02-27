@@ -1,5 +1,5 @@
 
-n2n.dispatch.registerCallback(function () {
+var boolEnabler = function () {
 	var enablerElems = document.getElementsByClassName("n2n-impl-web-dispatch-enabler");
 	var callback = function () {
 		updateEnabler(this);
@@ -21,9 +21,13 @@ n2n.dispatch.registerCallback(function () {
 			groupElems[i].style.display = displayTypeName;
 		}
 	}
-});
+};
 
-n2n.dispatch.registerCallback(function () {
+n2n.dispatch.registerCallback(boolEnabler);
+document.addEventListener("DOMContentLoaded", boolEnabler);
+
+
+var enumEnablerFunc = function () {
 	var enablerElems = document.getElementsByClassName("n2n-impl-web-dispatch-enum-enabler");
 	var callback = function () {
 		updateEnabler(this);
@@ -50,4 +54,7 @@ n2n.dispatch.registerCallback(function () {
 			groupElems[i].style.display = "block"
 		}
 	}
-});
+};
+	
+n2n.dispatch.registerCallback(enumEnablerFunc);
+document.addEventListener("DOMContentLoaded", enumEnablerFunc);
