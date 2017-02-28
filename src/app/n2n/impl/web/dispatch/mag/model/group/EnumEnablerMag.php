@@ -31,26 +31,33 @@ class EnumEnablerMag extends EnumMag {
 	}
 	
 	/**
-	 * @param MagWrapper[] $associatedMagWrappers
+	 * @param MagWrapper[][] $associatedMagWrapperMap
 	 */
 	public function setAssociatedMagWrapperMap(array $associatedMagWrapperMap) {
 		ArgUtils::valArray($associatedMagWrapperMap, TypeConstraint::createArrayLike('array', false, 
 				TypeConstraint::createSimple(MagWrapper::class)), false, 'associatedMagWrapperMap');
 		$this->associatedMagWrapperMap = $associatedMagWrapperMap;
+		
+		foreach ($this->associatedMagWrapperMap as $value => $associatedMagWrappers) {
+			foreach ($associatedMagWrappers as $associatedMagWrapper) {
+				$associatedMagWrapper->addMarkAttrs(array('class' => $this->htmlId . ' ' . $this->htmlId . '-'
+						. $value));
+			}
+		}
 	}
 	
-	/**
-	 * @param MagWrapper[] $associatedMagWrappers
-	 */
-	public function setAssociatedMagWrappers($value, array $associatedMagWrappers) {
-		ArgUtils::valArray($associatedMagWrappers, MagWrapper::class, false, 'associatedMagWrappers');
-		$this->associatedMagWrapperMap[$value] = $associatedMagWrappers;
-	}
+// 	/**
+// 	 * @param MagWrapper[] $associatedMagWrappers
+// 	 */
+// 	public function setAssociatedMagWrappers($value, array $associatedMagWrappers) {
+// 		ArgUtils::valArray($associatedMagWrappers, MagWrapper::class, false, 'associatedMagWrappers');
+// 		$this->associatedMagWrapperMap[$value] = $associatedMagWrappers;
+// 	}
 	
 	/**
-	 * @return MagWrapper[] 
+	 * @return MagWrapper[][] 
 	 */
-	public function getAssociatedMagWrappers() {
+	public function getAssociatedMagWrapperMap() {
 		return $this->associatedMagWrapperMap;
 	}
 	
@@ -74,13 +81,6 @@ class EnumEnablerMag extends EnumMag {
 // 		$view->getHtmlBuilder()->meta()->bodyEnd()->addJs('js/ajah.js', 'n2n\impl\web\ui');
 		$view->getHtmlBuilder()->meta()->addJs('js/group.js', 'n2n\impl\web\dispatch');
 		
-		foreach ($this->associatedMagWrapperMap as $value => $associatedMagWrappers) {
-			foreach ($associatedMagWrappers as $associatedMagWrapper) {
-				$associatedMagWrapper->addMarkAttrs(array('class' => $this->htmlId . ' ' . $this->htmlId . '-' 
-						. $value));
-			}
-		}
-			
 		return parent::createUiField($propertyPath, $view);
 	}
 }
