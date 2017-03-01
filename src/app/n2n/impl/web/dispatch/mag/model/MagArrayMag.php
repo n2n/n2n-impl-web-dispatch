@@ -21,131 +21,133 @@
  */
 namespace n2n\impl\web\dispatch\mag\model;
 
-use n2n\web\dispatch\map\BindingConstraints;
 use n2n\impl\web\ui\view\html\HtmlView;
 use n2n\web\dispatch\map\PropertyPath;
-use n2n\web\dispatch\DispatchableTypeAnalyzer;
-use n2n\impl\web\dispatch\map\val\ValArraySize;
 use n2n\web\dispatch\mag\Mag;
-use n2n\util\ex\IllegalStateException;
-use n2n\web\dispatch\ManagedPropertyType;
-use n2n\impl\web\ui\view\html\HtmlUtils;
 use n2n\web\ui\UiComponent;
+use n2n\reflection\ArgUtils;
+use n2n\web\dispatch\property\ManagedProperty;
+use n2n\web\dispatch\mag\MagCollection;
 
-class MagArrayMag extends MagAdapter {
-	const DEFAULT_INC = 10;
-	private $fieldOption;
-	private $min;
-	private $max;
-	private $dynamicArray = true;
-	private $fieldCreateor = null;
-	private $objectOption;
+class MagArrayMag implements Mag {
+	const PROPERTY_NAME = 'field';
 	
-	public function __construct($label, Option $fieldOption, $required = false, array $containerAttrs = null) {
-		parent::__construct($label, array(), $required);
-		$this->fieldOption = $fieldOption;
-		if ($this->isRequired()) {
-			$this->min = 1;
-		}
-		
-		$this->setAttrs(
-				HtmlUtils::mergeAttrs(array('class' => 'n2n-array-option'),
-						(array) $containerAttrs));
+	private $decorated;
+	
+	public function __construct(string $propertyName, $label, \Closure $magCreator, $required = false, array $containerAttrs = null) {
+		$this->decorated = new MagCollectionArrayMag($propertyName, $label, function () use ($magCreator) {
+			$mag = $magCreator(MagArrayMag::PROPERTY_NAME);
+			ArgUtils::valTypeReturn($mag, Mag::class, null, $magCreator);
+			$magCollection = new MagCollection();
+			$magCollection->addMag($mag);
+			return $magCollection;
+		});
 	}
-	
-	public function setDynamicArray($dynamicArray) {
-		$this->dynamicArray = $dynamicArray;
+	/**
+	 * {@inheritDoc}
+	 * @see \n2n\web\dispatch\mag\Mag::getPropertyName()
+	 */
+	public function getPropertyName(): string {
+		return $this->decorated->getPropertyName();
 	}
-	
-	public function isDynamicArray() {
-		return $this->dynamicArray;
+
+	/**
+	 * {@inheritDoc}
+	 * @see \n2n\web\dispatch\mag\Mag::getLabel()
+	 */
+	public function getLabel(\n2n\l10n\N2nLocale $n2nLocale): string {
+		return $this->decorated->getLabel($n2nLocale);
 	}
-	
-	public function getMin() {
-		return $this->min;
+
+	/**
+	 * {@inheritDoc}
+	 * @see \n2n\web\dispatch\mag\Mag::createManagedProperty()
+	 */
+	public function createManagedProperty(\n2n\reflection\property\AccessProxy $accessProxy): ManagedProperty {
+		return $this->decorated->createManagedProperty($accessProxy);
 	}
-	
-	public function setMin($min) {
-		$this->min = $min;
+
+	/**
+	 * {@inheritDoc}
+	 * @see \n2n\web\dispatch\mag\Mag::setupMappingDefinition()
+	 */
+	public function setupMappingDefinition(\n2n\web\dispatch\map\bind\MappingDefinition $md) {
+		$this->decorated->setupMappingDefinition($md);
 	}
-	
-	public function getMax() {
-		return $this->max;
+
+	/**
+	 * {@inheritDoc}
+	 * @see \n2n\web\dispatch\mag\Mag::setupBindingDefinition()
+	 */
+	public function setupBindingDefinition(\n2n\web\dispatch\map\bind\BindingDefinition $bd) {
+		$this->decorated->setupBindingDefinition($bd);
 	}
-	
-	public function setMax($max) {
-		$this->max = $max;
+
+	/**
+	 * {@inheritDoc}
+	 * @see \n2n\web\dispatch\mag\Mag::getFormValue()
+	 */
+	public function getFormValue() {
+		return $this->decorated->getFormValue();
 	}
-	
-	public function setFieldCreator(\Closure $fieldCreator = null) {
-		$this->fieldCreateor = $fieldCreator;
+
+	/**
+	 * {@inheritDoc}
+	 * @see \n2n\web\dispatch\mag\Mag::setFormValue()
+	 */
+	public function setFormValue($value) {
+		$this->decorated->setFormValue($value);
 	}
-	
-	public function createManagedProperty($propertyName, DispatchableTypeAnalyzer $typeAnalyzer) {
-		$propertyType = $this->fieldOption->createManagedPropertyType($propertyName, $typeAnalyzer);
-		
-		if ($propertyType->isArray()) {
-			throw new IllegalStateException('FieldOption must not be an array');
-		}
-		$propertyType->setArray(true);
-		
-		$this->objectOption = $propertyType->getType() == ManagedPropertyType::TYPE_OBJECT;
-		if ($this->objectOption && $this->dynamicArray) {
-			if ($this->fieldCreateor !== null) {
-				$that = $this;
-				$propertyType->setAttr(ManagedPropertyType::ATTR_CREATOR, function () use ($that) {
-					return $that->fieldOption->attributeValueToOptionValue($that->fieldCreateor->__invoke());
-				});
-			} else {
-				$that = $this;
-				$propertyType->setAttr(ManagedPropertyType::ATTR_CREATOR, function() use ($that) {
-					return $that->fieldOption->getDefault();  
-				});
+
+	/**
+	 * {@inheritDoc}
+	 * @see \n2n\web\dispatch\mag\Mag::getContainerAttrs()
+	 */
+	public function getContainerAttrs(\n2n\impl\web\ui\view\html\HtmlView $view): array {
+		return $this->decorated->getContainerAttrs($view);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * @see \n2n\web\dispatch\mag\Mag::createUiField()
+	 */
+	public function createUiField(\n2n\web\dispatch\map\PropertyPath $propertyPath, \n2n\impl\web\ui\view\html\HtmlView $view): UiComponent {
+		return $this->createUiField($propertyPath, $view);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * @see \n2n\web\dispatch\mag\Mag::getValue()
+	 */
+	public function getValue() {
+		$value = array();
+		foreach ($this->decorated->getValue() as $key => $decoratedFieldValue) {
+			if (array_key_exists(self::PROPERTY_NAME, $decoratedFieldValue)) {
+				$value[$key] = $decoratedFieldValue[self::PROPERTY_NAME];
 			}
 		}
+		return $value;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * @see \n2n\web\dispatch\mag\Mag::setValue()
+	 */
+	public function setValue($value) {
+		ArgUtils::valType($value, 'array');
 		
-		return $propertyType;
-	}
-	
-	public function optionValueToAttributeValue($value) {
-		$attributeValue = array();
-		foreach ((array) $value as $key => $MagForm) {
-			$attributeValue[$key] = $this->fieldOption->optionValueToAttributeValue($MagForm); 
+		$decoratedValue = array();
+		foreach ($value as $key => $fieldValue) {
+			$decoratedValue[$key] = array(self::PROPERTY_NAME => $fieldValue);
 		}
-		return $attributeValue;
+		$this->decorated->setValue($decoratedValue);
 	}
-	
-	public function attributeValueToOptionValue($value) {
-		$optionValue = array();
-		foreach ((array) $value as $key => $field) {
-			$optionValue[$key] = $this->fieldOption->attributeValueToOptionValue($field);
-		}
-		return $optionValue;
-	}
-	
-	public function setupBindingDefinition($propertyName, BindingConstraints $bc) {
-		$bc->val($propertyName, new ValArraySize($this->min, null, $this->max));
-	}
-	
-	public function createUiField(PropertyPath $propertyPath, HtmlView $view): UiComponent {
-		$num = null;
-		$optionalObjects = $this->objectOption && $this->dynamicArray;
-		$numExisting = sizeof($view->getFormHtmlBuilder()->getValue($propertyPath));
-		if ($this->dynamicArray) {
-			$num = $numExisting;
-			if (isset($this->max)) {
-				if ($this->max > $num) {
-					$num = $this->max; 
-				}
-			} else if (isset($this->min) && $this->min > $num) {
-				$num = $this->min + self::DEFAULT_INC;
-			} else {
-				$num += self::DEFAULT_INC;
-			}
-		}
-		
-		return $view->getImport('\n2n\view\option\arrayOption.html',
-				array('propertyPath' => $propertyPath, 'num' => $num, 'optionalObjects' => $optionalObjects, 'dynamicArray' => $this->dynamicArray,
-						'fieldOption' => $this->fieldOption, 'numExisting' => $numExisting, 'min' => $this->min));
+
+	/**
+	 * {@inheritDoc}
+	 * @see \n2n\web\dispatch\mag\Mag::whenAssigned()
+	 */
+	public function whenAssigned(\n2n\web\dispatch\mag\MagCollection $magCollection) {
+		$this->decorated->whenAssigned($magCollection);
 	}
 }

@@ -26,7 +26,6 @@ use n2n\impl\web\dispatch\map\val\ValMaxLength;
 use n2n\impl\web\ui\view\html\HtmlView;
 use n2n\web\dispatch\map\PropertyPath;
 use n2n\impl\web\dispatch\map\val\ValReflectionClass;
-use n2n\reflection\ReflectionUtils;
 use n2n\web\dispatch\map\bind\BindingDefinition;
 use n2n\reflection\property\AccessProxy;
 use n2n\impl\web\dispatch\property\ScalarProperty;
@@ -34,20 +33,19 @@ use n2n\web\dispatch\property\ManagedProperty;
 use n2n\web\ui\UiComponent;
 
 /**
- * It is !!!VERY DANGEROUS!!! to use this Option 
+ * It is !!!VERY DANGEROUS!!! to use this Mag 
  * Please use this only for ModuleConfiguration!!!
  * 
  * @author thomas
  *
  */
-class ReflectionClassMag extends MagAdapter {
-	
+class ClassNameMag extends MagAdapter {
 	private $mandatory;
 	private $maxlength;
 	private $inputAttrs;
 	private $isAClass;
 		
-	public function __construct($propertyName, $label, \ReflectionClass $isAClass, $value = null, 
+	public function __construct($propertyName, $label, \ReflectionClass $isAClass, string $value = null, 
 			$mandatory = false, $maxlength = null, array $inputAttrs = null) {
 		parent::__construct($propertyName, $label, $value);
 		
@@ -69,6 +67,10 @@ class ReflectionClassMag extends MagAdapter {
 		return new ScalarProperty($accessProxy, false);
 	}
 	
+	public function setValue(string $value = null) {
+		parent::setValue($value);
+	}
+	
 	public function setupBindingDefinition(BindingDefinition $bd) {
 		if ($this->mandatory) {
 			$bd->val($this->propertyName, new ValNotEmpty());
@@ -79,14 +81,6 @@ class ReflectionClassMag extends MagAdapter {
 		}
 
 		$bd->val($this->propertyName, new ValReflectionClass($this->isAClass));
-	}
-	
-	public function optionValueToAttributeValue($value) {
-		if ($value) {
-			return ReflectionUtils::createReflectionClass($value)->getName();
-		}
-		
-		return null;
 	}
 	
 	public function createUiField(PropertyPath $propertyPath, HtmlView $htmlView): UiComponent {
