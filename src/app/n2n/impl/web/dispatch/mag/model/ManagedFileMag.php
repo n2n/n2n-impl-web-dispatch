@@ -33,21 +33,17 @@ class ManagedFileMag extends FileMag {
 	private $value;
 	
 	
-	public function __construct($label, FileManager $fileManager, array $allowedExtensions = null, 
+	public function __construct(string $propertyName, $label, FileManager $fileManager, array $allowedExtensions = null, 
 			$checkImageResourceMemory = false, File $default = null, $required = false, array $inputAttrs = null) {
-		parent::__construct($label, $allowedExtensions, $checkImageResourceMemory, $default, $required, $inputAttrs);
+		parent::__construct($propertyName, $label, $allowedExtensions, $checkImageResourceMemory, $default, $required, $inputAttrs);
 		$this->fileManager = $fileManager;
 	}
 	
-	public function attributeValueToOptionValue($value) {
-		if (null !== ($file = $this->fileManager->getByQualifiedName($value))) {
-			$this->value = $value;
-			return $file;
-		}
-		return null;
+	public function getFormValue() {
+		return $this->fileManager->getByQualifiedName($this->value);
 	}
 	
-	public function optionValueToAttributeValue($value) {
+	public function setFormValue($value) {
 		if ((string) $value == $this->value) return (string) $value;
 		if ($value === $this->value) return  $this->fileManager->getByQualifiedName($value);
 		if (!($value instanceof File)) return $value;
