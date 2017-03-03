@@ -93,9 +93,14 @@ class StringMag extends MagAdapter {
 	}
 
 	public function createUiField(PropertyPath $propertyPath, HtmlView $htmlView): UiComponent {
-		if ($this->isMultiline()) {
-			return $htmlView->getFormHtmlBuilder()->getTextarea($propertyPath, $this->inputAttrs);
+		$inputAttrs = $this->inputAttrs;
+		if ($this->maxlength !== null) {
+			$inputAttrs['maxlength'] = $this->maxlength;
 		}
-		return $htmlView->getFormHtmlBuilder()->getInput($propertyPath, $this->inputAttrs);
+		
+		if ($this->isMultiline()) {
+			return $htmlView->getFormHtmlBuilder()->getTextarea($propertyPath, $inputAttrs);
+		}
+		return $htmlView->getFormHtmlBuilder()->getInput($propertyPath, $inputAttrs);
 	}
 }
