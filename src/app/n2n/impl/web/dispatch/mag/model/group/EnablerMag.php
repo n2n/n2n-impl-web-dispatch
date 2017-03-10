@@ -13,23 +13,30 @@ class EnablerMag extends BoolMag {
 	private $associatedMagWrappers;
 	private $htmlId;
 	
-	public function __construct($propertyName, $labelLstr, bool $value = false, array $associatedMags = null) {
+	public function __construct($propertyName, $labelLstr, bool $value = false, array $associatedMagWrappers = null) {
 		parent::__construct($propertyName, $labelLstr, $value);
-		
-		$this->setAssociatedMags((array) $associatedMags);
+		$this->setAssociatedMags((array) $associatedMagWrappers);
 		$this->htmlId = HtmlUtils::buildUniqueId('n2n-impl-web-dispatch-enabler-group-');
 		$this->setInputAttrs(array());
 	}
 	
 	public function setInputAttrs(array $inputAttrs) {
-		parent::setInputAttrs(HtmlUtils::mergeAttrs(array('class' => 'n2n-impl-web-dispatch-enabler',
+		parent::setInputAttrs(HtmlUtils::mergeAttrs(array(
+				'class' => 'n2n-impl-web-dispatch-enabler',
 				'data-n2n-impl-web-dispatch-enabler-class' => $this->htmlId), $inputAttrs));
 	}
 	
 	/**
-	 * @param MagWrapper[] $associatedMags
+	 * @param MagWrapper[] $associatedMagWrappers
 	 */
 	public function setAssociatedMags(array $associatedMagWrappers) {
+		$this->setAssociatedMagWrappers($associatedMagWrappers);
+	}
+	
+	/**
+	 * @param MagWrapper[] $associatedMagWrappers
+	 */
+	public function setAssociatedMagWrappers(array $associatedMagWrappers) {
 		ArgUtils::valArray($associatedMagWrappers, MagWrapper::class, false, 'associatedMagWrappers');
 		$this->associatedMagWrappers = $associatedMagWrappers;
 	}
