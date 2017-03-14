@@ -24,11 +24,9 @@ namespace n2n\impl\web\dispatch\mag\model;
 use n2n\web\dispatch\map\PropertyPath;
 use n2n\impl\web\ui\view\html\HtmlView;
 use n2n\reflection\property\AccessProxy;
-use n2n\util\ex\NotYetImplementedException;
 use n2n\web\ui\UiComponent;
 use n2n\web\dispatch\property\ManagedProperty;
 use n2n\web\dispatch\map\bind\BindingDefinition;
-use n2n\impl\web\dispatch\property\ScalarProperty;
 use n2n\impl\web\dispatch\property\ObjectProperty;
 
 class ChoicesMapMag extends MagAdapter {
@@ -43,12 +41,9 @@ class ChoicesMapMag extends MagAdapter {
 	public function createManagedProperty(AccessProxy $accessProxy): ManagedProperty {
 		return new ObjectProperty($accessProxy, true);
 	}
-	
-	
 
 	public function createUiField(PropertyPath $propertyPath, HtmlView $view): UiComponent {
 		return $view->getImport('\n2n\impl\web\dispatch\mag\view\choicesMapForm.html',
 				array('propertyPath' => $propertyPath));
 	}
-	
 }
