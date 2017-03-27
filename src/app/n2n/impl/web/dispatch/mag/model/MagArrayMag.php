@@ -112,7 +112,7 @@ class MagArrayMag implements Mag {
 	 * @see \n2n\web\dispatch\mag\Mag::createUiField()
 	 */
 	public function createUiField(\n2n\web\dispatch\map\PropertyPath $propertyPath, \n2n\impl\web\ui\view\html\HtmlView $view): UiComponent {
-		return $this->createUiField($propertyPath, $view);
+		return $this->decorated->createUiField($propertyPath, $view);
 	}
 
 	/**
