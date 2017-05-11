@@ -61,12 +61,7 @@ class AriaFormHtmlBuilder {
 	
 	public function getInput($propertyExpression = null, bool $required = false, array $attrs = null, $type = 'text',
 			$secret = false, $fixedValue = null, $tagName = 'input', $elementContents = null) {
-		$attrs = $this->ariafyAttrs($propertyExpression, $attrs, null);
-		
-		if ($required) {
-			$attrs['required'] = 'required';
-		}
-		
+		$attrs = $this->ariafyAttrs($propertyExpression, $attrs, $required);
 		return $this->formHtml->getInput($propertyExpression, $attrs, $type, $secret,
 				$fixedValue, $tagName, $elementContents);
 	}
