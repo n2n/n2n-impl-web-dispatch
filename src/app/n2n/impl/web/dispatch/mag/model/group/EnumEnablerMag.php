@@ -68,11 +68,21 @@ class EnumEnablerMag extends EnumMag {
 		
 		$dispValue = $md->getDispatchedValue($this->propertyName);
 		
+		$notIgnoredMagWrappers = array();
+		
 		foreach ($this->associatedMagWrapperMap as $value => $associatedMagWrappers) {
-			$ignored = $dispValue != $value;
-			foreach ($associatedMagWrappers as $associatedMagWrapper) {
-				$associatedMagWrapper->setIgnored($ignored);
+			if ($dispValue == $value) {
+				$notIgnoredMagWrappers = $associatedMagWrappers;
+				continue;
 			}
+			
+			foreach ($associatedMagWrappers as $associatedMagWrapper) {
+				$associatedMagWrapper->setIgnored(true);
+			}
+		}
+
+		foreach ($notIgnoredMagWrappers as $notIgnoredMagWrapper) {
+			$notIgnoredMagWrapper->setIgnored(false);
 		}
 	}
 	
