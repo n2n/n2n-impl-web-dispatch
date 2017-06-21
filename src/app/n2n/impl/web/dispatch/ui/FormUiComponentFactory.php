@@ -62,7 +62,7 @@ class FormUiComponentFactory {
 	 * @return \n2n\web\dispatch\map\AnalyzerResult
 	 */
 	private function analyzeSimpleProperty(PropertyPath $propertyPath, $arrayRequird) {
-		return $this->resolver->analyze($propertyPath, array('n2n\web\dispatch\property\SimpleProperty'), 
+		return $this->resolver->analyze($propertyPath, array('n2n\web\dispatch\property\SimpleProperty'),
 				$arrayRequird);
 	}
 	
@@ -86,22 +86,22 @@ class FormUiComponentFactory {
 	 * @param string $elementContents
 	 * @return \n2n\web\ui\Raw
 	 */
-	public function createInput(PropertyPath $propertyPath, array $attrs = null, string $type = null, 
+	public function createInput(PropertyPath $propertyPath, array $attrs = null, string $type = null,
 			$secret = false, $fixedValue = null, $tagName = 'input', $elementContents = null) {
-		$result = $this->analyzeSimpleProperty($propertyPath, false);
-		
-		$inputValue = null;
-		if (!$secret) {
-			$inputValue = $this->buildInputValue($fixedValue, $result);
-		}
-	
-		if ($type === null) $type = 'text';
-		
-		$elemAttrs = $this->form->enhanceElementAttrs(array('type' => $type, 
-				'name' => $this->dte->buildValueParamName($propertyPath, true), 
-				'value' => $inputValue), $propertyPath);
-	
-		return new HtmlElement($tagName, HtmlUtils::mergeAttrs($elemAttrs, (array) $attrs), $elementContents);
+				$result = $this->analyzeSimpleProperty($propertyPath, false);
+				
+				$inputValue = null;
+				if (!$secret) {
+					$inputValue = $this->buildInputValue($fixedValue, $result);
+				}
+				
+				if ($type === null) $type = 'text';
+				
+				$elemAttrs = $this->form->enhanceElementAttrs(array('type' => $type,
+						'name' => $this->dte->buildValueParamName($propertyPath, true),
+						'value' => $inputValue), $propertyPath);
+				
+				return new HtmlElement($tagName, HtmlUtils::mergeAttrs($elemAttrs, (array) $attrs), $elementContents);
 	}
 	
 	/**
@@ -112,8 +112,8 @@ class FormUiComponentFactory {
 	private function buildInputValue($fixedValue, AnalyzerResult $result) {
 		if ($fixedValue !== null) {
 			return $fixedValue;
-		} 
-		 
+		}
+		
 		if ($result->hasInvalidRawValue()) {
 			return $result->getInvalidRawValue();
 		}
@@ -139,8 +139,8 @@ class FormUiComponentFactory {
 		
 		$elemAttrs = $this->form->enhanceElementAttrs(
 				array('name' => $this->dte->buildValueParamName($propertyPath, true)), $propertyPath);
-	
-		return new HtmlElement('textarea', HtmlUtils::mergeAttrs($elemAttrs, (array) $attrs), 
+		
+		return new HtmlElement('textarea', HtmlUtils::mergeAttrs($elemAttrs, (array) $attrs),
 				(string) $this->buildInputValue(null, $result));
 	}
 	
@@ -187,13 +187,18 @@ class FormUiComponentFactory {
 		return new HtmlElement('input', HtmlUtils::mergeAttrs($elemAttrs, (array) $attrs));
 	}
 	
-
+	
 	public function createSelect(PropertyPath $propertyPath, array $choicesMap, array $attrs = null, $multiple = false) {
-		$result = $this->analyzeSimpleProperty($propertyPath, false);
-	
-		$elemAttrs = $this->form->enhanceElementAttrs(array('name' => $this->dte->buildValueParamName($propertyPath, true), 
+		$result = $this->analyzeSimpleProperty($propertyPath, $multiple);
+		
+		$bvPropertyPath = $propertyPath;
+		if ($multiple) {
+			$bvPropertyPath = $propertyPath->fieldExt(null);
+		}
+		
+		$elemAttrs = $this->form->enhanceElementAttrs(array('name' => $this->dte->buildValueParamName($bvPropertyPath, true),
 				'multiple' => ($multiple ? 'multiple' : null)), $propertyPath);
-	
+		
 		$selectElement = new HtmlElement('select', HtmlUtils::mergeAttrs($elemAttrs, (array) $attrs), '');
 		
 		$sof = new SelectOptionFactory($result, $multiple, $this);
@@ -212,11 +217,11 @@ class FormUiComponentFactory {
 	public function createInputFile(PropertyPath $propertyPath, array $attrs = null) {
 		$result = $this->resolver->analyze($propertyPath, array('n2n\impl\web\dispatch\property\FileProperty'), false);
 		$propertyItem = $this->form->getDispatchTarget()->registerProperty($propertyPath);
-
-		$elemAttrs = $this->form->enhanceElementAttrs(array('type' => 'file', 
+		
+		$elemAttrs = $this->form->enhanceElementAttrs(array('type' => 'file',
 				'name' => $this->dte->buildValueParamName($propertyPath, false)), $propertyPath);
 		$this->form->setEnctype(Form::ENCTYPE_MULTIPART);
-	
+		
 		return new HtmlElement('input', HtmlUtils::mergeAttrs($elemAttrs, (array) $attrs));
 	}
 	
@@ -229,20 +234,20 @@ class FormUiComponentFactory {
 	public function createInputFileLabel(PropertyPath $propertyPath, array $attrs = null, $deleteLinkLabel = null) {
 		$result = $this->resolver->analyze($propertyPath, array('n2n\impl\web\dispatch\property\FileProperty'), false);
 		$propertyItem = $this->form->getDispatchTarget()->registerProperty($propertyPath);
-			
+		
 		$mapValue = $result->getMapValue();
-	
+		
 		if (!($mapValue instanceof File) || !$mapValue->isValid()) return null;
-			
+		
 		$dispatchTarget = $this->form->getDispatchTarget();
 		
 		$view = $this->form->getView();
 		$tmpFileManager = $view->lookup(TmpFileManager::getClass());
-
+		
 		if ($tmpFileManager->containsSessionFile($mapValue, $view->getHttpContext()->getSession())) {
 			$propertyItem->setAttr(FileProperty::OPTION_TMP_FILE, $mapValue->getFileSource()->getQualifiedName());
 		}
-	
+		
 		if ($deleteLinkLabel === null) {
 			$deleteLinkLabel = $this->form->getView()->getL10nText(self::DELETE_LINK_DEFAULT_CODE,
 					null, null, null, 'n2n\impl\web\dispatch');
@@ -283,14 +288,14 @@ class FormUiComponentFactory {
 	
 	public function createButtonSubmit($methodName, $label, array $attrs = null) {
 		$elemAttrs = array('type' => 'submit', 'value' => 1);
-	
+		
 		$dispatchModel = $this->form->getMappingPathResolver()->getBaseMappingResult()->getDispatchModel();
 		
 		if ($methodName !== null) {
 			$dispatchModel->getMethodByName($methodName);
 			$elemAttrs['name'] = $this->dte->buildMethodParamName($methodName);
 		}
-	
+		
 		return new HtmlElement('button', HtmlUtils::mergeAttrs($elemAttrs, (array) $attrs), $label);
 	}
 	
@@ -305,64 +310,64 @@ class FormUiComponentFactory {
 		return new HtmlElement('button', HtmlUtils::mergeAttrs($elemAttrs, (array) $attrs));
 	}
 	
-// 	public function createOptionalObjectActivator(PropertyPath $propertyPath) {
-// 		$targetItem = null;
-		
-// 		if ($propertyPath->isEmpty()) {
-// 			$targetItem = $this->form->getDispatchTarget()->getObjectItem();
-// 		} else {
-// 			$result = $this->analyzeOptionalObjectActivator($propertyPath);
-// 			if ($result->getManagedProperty()->isArray()) {
-// 				$targetItem = $this->form->getDispatchTarget()->registerObjectArray($propertyPath);
-// 			} else {
-// 				$targetItem = $this->form->getDispatchTarget()->registerObject($propertyPath);
-// 			}
-// 		}
-		
-// 		// 		$objectItem->setAttr(ObjectProperty::OPTION_OPTIONAL_OBJECT, 'check');
-// 		$targetItem->setAttr(ObjectProperty::OPTION_OBJECT_ACTIVATED, 'check');
-// 		return $this->buildTargetItemHidden($targetItem);		
-// 	}
+	// 	public function createOptionalObjectActivator(PropertyPath $propertyPath) {
+	// 		$targetItem = null;
 	
-	public function createOptionalObjectCheckbox(PropertyPath $propertyPath, array $attrs = null, 
+	// 		if ($propertyPath->isEmpty()) {
+	// 			$targetItem = $this->form->getDispatchTarget()->getObjectItem();
+	// 		} else {
+	// 			$result = $this->analyzeOptionalObjectActivator($propertyPath);
+	// 			if ($result->getManagedProperty()->isArray()) {
+	// 				$targetItem = $this->form->getDispatchTarget()->registerObjectArray($propertyPath);
+	// 			} else {
+	// 				$targetItem = $this->form->getDispatchTarget()->registerObject($propertyPath);
+	// 			}
+	// 		}
+	
+	// 		// 		$objectItem->setAttr(ObjectProperty::OPTION_OPTIONAL_OBJECT, 'check');
+	// 		$targetItem->setAttr(ObjectProperty::OPTION_OBJECT_ACTIVATED, 'check');
+	// 		return $this->buildTargetItemHidden($targetItem);
+	// 	}
+	
+	public function createOptionalObjectCheckbox(PropertyPath $propertyPath, array $attrs = null,
 			$label = null, array $labelAttrs = null) {
-// 		$this->valOptionalObjectItem($propertyPath);
+				// 		$this->valOptionalObjectItem($propertyPath);
 				
-		$objectItem = null;
-		$checked = null;
+				$objectItem = null;
+				$checked = null;
 				
-		if ($propertyPath->isEmpty()) {
-			$objectItem = $this->form->getDispatchTarget()->getObjectItem();
-			$checked = true;
-		} else {
-			$result = $this->analyzeOptionalObject($propertyPath);
-			$objectItem = $this->form->getDispatchTarget()->registerObject($propertyPath);
-			$checked = !$result->getMapValue()->getAttrs();
-		}
-		
-		$attrs = HtmlUtils::mergeAttrs(array('type' => 'checkbox',
-				'checked' => ($checked ? 'checked' : null),
-				'value' => true, 'name' => $this->dte->buildAttrParamName($propertyPath, 
-						ObjectProperty::OPTION_OBJECT_ENABLED)), (array) $attrs);
-
-		$raw = null;
-		if ($label === null) {
-			$raw = new Raw(new HtmlElement('input', $attrs));
-		} else { 
-			$labelAttrs = (array) $labelAttrs;
-			if (!isset($attrs['id'])) {
-				$attrs['id'] = HtmlUtils::buildUniqueId('n2n-');
-			}
-			$labelAttrs['for'] = $attrs['id'];
-			$raw = new Raw(new HtmlElement('input', $attrs) . ' ' . new HtmlElement('label', $labelAttrs, $label));
-		}
-		
-// 		$objectItem->setAttr(ObjectProperty::OPTION_OPTIONAL_OBJECT, 'check');
-		if ($this->isOptionalObjectItemNeeded($propertyPath)) {
-			$raw->append($this->buildTargetItemHidden($objectItem));
-		}
-		return $raw;
-	} 
+				if ($propertyPath->isEmpty()) {
+					$objectItem = $this->form->getDispatchTarget()->getObjectItem();
+					$checked = true;
+				} else {
+					$result = $this->analyzeOptionalObject($propertyPath);
+					$objectItem = $this->form->getDispatchTarget()->registerObject($propertyPath);
+					$checked = !$result->getMapValue()->getAttrs();
+				}
+				
+				$attrs = HtmlUtils::mergeAttrs(array('type' => 'checkbox',
+						'checked' => ($checked ? 'checked' : null),
+						'value' => true, 'name' => $this->dte->buildAttrParamName($propertyPath,
+								ObjectProperty::OPTION_OBJECT_ENABLED)), (array) $attrs);
+				
+				$raw = null;
+				if ($label === null) {
+					$raw = new Raw(new HtmlElement('input', $attrs));
+				} else {
+					$labelAttrs = (array) $labelAttrs;
+					if (!isset($attrs['id'])) {
+						$attrs['id'] = HtmlUtils::buildUniqueId('n2n-');
+					}
+					$labelAttrs['for'] = $attrs['id'];
+					$raw = new Raw(new HtmlElement('input', $attrs) . ' ' . new HtmlElement('label', $labelAttrs, $label));
+				}
+				
+				// 		$objectItem->setAttr(ObjectProperty::OPTION_OPTIONAL_OBJECT, 'check');
+				if ($this->isOptionalObjectItemNeeded($propertyPath)) {
+					$raw->append($this->buildTargetItemHidden($objectItem));
+				}
+				return $raw;
+	}
 	
 	private function isOptionalObjectItemNeeded(PropertyPath $propertyPath) {
 		if (!$propertyPath->isEmpty()) {
@@ -374,7 +379,7 @@ class FormUiComponentFactory {
 	}
 	
 	public function createEnabledOptionalObjectHidden(PropertyPath $propertyPath) {
-// 		$this->valOptionalObjectItem($propertyPath);
+		// 		$this->valOptionalObjectItem($propertyPath);
 		
 		if ($propertyPath->isEmpty()) {
 			$objectItem = $this->form->getDispatchTarget()->getObjectItem();
@@ -398,65 +403,65 @@ class FormUiComponentFactory {
 		
 		if (null === $result->getManagedProperty()->getCreator()) {
 			$objectProperty = $result->getManagedProperty();
-	
+			
 			throw new PropertyTypeMissmatchException('ObjectProperty '
 					. ReflectionUtils::prettyPropName(get_class($result->getMappingResult()->getObject()),
 							$objectProperty->getName()) . ' not ' . ($objectProperty->isArray() ? 'dynamic' : 'optional')
 					. '. PropertyPath: ' . $propertyPath);
 		}
-	
+		
 		return $result;
 	}
-// 	return $this->getDispatchTform->getDispatchTargetEncoder()->registerExternalAttr($propertyPath,
-// 			ObjectProperty::OPTION_OBJECT_ENABLED);
+	// 	return $this->getDispatchTform->getDispatchTargetEncoder()->registerExternalAttr($propertyPath,
+	// 			ObjectProperty::OPTION_OBJECT_ENABLED);
 	
-// 	private function analyzeOptionalObjectActivator(PropertyPath $propertyPath) {
-// 		$result = $this->resolver->analyze($propertyPath, array(ObjectProperty::class));
-		
-// 		if ($propertyPath->getLast()->isArray()) {
-// 			throw new PropertyTypeMissmatchException();
-// 		}
-		
-// 		if (null === $result->getManagedProperty()->getCreator()) {
-// 			$objectProperty = $result->getManagedProperty();
-				
-// 			throw new PropertyTypeMissmatchException('ObjectProperty '  
-// 					. ReflectionUtils::prettyPropName(get_class($result->getMappingResult()->getObject()),
-// 							$objectProperty->getName()) . ' not ' . ($objectProperty->isArray() ? 'dynamic' : 'optional')
-// 					. '. PropertyPath: ' . $propertyPath);
-// 		}
-		
-// 		return $result;
-// 	}
+	// 	private function analyzeOptionalObjectActivator(PropertyPath $propertyPath) {
+	// 		$result = $this->resolver->analyze($propertyPath, array(ObjectProperty::class));
 	
-// 	private function valOptionalObjectItem(PropertyPath $propertyPath) {
-// 		$dt = $this->form->getDispatchTarget();
-		
-// 		if (!$propertyPath->isEmpty() && $propertyPath->getLast()->isArray()) {
-// 			if ($dt->registerObjectArray($propertyPath->fieldReduced())
-// 					->getAttr(ObjectProperty::OPTION_OBJECT_ACTIVATED) !== null) {
-// 				return;
-// 			}
-			
-// 			throw new PropertyPathMissmatchException('Dynamic object array not activated: ' . $propertyPath);
-// 		} 
-		
-// 		$objectItem = null;
-// 		if ($propertyPath->isEmpty()) {
-// 			$objectItem = $dt->getObjectItem();
-// 			if (null !== $this->form->getDispatchTargetEncoder()->getPseudoBasePropertyPath()) {
-// 				return;
-// 			}
-// 		} else {
-// 			$objectItem = $dt->registerObject($propertyPath);
-// 		}
-		
-// 		if ($objectItem->getAttr(ObjectProperty::OPTION_OBJECT_ACTIVATED) !== null) {
-// 			return;
-// 		}
-		
-// 		throw new PropertyPathMissmatchException('Optional object not activated: ' . $propertyPath);
-// 	}
+	// 		if ($propertyPath->getLast()->isArray()) {
+	// 			throw new PropertyTypeMissmatchException();
+	// 		}
+	
+	// 		if (null === $result->getManagedProperty()->getCreator()) {
+	// 			$objectProperty = $result->getManagedProperty();
+	
+	// 			throw new PropertyTypeMissmatchException('ObjectProperty '
+	// 					. ReflectionUtils::prettyPropName(get_class($result->getMappingResult()->getObject()),
+	// 							$objectProperty->getName()) . ' not ' . ($objectProperty->isArray() ? 'dynamic' : 'optional')
+	// 					. '. PropertyPath: ' . $propertyPath);
+	// 		}
+	
+	// 		return $result;
+	// 	}
+	
+	// 	private function valOptionalObjectItem(PropertyPath $propertyPath) {
+	// 		$dt = $this->form->getDispatchTarget();
+	
+	// 		if (!$propertyPath->isEmpty() && $propertyPath->getLast()->isArray()) {
+	// 			if ($dt->registerObjectArray($propertyPath->fieldReduced())
+	// 					->getAttr(ObjectProperty::OPTION_OBJECT_ACTIVATED) !== null) {
+	// 				return;
+	// 			}
+	
+	// 			throw new PropertyPathMissmatchException('Dynamic object array not activated: ' . $propertyPath);
+	// 		}
+	
+	// 		$objectItem = null;
+	// 		if ($propertyPath->isEmpty()) {
+	// 			$objectItem = $dt->getObjectItem();
+	// 			if (null !== $this->form->getDispatchTargetEncoder()->getPseudoBasePropertyPath()) {
+	// 				return;
+	// 			}
+	// 		} else {
+	// 			$objectItem = $dt->registerObject($propertyPath);
+	// 		}
+	
+	// 		if ($objectItem->getAttr(ObjectProperty::OPTION_OBJECT_ACTIVATED) !== null) {
+	// 			return;
+	// 		}
+	
+	// 		throw new PropertyPathMissmatchException('Optional object not activated: ' . $propertyPath);
+	// 	}
 	
 	/**
 	 * @param PropertyPath $propertyPath
@@ -467,13 +472,13 @@ class FormUiComponentFactory {
 	 */
 	public function createLabel(PropertyPath $propertyPath, $label, array $attrs = null) {
 		$result = $this->resolver->analyze($propertyPath);
-	
+		
 		if ($label === null) {
 			$label = $result->getLabel();
 		}
-	
+		
 		$elemAttrs = array('for' => $this->form->createElementId($propertyPath));
-	
+		
 		return new HtmlElement('label', HtmlUtils::mergeAttrs($elemAttrs, (array) $attrs), $label);
 	}
 }
@@ -503,7 +508,7 @@ class SelectOptionFactory {
 			$selectedScalarValue[$key] = (string) $this->fucf->convertValueToScalar($managedProperty, $mapValue);
 		}
 		return $selectedScalarValue;
-	}	
+	}
 	
 	public function applyChoicesMap(array $choicesMap, HtmlElement $contextElement, $multiple) {
 		foreach ($choicesMap as $key => $value) {
@@ -512,14 +517,14 @@ class SelectOptionFactory {
 						$value->getValue(), $value->getAttrs()), $value->getLabel()));
 				continue;
 			}
-	
+			
 			if ($value instanceof SelectChoiceGroup) {
 				$element = new HtmlElement('optiongroup', $value->getAttrs());
 				$value->applyOptions($value->getOptions(), $element);
 				$contextElement->appendLn($element);
 				continue;
 			}
-	
+			
 			if (is_array($value)) {
 				$element = new HtmlElement('optiongroup', array('label' => $key));
 				$this->applyChoicesMap($value, $element);
@@ -545,7 +550,7 @@ class SelectOptionFactory {
 				$elemAttrs['selected'] = 'selected';
 			}
 		}
-	
+		
 		return HtmlUtils::mergeAttrs($elemAttrs, $attrs);
 	}
 }
