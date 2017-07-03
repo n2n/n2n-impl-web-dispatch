@@ -29,16 +29,18 @@ use n2n\web\dispatch\map\BindingConstraints;
 use n2n\web\ui\UiComponent;
 use n2n\reflection\property\AccessProxy;
 use n2n\impl\web\dispatch\property\ScalarProperty;
+use n2n\web\dispatch\property\ManagedProperty;
+use n2n\web\dispatch\map\bind\BindingDefinition;
 
 class SecretStringMag extends MagAdapter {
 	private $maxlength;
-	private $inputAttrs;
+	private $required;
 	
-	public function __construct($label, $default = null, $required = false, $maxlength = null, array $inputAttrs = null) {
-		parent::__construct($label, $default, $required);
-		$this->setMaxlength($maxlength);
-		$this->inputAttrs = $inputAttrs;
-	}	
+	public function __construct($properyName, $labelStr, $value = null, bool $required = false, $maxlength = null, array $attrs = null) {
+		parent::__construct($properyName, $labelStr, $value, $attrs);
+		$this->maxlength = $maxlength;
+		$this->required = $required;
+	}
 	
 	public function setMaxlength($maxlength) {
 		$this->maxlength = $maxlength;
@@ -48,21 +50,29 @@ class SecretStringMag extends MagAdapter {
 		return $this->maxlength;
 	}
 	
-	public function createManagedProperty(AccessProxy $accessProxy) {
+	public function isRequired(): bool {
+		return $this->required;
+	}
+	
+	public function setRequired(bool $required) {
+		$this->required = $required;
+	}
+	
+	public function createManagedProperty(AccessProxy $accessProxy): ManagedProperty {
 		return new ScalarProperty($accessProxy, false);
 	}
-
-	public function setupBindingDefinition($propertyName, BindingConstraints $bindingConstraints) {
+	
+	public function setupBindingDefinition(BindingDefinition $bd) {
 		if ($this->isRequired()) {
-			$bindingConstraints->val($propertyName, new ValNotEmpty());
+			$bd->val($this->propertyName, new ValNotEmpty());
 		}
 		
 		if (isset($this->maxlength)) {
-			$bindingConstraints->val($propertyName, new ValMaxLength((int) $this->maxlength));
+			$bd->val($this->propertyName, new ValMaxLength((int) $this->maxlength));
 		}
 	}
-
+	
 	public function createUiField(PropertyPath $propertyPath, HtmlView $htmlView): UiComponent {
-		return $htmlView->getFormHtmlBuilder()->getInput($propertyPath, $this->inputAttrs, null, true);
+		return $htmlView->getFormHtmlBuilder()->getInput($propertyPath, $this->getAttrs(), null, true);
 	}
 }
