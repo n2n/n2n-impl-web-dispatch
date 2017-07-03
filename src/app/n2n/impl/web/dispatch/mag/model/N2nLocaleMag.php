@@ -27,8 +27,8 @@ use n2n\l10n\N2nLocale;
 class N2nLocaleMag extends EnumMag {
 	private $displayN2nLocale;
 	
-	public function __construct($label, $displayN2nLocale = null, $default = null, $required = false, array $inputAttrs = null) {
-		parent::__construct($label, $this->getN2nLocaleMags(), $default, $required, $inputAttrs);
+	public function __construct(string $propertyName, $label, $displayN2nLocale = null, $default = null, $required = false, array $inputAttrs = null) {
+		parent::__construct($propertyName, $label, $this->getN2nLocaleMags(), $default, $required, $inputAttrs);
 		$this->displayN2nLocale = $displayN2nLocale;
 	}
 	
