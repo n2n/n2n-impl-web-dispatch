@@ -114,7 +114,7 @@ class AriaFormHtmlBuilder {
 	}
 	
 	public function getInputFileWithLabel($propertyExpression = null, bool $required = false, array $attrs = null, array $labelAttrs = null) {
-		$attrs = $this->ariafyAttrs($propertyExpression, $required, $attrs);
+		$attrs = $this->ariafyAttrs($propertyExpression, $attrs, $required);
 		return $this->formHtml->getInputFileWithLabel($propertyExpression, $attrs, $labelAttrs);
 	}
 
