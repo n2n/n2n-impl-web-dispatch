@@ -33,7 +33,7 @@ class N2nLocaleMag extends EnumMag {
 	}
 	
 	public function setFormValue($formValue) {
-		$this->value = N2nLocale::create($formValue);
+		$this->value = N2nLocale::build($formValue);
 	}
 	
 	public function getFormValue() {
