@@ -34,9 +34,9 @@
 	<?php $formHtml->meta()->objectProps($propertyPath, function () use ($formHtml) { ?>
 		<?php $formHtml->magOpen('li') ?>
 			<?php $formHtml->magLabel() ?>
-			<div>
+			<?php $view->out('<div>')?>
 				<?php $formHtml->magField() ?>
-			</div>
+			<?php $view->out('</div>')?>
 		<?php $formHtml->magClose() ?>
 	<?php }) ?>
 </ul>

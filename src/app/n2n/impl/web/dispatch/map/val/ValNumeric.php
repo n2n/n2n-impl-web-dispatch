@@ -22,10 +22,7 @@
 namespace n2n\impl\web\dispatch\map\val;
 
 use n2n\core\N2N;
-use n2n\web\dispatch\map\PropertyPathPart;
 use n2n\web\dispatch\map\val\SimplePropertyValidator;
-use n2n\web\dispatch\map\MappingResult;
-use n2n\web\dispatch\map\val\ValidationUtils;
 
 class ValNumeric extends SimplePropertyValidator {
 	const DEFAULT_NUMERIC_ERROR_TEXT_CODE = 'n2n.dispatch.val.ValNumeric.numeric';

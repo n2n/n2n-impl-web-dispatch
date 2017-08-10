@@ -25,7 +25,6 @@ use n2n\impl\web\dispatch\map\val\ValNotEmpty;
 use n2n\web\dispatch\map\PropertyPath;
 use n2n\impl\web\ui\view\html\HtmlView;
 use n2n\impl\web\dispatch\map\val\ValMaxLength;
-use n2n\web\dispatch\map\BindingConstraints;
 use n2n\web\ui\UiComponent;
 use n2n\reflection\property\AccessProxy;
 use n2n\impl\web\dispatch\property\ScalarProperty;
