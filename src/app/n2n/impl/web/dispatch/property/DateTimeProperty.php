@@ -26,8 +26,6 @@ use n2n\core\container\N2nContext;
 use n2n\l10n\L10nUtils;
 use n2n\l10n\ParseException;
 use n2n\web\dispatch\map\bind\BindingDefinition;
-use n2n\web\dispatch\target\TargetItem;
-use n2n\web\dispatch\target\ValueItem;
 use n2n\web\dispatch\map\CorruptedDispatchException;
 use n2n\l10n\MessageCode;
 use n2n\web\dispatch\map\PropertyPathPart;

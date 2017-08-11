@@ -307,8 +307,8 @@ class CommonManagedPropertyProvider implements ManagedPropertyProvider {
 			$dateTimeProperty = new DateTimeProperty($accessProxy, true);
 		} else {
 			$dateTimeProperty = new DateTimeProperty($accessProxy, true, $dtaAnno->useArrayObject());
-			$dateTimeProperty->setDateStyle($dtAnno->getDateStyle());
-			$dateTimeProperty->setTimeStyle($dtAnno->getTimeStyle());
+			$dateTimeProperty->setDateStyle($dtaAnno->getDateStyle());
+			$dateTimeProperty->setTimeStyle($dtaAnno->getTimeStyle());
 		}
 		if ($icufAnno !== null) {
 			$dateTimeProperty->setIcuFormat($icufAnno->getPattern());

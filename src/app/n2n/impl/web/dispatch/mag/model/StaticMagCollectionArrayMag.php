@@ -21,55 +21,55 @@
  */
 namespace n2n\impl\web\dispatch\mag\model;
 
-use n2n\util\config\Attributes;
-use n2n\web\dispatch\map\BindingConstraints;
-use n2n\impl\web\ui\view\html\HtmlView;
-use n2n\web\dispatch\map\PropertyPath;
-use n2n\web\dispatch\ManagedPropertyType;
-use n2n\web\dispatch\DispatchableTypeAnalyzer;
-use n2n\web\dispatch\mag\MagDispatchable;
-use n2n\web\ui\UiComponent;
+// use n2n\util\config\Attributes;
+// use n2n\web\dispatch\map\BindingConstraints;
+// use n2n\impl\web\ui\view\html\HtmlView;
+// use n2n\web\dispatch\map\PropertyPath;
+// use n2n\web\dispatch\ManagedPropertyType;
+// use n2n\web\dispatch\DispatchableTypeAnalyzer;
+// use n2n\web\dispatch\mag\MagDispatchable;
+// use n2n\web\ui\UiComponent;
 
-class StaticMagCollectionArrayMag extends MagAdapter {
-	private $fields = array();
+// class StaticMagCollectionArrayMag extends MagAdapter {
+// 	private $fields = array();
 	
-	public function __construct($propertyName, $label) {
-		parent::__construct($propertyName, $label, array(), true);
-	}
+// 	public function __construct($propertyName, $label) {
+// 		parent::__construct($propertyName, $label, array(), true);
+// 	}
 	
-	public function createManagedProperty($propertyName, DispatchableTypeAnalyzer $typeAnalyzer) {
-		$propertyType = new ManagedPropertyType($typeAnalyzer, $propertyName);
-		$propertyType->setType(ManagedPropertyType::TYPE_OBJECT);
-		$propertyType->setArray(true);
-		return $propertyType;
-	}
+// 	public function createManagedProperty($propertyName, DispatchableTypeAnalyzer $typeAnalyzer) {
+// 		$propertyType = new ManagedPropertyType($typeAnalyzer, $propertyName);
+// 		$propertyType->setType(ManagedPropertyType::TYPE_OBJECT);
+// 		$propertyType->setArray(true);
+// 		return $propertyType;
+// 	}
 	
-	public function setField($key, MagDispatchable $MagForm) {
-		$this->fields[$key] = $MagForm;
-	}
+// 	public function setField($key, MagDispatchable $MagForm) {
+// 		$this->fields[$key] = $MagForm;
+// 	}
 	
-	public function optionValueToAttributeValue($value) {
-		$attrs = array();
-		foreach ((array) $value as $key => $MagForm) {
-			$attrs[$key] = $MagForm->getAttributes()->toArray(); 
-		}
-		return $attrs;
-	}
+// 	public function optionValueToAttributeValue($value) {
+// 		$attrs = array();
+// 		foreach ((array) $value as $key => $MagForm) {
+// 			$attrs[$key] = $MagForm->getAttributes()->toArray(); 
+// 		}
+// 		return $attrs;
+// 	}
 	
-	public function attributeValueToOptionValue($value) {
-		foreach ((array) $value as $key => $attrs) {
-			if (isset($this->fields[$key])) {
-				$this->fields[$key]->setAttributes(new Attributes($attrs));
-			}
-		}
-		return $this->fields;
-	}
+// 	public function attributeValueToOptionValue($value) {
+// 		foreach ((array) $value as $key => $attrs) {
+// 			if (isset($this->fields[$key])) {
+// 				$this->fields[$key]->setAttributes(new Attributes($attrs));
+// 			}
+// 		}
+// 		return $this->fields;
+// 	}
 	
-	public function setupBindingDefinition(BindingConstraints $bindingConstraints) {
-	}
+// 	public function setupBindingDefinition(BindingConstraints $bindingConstraints) {
+// 	}
 	
-	public function createUiField(PropertyPath $propertyPath, HtmlView $view): UiComponent {
-		return $view->getImport('\n2n\view\option\staticMagCollectionArrayMag.html',
-				array('propertyPath' => $propertyPath));
-	}
-}
+// 	public function createUiField(PropertyPath $propertyPath, HtmlView $view): UiComponent {
+// 		return $view->getImport('\n2n\view\option\staticMagCollectionArrayMag.html',
+// 				array('propertyPath' => $propertyPath));
+// 	}
+// }
