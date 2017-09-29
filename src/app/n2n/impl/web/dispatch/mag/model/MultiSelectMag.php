@@ -33,26 +33,46 @@ use n2n\web\dispatch\map\bind\BindingDefinition;
 use n2n\web\dispatch\property\ManagedProperty;
 use n2n\web\ui\UiComponent;
 
+/**
+ * Class MultiSelectMag
+ * @package n2n\impl\web\dispatch\mag\model
+ */
 class MultiSelectMag extends MagAdapter {
 	private $choicesMap;
 	private $min;
 	private $max;
 	private $inputAttrs;
-	
-	public function __construct($propertyName, $label, array $choicesMap, array $default = null, $min = 0, $max = null, 
+
+	/**
+	 * MultiSelectMag constructor.
+	 * @param $label
+	 * @param array $choicesMap
+	 * @param array|null $default
+	 * @param int $min
+	 * @param int|null $max
+	 * @param array|null $inputAttrs
+	 * @param array|null $containerAttrs
+	 */
+	public function __construct($label, array $choicesMap, array $default = null, int $min = 0, int $max = null,
 			array $inputAttrs = null, array $containerAttrs = null) {
-		parent::__construct($propertyName, $label, (array) $default, $containerAttrs);
+		parent::__construct($label, (array) $default, $containerAttrs);
 		$this->choicesMap = $choicesMap;
 		$this->min = $min;
 		$this->max = $max;
 		$this->inputAttrs = $inputAttrs;
-	}	
-	
+	}
 
+	/**
+	 * @param AccessProxy $accessProxy
+	 * @return ManagedProperty
+	 */
 	public function createManagedProperty(AccessProxy $accessProxy): ManagedProperty {
 		return new ScalarProperty($accessProxy, true);
 	}
-	
+
+	/**
+	 * @param BindingDefinition $bd
+	 */
 	public function setupBindingDefinition(BindingDefinition $bd) {
 		if ($this->min > 0) {
 			$bd->val($this->getPropertyName(), new ValIsset());
@@ -62,15 +82,26 @@ class MultiSelectMag extends MagAdapter {
 		
 		$bd->val($this->getPropertyName(), new ValEnum(array_keys($this->choicesMap)));
 	}
-	
+
+	/**
+	 * @param $choicesMap
+	 */
 	public function setChoicesMap($choicesMap) {
 		$this->choicesMap = $choicesMap;
 	}
-	
+
+	/**
+	 * @return array
+	 */
 	public function getChoicesMap() {
 		return $this->choicesMap;
 	}
 
+	/**
+	 * @param PropertyPath $propertyPath
+	 * @param HtmlView $htmlView
+	 * @return UiComponent
+	 */
 	public function createUiField(PropertyPath $propertyPath, HtmlView $htmlView): UiComponent {
 		$ul = new HtmlElement('ul', array('class' => 'n2n-multiselect-option'));
 		
@@ -83,6 +114,10 @@ class MultiSelectMag extends MagAdapter {
 		return $ul;
 	}
 
+	/**
+	 * @param $value
+	 * @return array
+	 */
 	public function attributeValueToOptionValue($value) {
 		return array_combine($value, $value);
 	}

@@ -32,26 +32,49 @@ use n2n\impl\web\ui\view\html\HtmlBuilderMeta;
 use n2n\web\ui\UiComponent;
 use n2n\web\dispatch\property\ManagedProperty;
 
+/**
+ * Class StringArrayMag
+ * @package n2n\impl\web\dispatch\mag\model
+ */
 class StringArrayMag extends MagAdapter {
 	const DEFAULT_NUM_ADDITIONS = 5;
 	private $inputAttrs;
 	private $mandatory;
-	
-	public function __construct($propertyName, $label, array $values = array(), 
+
+	/**
+	 * StringArrayMag constructor.
+	 * @param $label
+	 * @param array $values
+	 * @param bool $mandatory
+	 * @param array|null $inputAttrs
+	 * @param array|null $containerAttrs
+	 */
+	public function __construct($label, array $values = array(),
 			$mandatory = false, array $inputAttrs = null, array $containerAttrs = null) {
-		parent::__construct($propertyName, $label, $values, $containerAttrs);
+		parent::__construct($label, $values, $containerAttrs);
 		$this->mandatory = (bool) $mandatory;
 		$this->inputAttrs = $inputAttrs;
 	}
 
+	/**
+	 * @param $mandatory
+	 */
 	public function setMandatory($mandatory) {
 		$this->mandatory = (boolean) $mandatory;
 	}
-	
+
+	/**
+	 * @return bool
+	 */
 	public function isMandatory(): bool {
 		return $this->mandatory;
 	}
-	
+
+	/**
+	 * @param PropertyPath $propertyPath
+	 * @param HtmlView $view
+	 * @return UiComponent
+	 */
 	public function createUiField(PropertyPath $propertyPath, HtmlView $view): UiComponent {
 		$formHtml = $view->getFormHtmlBuilder();
 		
@@ -72,7 +95,11 @@ class StringArrayMag extends MagAdapter {
 		} 
 		return new HtmlElement('div', array('class' => 'n2n-array-option'), $uiComponent);
 	}
-	
+
+	/**
+	 * @param AccessProxy $accessProxy
+	 * @return ManagedProperty
+	 */
 	public function createManagedProperty(AccessProxy $accessProxy): ManagedProperty {
 		return new ScalarProperty($accessProxy, true);
 	}

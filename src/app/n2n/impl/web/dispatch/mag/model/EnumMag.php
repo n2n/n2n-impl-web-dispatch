@@ -22,6 +22,7 @@
 namespace n2n\impl\web\dispatch\mag\model;
 
 use n2n\impl\web\dispatch\map\val\ValEnum;
+use n2n\impl\web\ui\view\html\HtmlElement;
 use n2n\web\dispatch\map\PropertyPath;
 use n2n\impl\web\ui\view\html\HtmlView;
 use n2n\core\N2N;
@@ -34,31 +35,56 @@ use n2n\web\dispatch\property\ManagedProperty;
 use n2n\l10n\N2nLocale;
 use n2n\l10n\Lstr;
 
+/**
+ * Class EnumMag
+ * @package n2n\impl\web\dispatch\mag\model
+ */
 class EnumMag extends MagAdapter {
 	private $mandatory;
 	private $options;
 	private $inputAttrs;
-	
-	public function __construct($propertyName, $label, array $options, $value = null, 
+
+	/**
+	 * EnumMag constructor.
+	 * @param $label
+	 * @param array $options
+	 * @param null $value
+	 * @param bool $mandatory
+	 * @param array|null $inputAttrs
+	 * @param array|null $containerAttrs
+	 */
+	public function __construct($label, array $options, $value = null,
 			$mandatory = false, array $inputAttrs = null, array $containerAttrs = null) {
-		parent::__construct($propertyName, $label, $value, $containerAttrs);
+		parent::__construct($label, $value, $containerAttrs);
 		$this->mandatory = (bool) $mandatory;
 		$this->setOptions($options);
 		$this->inputAttrs = $inputAttrs;
-	}	
+	}
 
+	/**
+	 * @return bool
+	 */
 	public function isMandatory(): bool {
 		return $this->mandatory;
 	}
-	
+
+	/**
+	 * @param $mandatory
+	 */
 	public function setMandatory($mandatory) {
 		$this->mandatory = (bool) $mandatory;
 	}
-	
+
+	/**
+	 * @return array
+	 */
 	public function getOptions(): array {
 		return $this->options;
 	}
-		
+
+	/**
+	 * @param array $options
+	 */
 	public function setOptions(array $options) {
 		if (!$this->mandatory && !isset($options[null])) {
 			$this->options = array(null => null) + $options;
@@ -66,7 +92,11 @@ class EnumMag extends MagAdapter {
 			$this->options = $options;
 		}
 	}
-	
+
+	/**
+	 * @param N2nLocale $n2nLocale
+	 * @return array
+	 */
 	public function buildOptions(N2nLocale $n2nLocale) {
 		$options = array();
 		foreach ($this->options as $key => $value) {
@@ -74,7 +104,10 @@ class EnumMag extends MagAdapter {
 		}
 		return $options;
 	}
-	
+
+	/**
+	 * @return array
+	 */
 	public function getInputAttrs() {
 		return $this->inputAttrs;
 	}
@@ -83,6 +116,9 @@ class EnumMag extends MagAdapter {
 		$this->inputAttrs = $inputAttrs;
 	}
 
+	/**
+	 * @param mixed $formValue
+	 */
 	public function setFormValue($formValue) {
 		if (!strlen($formValue)) {
 			$this->value = null;
@@ -90,15 +126,27 @@ class EnumMag extends MagAdapter {
 		}
 		$this->value = $formValue;
 	}
-	
+
+	/**
+	 * @param PropertyPath $propertyPath
+	 * @param HtmlView $view
+	 * @return UiComponent
+	 */
 	public function createUiField(PropertyPath $propertyPath, HtmlView $view): UiComponent {
 		return $view->getFormHtmlBuilder()->getSelect($propertyPath, $this->buildOptions($view->getN2nLocale()), $this->inputAttrs);
 	}
 
+	/**
+	 * @param AccessProxy $accessProxy
+	 * @return ManagedProperty
+	 */
 	public function createManagedProperty(AccessProxy $accessProxy): ManagedProperty {
 		return new ScalarProperty($accessProxy, false);
 	}
 
+	/**
+	 * @param BindingDefinition $bd
+	 */
 	public function setupBindingDefinition(BindingDefinition $bd) {
 		$bd->val($this->getPropertyName(), new ValEnum(array_keys($this->options),
 				new MessageCode(ValEnum::DEFAULT_ERROR_TEXT_CODE, array('field' => $this->labelLstr), 

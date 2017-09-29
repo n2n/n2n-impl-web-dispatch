@@ -22,6 +22,7 @@
 namespace n2n\impl\web\dispatch\mag\model;
 
 use n2n\impl\web\ui\view\html\HtmlView;
+use n2n\web\dispatch\mag\UiOutfitter;
 use n2n\web\dispatch\map\PropertyPath;
 use n2n\web\dispatch\mag\Mag;
 use n2n\web\ui\UiComponent;
@@ -33,16 +34,28 @@ class MagArrayMag implements Mag {
 	const PROPERTY_NAME = 'field';
 	
 	private $decorated;
-	
-	public function __construct(string $propertyName, $label, \Closure $magCreator, $required = false, array $containerAttrs = null) {
-		$this->decorated = new MagCollectionArrayMag($propertyName, $label, function () use ($magCreator) {
-			$mag = $magCreator(MagArrayMag::PROPERTY_NAME);
+
+	/**
+	 * MagArrayMag constructor.
+	 * @param $label
+	 * @param \Closure $magCreator
+	 * @param bool $required
+	 * @param array|null $containerAttrs
+	 */
+	public function __construct($label, \Closure $magCreator, bool $required = false, array $containerAttrs = null) {
+		$this->decorated = new MagCollectionArrayMag($label, function () use ($magCreator) {
+			$mag = $magCreator();
 			ArgUtils::valTypeReturn($mag, Mag::class, null, $magCreator);
 			$magCollection = new MagCollection();
-			$magCollection->addMag($mag);
-			return $magCollection;
+			$magCollection->addMag(MagArrayMag::PROPERTY_NAME, $mag);
+			return new MagForm($magCollection);
 		});
 	}
+
+	public function setPropertyName(string $propertyName) {
+		$this->decorated->setPropertyName($propertyName);
+	}
+
 	/**
 	 * {@inheritDoc}
 	 * @see \n2n\web\dispatch\mag\Mag::getPropertyName()
@@ -111,8 +124,9 @@ class MagArrayMag implements Mag {
 	 * {@inheritDoc}
 	 * @see \n2n\web\dispatch\mag\Mag::createUiField()
 	 */
-	public function createUiField(\n2n\web\dispatch\map\PropertyPath $propertyPath, \n2n\impl\web\ui\view\html\HtmlView $view): UiComponent {
-		return $this->decorated->createUiField($propertyPath, $view);
+	public function createUiField(\n2n\web\dispatch\map\PropertyPath $propertyPath, \n2n\impl\web\ui\view\html\HtmlView $view,
+			UiOutfitter $uiOutfitter): UiComponent {
+		return $this->decorated->createUiField($propertyPath, $view, $uiOutfitter);
 	}
 
 	/**

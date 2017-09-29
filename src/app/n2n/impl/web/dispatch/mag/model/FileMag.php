@@ -23,6 +23,7 @@ namespace n2n\impl\web\dispatch\mag\model;
 
 use n2n\impl\web\dispatch\map\val\ValImageFile;
 use n2n\impl\web\dispatch\map\val\ValFileExtensions;
+use n2n\l10n\Lstr;
 use n2n\web\dispatch\map\PropertyPath;
 use n2n\io\managed\File;
 use n2n\impl\web\ui\view\html\HtmlView;
@@ -34,16 +35,29 @@ use n2n\impl\web\dispatch\map\val\ValNotEmpty;
 use n2n\web\dispatch\property\ManagedProperty;
 use n2n\web\ui\UiComponent;
 
+/**
+ * Class FileMag
+ * @package n2n\impl\web\dispatch\mag\model
+ */
 class FileMag extends MagAdapter {
-	
 	private $mandatory;
 	private $allowedExtensions;
 	private $inputAttrs;
 	private $checkImageResourceMemory;
-	
-	public function __construct($propertyName, $label, array $allowedExtensions = null, $checkImageResourceMemory = false, 
-			File $value = null, $mandatory = false, array $inputAttrs = null, array $containerAttrs = null) {
-		parent::__construct($propertyName, $label, $value, $containerAttrs);
+
+	/**
+	 * FileMag constructor.
+	 * @param string|Lstr $label
+	 * @param array $allowedExtensions
+	 * @param bool $checkImageResourceMemory
+	 * @param File|null $value
+	 * @param bool $mandatory
+	 * @param array $inputAttrs
+	 * @param array $containerAttrs
+	 */
+	public function __construct($label, array $allowedExtensions = null, $checkImageResourceMemory = false,
+			File $value = null, bool $mandatory = false, array $inputAttrs = null, array $containerAttrs = null) {
+		parent::__construct($label, $value, $containerAttrs);
 		$this->inputAttrs = $inputAttrs;
 		$this->allowedExtensions = $allowedExtensions;
 		$this->inputAttrs = $inputAttrs;
@@ -51,18 +65,31 @@ class FileMag extends MagAdapter {
 		$this->mandatory = (boolean) $mandatory;
 	}
 
+	/**
+	 * @param bool $mandatory
+	 */
 	public function setMandatory($mandatory) {
 		$this->mandatory = (boolean) $mandatory;
 	}
-	
+
+	/**
+	 * @return bool
+	 */
 	public function isMandatory(): bool {
 		return $this->mandatory;
 	}
-	
+
+	/**
+	 * @param AccessProxy $accessProxy
+	 * @return ManagedProperty
+	 */
 	public function createManagedProperty(AccessProxy $accessProxy): ManagedProperty {
 		return new FileProperty($accessProxy, false);
 	}
-	
+
+	/**
+	 * @param BindingDefinition $bd
+	 */
 	public function setupBindingDefinition(BindingDefinition $bd) {
 		if ($this->mandatory) {
 			$bd->val($this->propertyName, new ValNotEmpty());
@@ -78,8 +105,23 @@ class FileMag extends MagAdapter {
 		
 		$bd->val($this->propertyName, new ValImageFile(false));
 	}
-	
+
+	/**
+	 * @param PropertyPath $propertyPath
+	 * @param HtmlView $htmlView
+	 * @return UiComponent
+	 */
 	public function createUiField(PropertyPath $propertyPath, HtmlView $htmlView): UiComponent {
+		$allowedExtensionString = '';
+		$counter = 0;
+		foreach ($this->allowedExtensions as $allowedExtension) {
+			$allowedExtensionString .= $allowedExtension;
+
+			if (sizeof($this->allowedExtensions) !== ++$counter) {
+				$allowedExtensionString .= ',';
+			}
+		}
+		$this->inputAttrs['accept'] = $allowedExtensionString;
 		return $htmlView->getFormHtmlBuilder()->getInputFileWithLabel($propertyPath, $this->inputAttrs);
 	}
 }

@@ -23,6 +23,8 @@ namespace n2n\impl\web\dispatch\mag\model;
 
 use n2n\io\managed\File;
 use n2n\io\managed\FileManager;
+use n2n\io\managed\impl\CommonFile;
+use n2n\io\managed\impl\PublicFileManager;
 
 class ManagedFileMag extends FileMag {
 	
@@ -30,19 +32,35 @@ class ManagedFileMag extends FileMag {
 	 * @var \n2n\io\fs\PersistableFileManager
 	 */
 	private $fileManager;
-	private $value;
-	
-	
-	public function __construct(string $propertyName, $label, FileManager $fileManager, array $allowedExtensions = null, 
-			$checkImageResourceMemory = false, File $default = null, $required = false, array $inputAttrs = null) {
-		parent::__construct($propertyName, $label, $allowedExtensions, $checkImageResourceMemory, $default, $required, $inputAttrs);
+
+	/**
+	 * ManagedFileMag constructor.
+	 * @param string $label
+	 * @param FileManager $fileManager
+	 * @param array|null $allowedExtensions
+	 * @param bool $checkImageResourceMemory checks if file is bigger than max_file_size.
+	 * @param File|null $default
+	 * @param bool $required
+	 * @param array|null $inputAttrs
+	 */
+	public function __construct(string $label, FileManager $fileManager, array $allowedExtensions = array(),
+			$checkImageResourceMemory = false, string $value = null, bool $mandatory = false, array $inputAttrs = null) {
 		$this->fileManager = $fileManager;
+		parent::__construct($label, $allowedExtensions, $checkImageResourceMemory, null, $mandatory, $inputAttrs);
+		$this->value = $value;
 	}
-	
+
+	/**
+	 * @return File
+	 */
 	public function getFormValue() {
 		return $this->fileManager->getByQualifiedName($this->value);
 	}
-	
+
+	/**
+	 * @param mixed $value
+	 * @return File|string
+	 */
 	public function setFormValue($value) {
 		if ((string) $value == $this->value) return (string) $value;
 		if ($value === $this->value) return  $this->fileManager->getByQualifiedName($value);

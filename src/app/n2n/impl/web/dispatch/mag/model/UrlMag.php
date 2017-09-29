@@ -32,58 +32,100 @@ class UrlMag extends StringMag {
 	private $allowedSchemes;
 	private $autoScheme;
 	private $relativeAllowed = false;
-	
-	public function __construct(string $propertyName, $labelLstr, Url $value = null, bool $mandatory = false, 
+
+	/**
+	 * UrlMag constructor.
+	 * @param $labelLstr
+	 * @param Url|null $value
+	 * @param bool $mandatory
+	 * @param int|null $maxlength
+	 * @param array|null $containerAttrs
+	 * @param array|null $inputAttrs
+	 */
+	public function __construct($labelLstr, Url $value = null, bool $mandatory = false,
 			int $maxlength = null, array $containerAttrs = null, array $inputAttrs = null) {
-		parent::__construct($propertyName, $labelLstr, $value, $mandatory, $maxlength, false, $containerAttrs, 
+		parent::__construct($labelLstr, $value, $mandatory, $maxlength, false, $containerAttrs,
 				$inputAttrs);
 	}
-	
+
+	/**
+	 * @param bool $multiline
+	 */
 	public function setMultiline(bool $multiline) {
 		throw new UnsupportedOperationException();
 	}
-	
+
+	/**
+	 * @param array|null $allowedSchemes
+	 */
 	public function setAllowedSchemes(array $allowedSchemes = null) {
 		$this->allowedSchemes = $allowedSchemes;
 	}
-	
+
+	/**
+	 * @return mixed
+	 */
 	public function getAllowedSchemes() {
 		return $this->allowedSchemes;
 	}
-	
+
+	/**
+	 * @param bool $relativeAllowed
+	 */
 	public function setRelativeAllowed(bool $relativeAllowed) {
 		$this->relativeAllowed = $relativeAllowed;
 	}
-	
+
+	/**
+	 * @return bool
+	 */
 	public function isRelativeAllowed(): bool {
 		return $this->relativeAllowed;
 	}
-	
+
+	/**
+	 * @param string|null $autoScheme
+	 */
 	public function setAutoScheme(string $autoScheme = null) {
 		$this->autoScheme = $autoScheme;
 	}
-	
+
+	/**
+	 * @return mixed
+	 */
 	public function getAutoScheme() {
 		return $this->autoScheme;
 	}
-	
+
+	/**
+	 * @param mixed $value
+	 */
 	public function setValue($value) {
 		ArgUtils::valType($value, Url::class, true);
 		$this->value = $value;
 	}
-	
+
+	/**
+	 * @param mixed $formValue
+	 */
 	public function setFormValue($formValue) {
 		$this->value = null;
 		if ($formValue !== null) {
 			$this->value = Url::create($formValue);
 		}
 	}
-	
+
+	/**
+	 * @return null|string
+	 */
 	public function getFormValue() {
 		if ($this->value === null) return null;
 		return (string) $this->value;
 	}
-	
+
+	/**
+	 * @param MappingDefinition $md
+	 */
 	public function setupMappingDefinition(MappingDefinition $md) {
 		if ($this->autoScheme === null || !$md->isDispatched() || $this->relativeAllowed) return;
 		
@@ -105,7 +147,4 @@ class UrlMag extends StringMag {
 		
 		$bd->val($this->propertyName, new ValUrl($this->allowedSchemes, null, $this->relativeAllowed));
 	}
-
-	
-
 }

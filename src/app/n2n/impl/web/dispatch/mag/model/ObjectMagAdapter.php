@@ -27,7 +27,10 @@ use n2n\web\dispatch\map\bind\BindingDefinition;
 use n2n\web\dispatch\property\ManagedProperty;
 
 abstract class ObjectMagAdapter extends MagAdapter {
-	
+	/**
+	 * @param AccessProxy $accessProxy
+	 * @return ManagedProperty
+	 */
 	public function createManagedProperty(AccessProxy $accessProxy): ManagedProperty {
 		return new ObjectProperty($accessProxy, false);		
 	}
