@@ -270,7 +270,6 @@ class FormHtmlBuilder {
 	}
 	
 	public function getInputFileWithLabel($propertyExpression = null, array $attrs = null, array $labelAttrs = null) {
-		// @todo find better way
 		$raw = new Raw($this->getInputFile($propertyExpression, $attrs));
 		$raw->append($this->getInputFileLabel($propertyExpression, $labelAttrs));
 		return $raw;
