@@ -39,6 +39,7 @@ use n2n\web\dispatch\map\PropertyTypeMissmatchException;
 use n2n\impl\web\dispatch\property\ObjectProperty;
 use n2n\reflection\ReflectionUtils;
 use n2n\web\ui\UiComponent;
+use n2n\impl\web\ui\view\html\HtmlSnippet;
 
 class FormUiComponentFactory {
 	const HTML_ID_PREFIX = 'n2n-';
@@ -260,13 +261,15 @@ class FormUiComponentFactory {
 		$keepFileOptionName = $this->dte->buildAttrParamName($propertyPath, FileProperty::OPTION_KEEP_FILE);
 		
 		$htmlId = $attrs['id'];
-		$raw = new Raw();
-		$raw->append('<span' . HtmlElement::buildAttrsHtml($attrs) . '>');
-		$raw->append('<span>' . htmlspecialchars($mapValue->getOriginalName()) . ' (' . round($mapValue->getFileSource()->getSize() / 1024) . ' KB)</span> ');
-		$raw->append('<input type="hidden" name="' . htmlspecialchars($keepFileOptionName) . '" value="1" />');
-		$raw->append('<a href="#" onclick="(function() { var elem = document.getElementById(\'' . htmlspecialchars(addslashes($htmlId))
-				. '\'); elem.parentNode.removeChild(elem); })(); return false;">' . HtmlUtils::contentsToHtml($deleteLinkLabel) . '</a>');
-		$raw->append('</span>');
+		$raw = new HtmlSnippet();
+		$raw->append(new Raw('<span' . HtmlElement::buildAttrsHtml($attrs) . '>'));
+		$raw->append(new Raw('<span>' . htmlspecialchars($mapValue->getOriginalName()) . ' (' . round($mapValue->getFileSource()->getSize() / 1024) . ' KB)</span> '));
+		$raw->append(new Raw('<input type="hidden" name="' . htmlspecialchars($keepFileOptionName) . '" value="1" />'));
+		$raw->append(new Raw('<a href="#" onclick="(function() { var elem = document.getElementById(\'' . htmlspecialchars(addslashes($htmlId))
+				. '\'); elem.parentNode.removeChild(elem); })(); return false;">'));
+		$raw->append($deleteLinkLabel);
+		$raw->append(new Raw('</a>'));
+		$raw->append(new Raw('</span>'));
 		$raw->append($this->buildTargetItemHidden($propertyItem));
 		return $raw;
 	}
