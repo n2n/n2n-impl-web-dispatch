@@ -146,8 +146,7 @@ class FormUiComponentFactory {
 	}
 	
 	public function createInputCheckbox(PropertyPath $propertyPath, $value, array $attrs = null, UiComponent $label = null) {
-		$raw = new Raw($this->createTestElement('checkbox', $propertyPath, $value, $attrs));
-		$raw->append($label);
+		$snippet = new HtmlSnippet($this->createTestElement('checkbox', $propertyPath, $value, $attrs), $label);
 		
 		$targetItem = null;
 		if ($propertyPath->getLast()->isArray()) {
@@ -156,8 +155,8 @@ class FormUiComponentFactory {
 			$targetItem = $this->form->getDispatchTarget()->registerProperty($propertyPath);
 		}
 		
-		$raw->append($this->buildTargetItemHidden($targetItem));
-		return $raw;
+		$snippet->append($this->buildTargetItemHidden($targetItem));
+		return $snippet;
 	}
 	
 	public function createInputRadio(PropertyPath $propertyPath, $value, array $attrs = null, bool $enhanceAttrs = true) {
