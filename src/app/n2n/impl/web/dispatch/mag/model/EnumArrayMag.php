@@ -121,56 +121,56 @@ class EnumArrayMag extends MagAdapter {
 
 		$htmlElement = new HtmlElement('div', array('class' => 'n2n-impl-web-dispatch-array-mag'), $uiComponent);
 		/*
-		 	var optionArr = [].slice.call(document.getElementsByClassName("n2n-impl-web-dispatch-array-mag")).slice(-1)[0];
+		 	var lastScript = [].slice.call(document.getElementsByTagName("script")).slice(-1)[0];
+			var optionArr = lastScript.previousSibling;
 
-			function createEnumRemove(removeWord) {
-				var enumRemove = document.createElement("span");
-				enumRemove.innerHTML = " " + optionArr.getAttribute("data-remove-word");
-				enumRemove.className = "n2n-impl-web-dispatch-remove-enum";
-				enumRemove.style.cursor = "pointer";
-				enumRemove.onclick = function () {
+			function createRemove(removeWord) {
+				var remove = document.createElement("span");
+				remove.innerHTML = " " + optionArr.getAttribute("data-remove-word");
+				remove.className = "n2n-impl-web-dispatch-remove";
+				remove.style.cursor = "pointer";
+				remove.onclick = function () {
 					this.parentElement.parentElement.removeChild(this.parentElement);
 				}
 
-				return enumRemove;
+				return remove;
 			}
 
 			var lastLi = [].slice.call(optionArr.getElementsByTagName("li")).slice(-1)[0];
 
 			for (var i = 0; i < optionArr.children.length; i++) {
-				optionArr.children[i].append(createEnumRemove());
-
+				optionArr.children[i].append(createRemove());
 			}
 
 			var addLiElem = document.createElement("li");
 			addLiElem.innerHTML = optionArr.getAttribute("data-add-word");
 			addLiElem.style.cursor = "pointer";
-			addLiElem.className = "n2n-impl-web-dispatch-add-enum";
+			addLiElem.className = "n2n-impl-web-dispatch-add";
 			addLiElem.onclick = function () {
 				var oldSelect = lastLi.getElementsByTagName("select")[0];
 				var select = document.createElement("select");
 				select.innerHTML = oldSelect.innerHTML;
 				select.setAttribute("name", oldSelect.getAttribute("name"));
 
-				var enumField = document.createElement("li");
-				enumField.append(select);
-				enumField.appendChild(createEnumRemove());
+				var field = document.createElement("li");
+				field.append(select);
+				field.appendChild(createRemove());
 
 				for (var i = 0; i < lastLi.attributes.length; i++) {
 					var attr = lastLi.attributes.item(i);
-					enumField.setAttribute(attr.nodeName, attr.nodeValue);
+					field.setAttribute(attr.nodeName, attr.nodeValue);
 				}
 
-				enumField.attributes.name = lastLi.firstChild.getAttribute("name").replace("[]", "[" + 2 + "]");
+				field.attributes.name = lastLi.firstChild.getAttribute("name").replace("[]", "[" + 2 + "]");
 
-				optionArr.insertBefore(enumField, this);
+				optionArr.insertBefore(field, this);
 			}
 
 			optionArr.append(addLiElem);
 
 			lastLi.parentNode.removeChild(lastLi);
 		 */
-		$htmlElement->appendLn(new HtmlElement('script', null, new Raw('function createEnumRemove(e){var t=document.createElement("span");return t.innerHTML=" "+optionArr.getAttribute("data-remove-word"),t.className="n2n-impl-web-dispatch-remove-enum",t.style.cursor="pointer",t.onclick=function(){this.parentElement.parentElement.removeChild(this.parentElement)},t}for(var optionArr=[].slice.call(document.getElementsByClassName("n2n-impl-web-dispatch-array-mag")).slice(-1)[0],lastLi=[].slice.call(optionArr.getElementsByTagName("li")).slice(-1)[0],i=0;i<optionArr.children.length;i++)optionArr.children[i].append(createEnumRemove());var addLiElem=document.createElement("li");addLiElem.innerHTML=optionArr.getAttribute("data-add-word"),addLiElem.style.cursor="pointer",addLiElem.className="n2n-impl-web-dispatch-add-enum",addLiElem.onclick=function(){var e=lastLi.getElementsByTagName("select")[0],t=document.createElement("select");t.innerHTML=e.innerHTML,t.setAttribute("name",e.getAttribute("name"));var n=document.createElement("li");n.append(t),n.appendChild(createEnumRemove());for(var r=0;r<lastLi.attributes.length;r++){var a=lastLi.attributes.item(r);n.setAttribute(a.nodeName,a.nodeValue)}n.attributes.name=lastLi.firstChild.getAttribute("name").replace("[]","[2]"),optionArr.insertBefore(n,this)},optionArr.append(addLiElem),lastLi.parentNode.removeChild(lastLi);')));
+		$htmlElement->appendLn(new HtmlElement('script', null, new Raw('function createRemove(e){var t=document.createElement("span");return t.innerHTML=" "+optionArr.getAttribute("data-remove-word"),t.className="n2n-impl-web-dispatch-remove",t.style.cursor="pointer",t.onclick=function(){this.parentElement.parentElement.removeChild(this.parentElement)},t}for(var lastScript=[].slice.call(document.getElementsByTagName("script")).slice(-1)[0],optionArr=lastScript.previousSibling,lastLi=[].slice.call(optionArr.getElementsByTagName("li")).slice(-1)[0],i=0;i<optionArr.children.length;i++)optionArr.children[i].append(createRemove());var addLiElem=document.createElement("li");addLiElem.innerHTML=optionArr.getAttribute("data-add-word"),addLiElem.style.cursor="pointer",addLiElem.className="n2n-impl-web-dispatch-add",addLiElem.onclick=function(){var e=lastLi.getElementsByTagName("select")[0],t=document.createElement("select");t.innerHTML=e.innerHTML,t.setAttribute("name",e.getAttribute("name"));var i=document.createElement("li");i.append(t),i.appendChild(createRemove());for(var r=0;r<lastLi.attributes.length;r++){var a=lastLi.attributes.item(r);i.setAttribute(a.nodeName,a.nodeValue)}i.attributes.name=lastLi.firstChild.getAttribute("name").replace("[]","[2]"),optionArr.insertBefore(i,this)},optionArr.append(addLiElem),lastLi.parentNode.removeChild(lastLi);')));
 		return $htmlElement;
 	}
 }

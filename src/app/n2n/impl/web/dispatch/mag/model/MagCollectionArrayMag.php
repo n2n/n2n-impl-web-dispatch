@@ -22,6 +22,7 @@
 namespace n2n\impl\web\dispatch\mag\model;
 
 use n2n\impl\web\ui\view\html\HtmlView;
+use n2n\web\dispatch\mag\Mag;
 use n2n\web\dispatch\mag\UiOutfitter;
 use n2n\web\dispatch\map\PropertyPath;
 use n2n\reflection\ArgUtils;
@@ -39,8 +40,9 @@ use n2n\web\dispatch\mag\MagDispatchable;
  * @package n2n\impl\web\dispatch\mag\model
  */
 class MagCollectionArrayMag extends MagAdapter {
-	const DEFAULT_INC = 10;
-	
+
+	const DEFAULT_INC = 3;
+
 	private $creator;
 	private $min;
 	private $max;
@@ -54,9 +56,7 @@ class MagCollectionArrayMag extends MagAdapter {
 	 */
 	public function __construct($label, \Closure $creator,
 			$mandatory = false, array $containerAttrs = null) {
-		parent::__construct($label, array(),
-				HtmlUtils::mergeAttrs(array('class' => 'n2n-array-option'), 
-						(array) $containerAttrs));
+		parent::__construct($label, array(), $containerAttrs);
 		$this->creator = $creator;
 
 		if ($mandatory) {
@@ -177,20 +177,21 @@ class MagCollectionArrayMag extends MagAdapter {
 	 */
 	public function createUiField(PropertyPath $propertyPath, HtmlView $view, UiOutfitter $uiOutfitter): UiComponent {
 		$numExisting = sizeof($view->getFormHtmlBuilder()->meta()->getMapValue($propertyPath));
+		$attrs = HtmlUtils::mergeAttrs($this->getContainerAttrs($view));
+		$this->setAttrs($attrs);
+
 		$num = $numExisting;
 		if (isset($this->max) && $this->max > $num) {
 			$num = $this->max;
 		} else {
 			$num += self::DEFAULT_INC;
 		}
-		if (null !== $uiOutfitter) {
-			$attrs = HtmlUtils::mergeAttrs($this->getContainerAttrs($view), $uiOutfitter->buildAttrs(UiOutfitter::NATURE_TEXT));
-		}
-
-		$this->setAttrs($attrs);
 
 		return $view->getImport('\n2n\impl\web\dispatch\mag\view\magCollectionArrayMag.html',
-			array('propertyPath' => $propertyPath, 'numExisting' => $numExisting, 'num' => $num,
-					'min' => $this->min, 'uiOutfitter' => $uiOutfitter));
+			array('propertyPath' => $propertyPath, 'uiOutfitter' => $uiOutfitter, 'numExisting' => $numExisting, 'num' => $num));
+	}
+
+	public function getNature(): int{
+		return Mag::NATURE_GROUP;
 	}
 }

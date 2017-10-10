@@ -145,24 +145,22 @@ class StringMag extends MagAdapter {
 	 * @param HtmlView $htmlView
 	 * @return UiComponent
 	 */
-	public function createUiField(PropertyPath $propertyPath, HtmlView $htmlView, UiOutfitter $uiOutfitter): UiComponent {
-		$attrs = $this->inputAttrs;
-		if (null !== $uiOutfitter) {
-			$attrs = HtmlUtils::mergeAttrs($uiOutfitter->buildAttrs(UiOutfitter::NATURE_TEXT), $this->inputAttrs);
-		}
+	public function createUiField(PropertyPath $propertyPath, HtmlView $htmlView, UiOutfitter $uo): UiComponent {
+		$attrs = array();
 
 		if ($this->maxlength !== null) {
 			$attrs['maxlength'] = $this->maxlength;
 		}
 
-		$uiField = new HtmlElement('div', $uiOutfitter->buildAttrs(UiOutfitter::NATURE_TEXT_WRAPPER));
-
 		if ($this->isMultiline()) {
-			$uiField->appendLn($htmlView->getFormHtmlBuilder()->getTextarea($propertyPath, $attrs));
-			return $uiField;
+			$attrs = HtmlUtils::mergeAttrs(
+				$uo->buildAttrs(UiOutfitter::NATURE_TEXTAREA|UiOutfitter::NATURE_MAIN_CONTROL), $this->inputAttrs);
+			return $htmlView->getFormHtmlBuilder()->getTextarea($propertyPath, $attrs);
 		}
 
-		$uiField->appendLn($htmlView->getFormHtmlBuilder()->getInput($propertyPath, HtmlUtils::mergeAttrs($uiOutfitter->buildAttrs(UiOutfitter::NATURE_TEXT), $attrs)));
-		return $uiField;
+
+		$attrs = HtmlUtils::mergeAttrs(
+			$uo->buildAttrs(UiOutfitter::NATURE_TEXT|UiOutfitter::NATURE_MAIN_CONTROL), $this->inputAttrs);
+		return $htmlView->getFormHtmlBuilder()->getInput($propertyPath, $attrs);
 	}
 }

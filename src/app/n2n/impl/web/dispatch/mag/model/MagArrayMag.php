@@ -30,7 +30,7 @@ use n2n\reflection\ArgUtils;
 use n2n\web\dispatch\property\ManagedProperty;
 use n2n\web\dispatch\mag\MagCollection;
 
-class MagArrayMag implements Mag {
+class MagArrayMag extends MagAdapter {
 	const PROPERTY_NAME = 'field';
 	
 	private $decorated;
@@ -163,5 +163,9 @@ class MagArrayMag implements Mag {
 	 */
 	public function whenAssigned(\n2n\web\dispatch\mag\MagCollection $magCollection) {
 		$this->decorated->whenAssigned($magCollection);
+	}
+
+	public function isGroup(): bool {
+		return true;
 	}
 }

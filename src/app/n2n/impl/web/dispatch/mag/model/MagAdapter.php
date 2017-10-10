@@ -129,4 +129,8 @@ abstract class MagAdapter implements Mag {
 	
 	public function whenAssigned(MagCollection $magCollection) {
 	}
+
+	public function getNature(): int {
+		return 0;
+	}
 }

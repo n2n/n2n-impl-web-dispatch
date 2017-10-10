@@ -48,12 +48,11 @@ class BoolMag extends MagAdapter {
 	 * @param array|null $attrs
 	 * @param array|null $inputAttrs
 	 */
-	public function __construct($labelLstr, bool $value = false,
-			array $attrs = null, array $inputAttrs = null) {
+	public function __construct($labelLstr, bool $value = false, array $attrs = null, array $inputAttrs = null) {
 		parent::__construct($labelLstr, $value, $attrs);
 		$this->inputAttrs = (array) $inputAttrs;
 	}
-	
+
 	/**
 	 * @param array $inputAttrs
 	 */
@@ -89,18 +88,13 @@ class BoolMag extends MagAdapter {
 	 * @return UiComponent
 	 */
 	public function createUiField(PropertyPath $propertyPath, HtmlView $view, UiOutfitter $uiOutfitter): UiComponent {
-		$formHtml = $view->getFormHtmlBuilder();
+		$inputAttrs = HtmlUtils::mergeAttrs($uiOutfitter->buildAttrs(UiOutfitter::NATURE_CHECK|UiOutfitter::NATURE_MAIN_CONTROL, $this->inputAttrs));
 
-		if (null !== $uiOutfitter) {
-			$attrs = HtmlUtils::mergeAttrs($uiOutfitter->buildAttrs(UiOutfitter::NATURE_CHECK), $this->inputAttrs);
-		}
+		$label = new HtmlElement('label', $uiOutfitter->buildAttrs(UiOutfitter::NATURE_CHECK_LABEL));
+		$label->appendLn($view->getFormHtmlBuilder()->getInputCheckbox($propertyPath, true, $inputAttrs));
+		$label->appendLn($this->getLabel($view->getN2nLocale()));
 
-		$uiField = new HtmlElement('div', $uiOutfitter->buildAttrs(UiOutfitter::NATURE_CHECK_WRAPPER));
-		$label = $formHtml->getLabel('', '', $uiOutfitter->buildAttrs(UiOutfitter::NATURE_CHECK_LABEL));
-		$uiField->appendLn($label);
-		$checkbox = $view->getFormHtmlBuilder()->getInputCheckbox($propertyPath, true, $attrs);
-		$label->appendLn($checkbox);
-		return $uiField;
+		return $label;
 	}
 
 	/**
@@ -110,10 +104,7 @@ class BoolMag extends MagAdapter {
 		$this->value = (bool) $formValue;
 	}
 
-	/**
-	 * @param mixed $value
-	 */
-	public function setValue($value) {
-		$this->value = (bool) $value;
+	public function getNature(): int {
+		return self::NATURE_LABELLESS;
 	}
 }

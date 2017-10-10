@@ -21,6 +21,7 @@
  */
 namespace n2n\impl\web\dispatch\ui;
 
+use n2n\impl\web\dispatch\mag\model\BasicUiOutfitter;
 use n2n\impl\web\ui\view\html\HtmlView;
 use n2n\web\dispatch\Dispatchable;
 use n2n\impl\web\ui\view\html\HtmlElement;
@@ -34,6 +35,7 @@ use n2n\util\ex\IllegalStateException;
 use n2n\web\dispatch\map\PropertyPath;
 use n2n\web\dispatch\DispatchContext;
 use n2nutil\bootstrap\mag\BsUiOutfitter;
+use n2nutil\bootstrap\ui\BsComposer;
 
 class FormHtmlBuilder {
 	private $view;
@@ -272,7 +274,6 @@ class FormHtmlBuilder {
 	}
 	
 	public function getInputFileWithLabel($propertyExpression = null, array $attrs = null, array $labelAttrs = null) {
-		// @todo find better way
 		$raw = new Raw($this->getInputFile($propertyExpression, $attrs));
 		$raw->append($this->getInputFileLabel($propertyExpression, $labelAttrs));
 		return $raw;
@@ -377,8 +378,6 @@ class FormHtmlBuilder {
 		$this->magStack[] = array('tagName' => $tagName, 'propertyPath' => $propertyPath, 'magWrapper' => $magWrapper,
 				'outfitter' => $uiOutfitter);
 
-		$uiOutfitter->buildAttrs(UiOutfitter::NATURE_MAG_WRAPPER);
-
 		return new Raw('<' . htmlspecialchars((string) $tagName) . HtmlElement::buildAttrsHtml(
 				HtmlUtils::mergeAttrs($magWrapper->getContainerAttrs($this->view), (array) $attrs)) . '>');
 	}
@@ -403,7 +402,7 @@ class FormHtmlBuilder {
 			$attrs = array();
 		}
 
-		$attrs = HtmlUtils::mergeAttrs($magInfo['outfitter']->buildAttrs(UiOutfitter::NATURE_MAG_LABEL), $attrs);
+		//$attrs = HtmlUtils::mergeAttrs($magInfo['outfitter']->buildAttrs(UiOutfitter::NATURE_MAG_LABEL), $attrs);
 
 		return $this->getLabel($magInfo['propertyPath'],
 				($label === null ? $magInfo['magWrapper']->getMag()->getLabel($this->view->getN2nLocale()) : $label), $attrs);
@@ -427,5 +426,40 @@ class FormHtmlBuilder {
 		$optionInfo = $this->peakMagInfo();
 		array_pop($this->magStack);
 		return new Raw('</' . htmlspecialchars((string) $optionInfo['tagName']) . '>');
+	}
+
+	// adventure zone
+
+	public function magGroup($propertyExpression = null, BsComposer $bsComposer = null) {
+		return $this->getMagGroup();
+	}
+
+	public function getMagGroup($propertyExpression = null, BsComposer $bsComposer = null) {
+		$propertyPath = $this->meta->createPropertyPath($propertyExpression);
+
+		$magWrapper = $this->formHtml->meta()->lookupMagWrapper($propertyPath);
+		$mag = $magWrapper->getMag();
+		$containerAttrs = $magWrapper->getContainerAttrs($this->view);
+
+		$bsUiOutfitter = new BasicUiOutfitter();
+		$nature = $mag->getNature();
+
+		$uiLabel = null;
+		if ($nature & Mag::NATURE_GROUP) {
+
+		} else if (!($nature & Mag::NATURE_LABELLESS)) {
+
+		}
+
+		$uiControl = $magWrapper->getMag()->createUiField($propertyPath, $this->view, $bsUiOutfitter);
+
+		$htmlElement = $this->createUiFormGroup($propertyPath, $uiLabel, $uiControl, $bsConfig);
+		$htmlElement->setAttrs(HtmlUtils::mergeAttrs($containerAttrs, $htmlElement->getAttrs()));
+
+		if ($nature & Mag::NATURE_GROUP) {
+			$htmlElement = new HtmlElement('fieldset', null, $htmlElement);
+		}
+
+		return $htmlElement;
 	}
 }
