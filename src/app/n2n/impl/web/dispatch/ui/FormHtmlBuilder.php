@@ -150,7 +150,7 @@ class FormHtmlBuilder {
 	
 	public function getMessage($propertyExpression = null, string $containerTagName = 'div', array $containerAttrs = null,
 			bool $recursive = true, bool $markAsProcessed = true, bool $unprocessedOnly = true) {
-		$messages = $this->meta->getMessages($propertyExpression, $recursive, true, $markAsProcessed, $unprocessedOnly);
+		$messages = $this->meta->getMessages($propertyExpression, $recursive, true, 1, $markAsProcessed, $unprocessedOnly);
 		if (empty($messages)) return null;
 		
 		return new HtmlElement($containerTagName, $containerAttrs, current($messages));
