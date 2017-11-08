@@ -22,6 +22,9 @@
 namespace n2n\impl\web\dispatch\mag\model;
 
 use n2n\impl\web\dispatch\map\val\ValNotEmpty;
+use n2n\impl\web\ui\view\html\HtmlElement;
+use n2n\impl\web\ui\view\html\HtmlUtils;
+use n2n\web\dispatch\mag\UiOutfitter;
 use n2n\web\dispatch\map\PropertyPath;
 use n2n\impl\web\ui\view\html\HtmlView;
 use n2n\impl\web\dispatch\map\val\ValMaxLength;
@@ -31,57 +34,102 @@ use n2n\reflection\property\AccessProxy;
 use n2n\web\dispatch\property\ManagedProperty;
 use n2n\web\ui\UiComponent;
 
+/**
+ * Class StringMag
+ * @package n2n\impl\web\dispatch\mag\model
+ */
 class StringMag extends MagAdapter {
 	private $mandatory;
 	private $maxlength;
 	private $multiline;
 	private $inputAttrs;
-	
-	public function __construct(string $propertyName, $label, $value = null, bool $mandatory = false, 
+
+	/**
+	 * StringMag constructor.
+	 * @param $label
+	 * @param null $value
+	 * @param bool $mandatory
+	 * @param int|null $maxlength
+	 * @param bool $multiline
+	 * @param array|null $attrs
+	 * @param array|null $inputAttrs
+	 */
+	public function __construct($label, $value = null, bool $mandatory = false,
 			int $maxlength = null, bool $multiline = false, array $attrs = null, array $inputAttrs = null) {
-		parent::__construct($propertyName, $label, $value, $attrs);
+		parent::__construct($label, $value, $attrs);
 		$this->mandatory = $mandatory;
 		$this->maxlength = $maxlength;
 		$this->multiline = $multiline;
 		$this->inputAttrs = (array) $inputAttrs;
-	}	
-	
+	}
+
+	/**
+	 * @param bool $mandatory
+	 */
 	public function setMandatory(bool $mandatory) {
 		$this->mandatory = $mandatory;
-	} 
-	
+	}
+
+	/**
+	 * @return bool
+	 */
 	public function isMandatory(): bool {
 		return $this->mandatory;
 	}
-	
+
+	/**
+	 * @param int|null $maxlength
+	 */
 	public function setMaxlength(int $maxlength = null) {
 		$this->maxlength = $maxlength;
 	}
-	
+
+	/**
+	 * @return int|null
+	 */
 	public function getMaxlength() {
 		return $this->maxlength;
 	}
-	
+
+	/**
+	 * @param bool $multiline
+	 */
 	public function setMultiline(bool $multiline) {
 		$this->multiline = $multiline;
 	}
-	
+
+	/**
+	 * @return bool
+	 */
 	public function isMultiline() {
 		return $this->multiline;
 	}
-	
+
+	/**
+	 * @param array $inputAttrs
+	 */
 	public function setInputAttrs(array $inputAttrs) {
 		$this->inputAttrs = $inputAttrs;
 	}
-	
+
+	/**
+	 * @return array
+	 */
 	public function getInputAttrs() {
 		return $this->inputAttrs;
 	}
-	
+
+	/**
+	 * @param AccessProxy $accessProxy
+	 * @return ManagedProperty
+	 */
 	public function createManagedProperty(AccessProxy $accessProxy): ManagedProperty {
 		return new ScalarProperty($accessProxy, false);
 	}
-	
+
+	/**
+	 * @param BindingDefinition $bd
+	 */
 	public function setupBindingDefinition(BindingDefinition $bd) {
 		if ($this->mandatory) {
 			$bd->val($this->propertyName, new ValNotEmpty());
@@ -92,15 +140,27 @@ class StringMag extends MagAdapter {
 		}
 	}
 
-	public function createUiField(PropertyPath $propertyPath, HtmlView $htmlView): UiComponent {
-		$inputAttrs = $this->inputAttrs;
+	/**
+	 * @param PropertyPath $propertyPath
+	 * @param HtmlView $htmlView
+	 * @return UiComponent
+	 */
+	public function createUiField(PropertyPath $propertyPath, HtmlView $htmlView, UiOutfitter $uo): UiComponent {
+		$attrs = array();
+
 		if ($this->maxlength !== null) {
-			$inputAttrs['maxlength'] = $this->maxlength;
+			$attrs['maxlength'] = $this->maxlength;
 		}
-		
+
 		if ($this->isMultiline()) {
-			return $htmlView->getFormHtmlBuilder()->getTextarea($propertyPath, $inputAttrs);
+			$attrs = HtmlUtils::mergeAttrs(
+				$uo->buildAttrs(UiOutfitter::NATURE_TEXTAREA|UiOutfitter::NATURE_MAIN_CONTROL), $this->inputAttrs);
+			return $htmlView->getFormHtmlBuilder()->getTextarea($propertyPath, $attrs);
 		}
-		return $htmlView->getFormHtmlBuilder()->getInput($propertyPath, $inputAttrs);
+
+
+		$attrs = HtmlUtils::mergeAttrs(
+			$uo->buildAttrs(UiOutfitter::NATURE_TEXT|UiOutfitter::NATURE_MAIN_CONTROL), $this->inputAttrs);
+		return $htmlView->getFormHtmlBuilder()->getInput($propertyPath, $attrs);
 	}
 }

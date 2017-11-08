@@ -21,9 +21,11 @@
  */
 namespace n2n\impl\web\dispatch\ui;
 
+use n2n\impl\web\dispatch\mag\model\BasicUiOutfitter;
 use n2n\impl\web\ui\view\html\HtmlView;
 use n2n\web\dispatch\Dispatchable;
 use n2n\impl\web\ui\view\html\HtmlElement;
+use n2n\web\dispatch\mag\UiOutfitter;
 use n2n\web\http\Method;
 use n2n\impl\web\ui\view\html\MessageList;
 use n2n\web\ui\Raw;
@@ -32,6 +34,8 @@ use n2n\util\ex\NotYetImplementedException;
 use n2n\util\ex\IllegalStateException;
 use n2n\web\dispatch\map\PropertyPath;
 use n2n\web\dispatch\DispatchContext;
+use n2nutil\bootstrap\mag\BsUiOutfitter;
+use n2nutil\bootstrap\ui\BsComposer;
 
 class FormHtmlBuilder {
 	private $view;
@@ -360,19 +364,20 @@ class FormHtmlBuilder {
 	}
 	
 	public function getOptionalObjectEnabledHidden($propertyExpression = null) {
-		return $this->getFactory()->createEnabledOptionalObjectHidden($this->meta->createPropertyPath($propertyExpression, 
+		return $this->getFactory()->createEnabledOptionalObjectHidden($this->meta->createPropertyPath($propertyExpression,
 				null !== $this->meta()->getForm()->getDispatchTargetEncoder()->getPseudoBasePropertyPath()));
 	}
 	
-	public function magOpen($tagName, $propertyExpression = null, array $attrs = null) {
-		$this->view->out($this->getMagOpen($tagName, $propertyExpression, $attrs));
+	public function magOpen($tagName, $propertyExpression = null, array $attrs = null, UiOutfitter $uiOutfitter = null) {
+		$this->view->out($this->getMagOpen($tagName, $propertyExpression, $attrs, $uiOutfitter));
 	}
-	
-	public function getMagOpen($tagName, $propertyExpression = null, array $attrs = null) {
+
+	public function getMagOpen($tagName, $propertyExpression = null, array $attrs = null, UiOutfitter $uiOutfitter = null) {
 		$propertyPath = $this->meta->createPropertyPath($propertyExpression);
 		$magWrapper = $this->meta->lookupMagWrapper($propertyPath);
-		$this->magStack[] = array('tagName' => $tagName, 'propertyPath' => $propertyPath, 'magWrapper' => $magWrapper);
-		
+		$this->magStack[] = array('tagName' => $tagName, 'propertyPath' => $propertyPath, 'magWrapper' => $magWrapper,
+				'outfitter' => $uiOutfitter);
+
 		return new Raw('<' . htmlspecialchars((string) $tagName) . HtmlElement::buildAttrsHtml(
 				HtmlUtils::mergeAttrs($magWrapper->getContainerAttrs($this->view), (array) $attrs)) . '>');
 	}
@@ -391,10 +396,16 @@ class FormHtmlBuilder {
 	}
 	
 	public function getMagLabel(array $attrs = null, $label = null) {
-		$optionInfo = $this->peakMagInfo();
-		
-		return $this->getLabel($optionInfo['propertyPath'], 
-				($label === null ? $optionInfo['magWrapper']->getMag()->getLabel($this->view->getN2nLocale()) : $label), $attrs);
+		$magInfo = $this->peakMagInfo();
+
+		if ($attrs === null) {
+			$attrs = array();
+		}
+
+		//$attrs = HtmlUtils::mergeAttrs($magInfo['outfitter']->buildAttrs(UiOutfitter::NATURE_MAG_LABEL), $attrs);
+
+		return $this->getLabel($magInfo['propertyPath'],
+				($label === null ? $magInfo['magWrapper']->getMag()->getLabel($this->view->getN2nLocale()) : $label), $attrs);
 	}
 	
 	public function magField() {
@@ -402,8 +413,9 @@ class FormHtmlBuilder {
 	}
 	
 	public function getMagField() {
-		$optionInfo = $this->peakMagInfo();
-		return $optionInfo['magWrapper']->getMag()->createUiField($optionInfo['propertyPath'], $this->view);
+		$magInfo = $this->peakMagInfo();
+		return $magInfo['magWrapper']->getMag()->createUiField($magInfo['propertyPath'], $this->view,
+				$magInfo['outfitter']);
 	}
 
 	public function magClose() {
@@ -414,5 +426,40 @@ class FormHtmlBuilder {
 		$optionInfo = $this->peakMagInfo();
 		array_pop($this->magStack);
 		return new Raw('</' . htmlspecialchars((string) $optionInfo['tagName']) . '>');
+	}
+
+	// adventure zone
+
+	public function magGroup($propertyExpression = null, BsComposer $bsComposer = null) {
+		return $this->getMagGroup();
+	}
+
+	public function getMagGroup($propertyExpression = null, BsComposer $bsComposer = null) {
+		$propertyPath = $this->meta->createPropertyPath($propertyExpression);
+
+		$magWrapper = $this->formHtml->meta()->lookupMagWrapper($propertyPath);
+		$mag = $magWrapper->getMag();
+		$containerAttrs = $magWrapper->getContainerAttrs($this->view);
+
+		$bsUiOutfitter = new BasicUiOutfitter();
+		$nature = $mag->getNature();
+
+		$uiLabel = null;
+		if ($nature & Mag::NATURE_GROUP) {
+
+		} else if (!($nature & Mag::NATURE_LABELLESS)) {
+
+		}
+
+		$uiControl = $magWrapper->getMag()->createUiField($propertyPath, $this->view, $bsUiOutfitter);
+
+		$htmlElement = $this->createUiFormGroup($propertyPath, $uiLabel, $uiControl, $bsConfig);
+		$htmlElement->setAttrs(HtmlUtils::mergeAttrs($containerAttrs, $htmlElement->getAttrs()));
+
+		if ($nature & Mag::NATURE_GROUP) {
+			$htmlElement = new HtmlElement('fieldset', null, $htmlElement);
+		}
+
+		return $htmlElement;
 	}
 }

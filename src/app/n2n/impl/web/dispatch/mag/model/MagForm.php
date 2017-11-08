@@ -28,10 +28,17 @@ use n2n\web\dispatch\map\bind\BindingDefinition;
 use n2n\web\dispatch\model\DispatchModel;
 use n2n\web\dispatch\property\DynamicAccessProxy;
 
+/**
+ * Class MagForm
+ * @package n2n\impl\web\dispatch\mag\model
+ */
 class MagForm implements MagDispatchable {
 	private $magCollection;
-	private $attributes;
-	
+
+	/**
+	 * MagForm constructor.
+	 * @param MagCollection $magCollection
+	 */
 	public function __construct(MagCollection $magCollection) {
 		$this->magCollection = $magCollection;
 	}
@@ -41,20 +48,35 @@ class MagForm implements MagDispatchable {
 	public function getMagCollection(): MagCollection {
 		return $this->magCollection;
 	}
-	
+
+	/**
+	 * @return array
+	 */
 	public function getPropertyNames() {
 		return array_keys($this->magCollection->getMags());
 	}
-	
-	public function containsPropertyName($propertyName) {
+
+	/**
+	 * @param $propertyName
+	 * @return bool
+	 */
+	public function containsPropertyName(string $propertyName) {
 		return $this->magCollection->containsPropertyName($propertyName);
 	}
-	
-	public function getPropertyValue($name) {
+
+	/**
+	 * @param $name
+	 * @return mixed
+	 */
+	public function getPropertyValue(string $name) {
 		return $this->magCollection->getMagWrapperByPropertyName($name)->getMag()->getFormValue();
 	}
-	
-	public function setPropertyValue($name, $value) {
+
+	/**
+	 * @param $name
+	 * @param $value
+	 */
+	public function setPropertyValue(string $name, $value) {
 		$this->magCollection->getMagWrapperByPropertyName($name)->getMag()->setFormValue($value);
 	}
 	/* (non-PHPdoc)
@@ -65,11 +87,17 @@ class MagForm implements MagDispatchable {
 			$dispatchModel->addProperty($magWrapper->getMag()->createManagedProperty(new DynamicAccessProxy($name)));
 		}
 	}
-	
+
+	/**
+	 * @param MappingDefinition $mappingDefinition
+	 */
 	private function _mapping(MappingDefinition $mappingDefinition) {
 		$this->magCollection->setupMappingDefinition($mappingDefinition);
 	}
-	
+
+	/**
+	 * @param BindingDefinition $bindingDefinition
+	 */
 	private function _validation(BindingDefinition $bindingDefinition) {
 		$this->magCollection->setupBindingDefinition($bindingDefinition);
 	}

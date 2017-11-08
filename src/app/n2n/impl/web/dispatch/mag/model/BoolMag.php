@@ -21,6 +21,10 @@
  */
 namespace n2n\impl\web\dispatch\mag\model;
 
+use n2n\impl\web\ui\view\html\HtmlElement;
+use n2n\impl\web\ui\view\html\HtmlUtils;
+use n2n\l10n\Lstr;
+use n2n\web\dispatch\mag\UiOutfitter;
 use n2n\web\dispatch\map\PropertyPath;
 use n2n\impl\web\ui\view\html\HtmlView;
 use n2n\reflection\property\AccessProxy;
@@ -30,15 +34,25 @@ use n2n\web\dispatch\property\ManagedProperty;
 use n2n\web\ui\UiComponent;
 use n2n\reflection\ArgUtils;
 
+/**
+ * Class BoolMag
+ * @package n2n\impl\web\dispatch\mag\model
+ */
 class BoolMag extends MagAdapter {
 	private $inputAttrs = array();
-	
-	public function __construct($propertyName, $labelLstr, bool $value = false, 
-			array $attrs = null, array $inputAttrs = null) {
-		parent::__construct($propertyName, $labelLstr, $value, $attrs);
+
+	/**
+	 * BoolMag constructor.
+	 * @param string|Lstr $labelLstr
+	 * @param bool $value
+	 * @param array|null $attrs
+	 * @param array|null $inputAttrs
+	 */
+	public function __construct($labelLstr, bool $value = false, array $attrs = null, array $inputAttrs = null) {
+		parent::__construct($labelLstr, $value, $attrs);
 		$this->inputAttrs = (array) $inputAttrs;
-	}	
-	
+	}
+
 	/**
 	 * @param array $inputAttrs
 	 */
@@ -50,30 +64,47 @@ class BoolMag extends MagAdapter {
 	/**
 	 * @return array
 	 */
-	public function getInputAttrs() {
+	public function getInputAttrs(): array {
 		return $this->inputAttrs;
 	}
-	
+
+	/**
+	 * @param AccessProxy $accessProxy
+	 * @return ManagedProperty
+	 */
 	public function createManagedProperty(AccessProxy $accessProxy): ManagedProperty {
 		return new ScalarProperty($accessProxy, false);
 	}
-	
+
+	/**
+	 * @param BindingDefinition $bd
+	 */
 	public function setupBindingDefinition(BindingDefinition $bd) {
 	}
 
-	public function createUiField(PropertyPath $propertyPath, HtmlView $view): UiComponent {
-		return $view->getFormHtmlBuilder()->getInputCheckbox($propertyPath, true, $this->inputAttrs);
+	/**
+	 * @param PropertyPath $propertyPath
+	 * @param HtmlView $view
+	 * @return UiComponent
+	 */
+	public function createUiField(PropertyPath $propertyPath, HtmlView $view, UiOutfitter $uiOutfitter): UiComponent {
+		$inputAttrs = HtmlUtils::mergeAttrs($uiOutfitter->buildAttrs(UiOutfitter::NATURE_CHECK|UiOutfitter::NATURE_MAIN_CONTROL, $this->inputAttrs));
+
+		$label = new HtmlElement('label', $uiOutfitter->buildAttrs(UiOutfitter::NATURE_CHECK_LABEL));
+		$label->appendLn($view->getFormHtmlBuilder()->getInputCheckbox($propertyPath, true, $inputAttrs));
+		$label->appendLn($this->getLabel($view->getN2nLocale()));
+
+		return $label;
 	}
-	
+
+	/**
+	 * @param mixed $formValue
+	 */
 	public function setFormValue($formValue) {
 		$this->value = (bool) $formValue;
 	}
-	
-	public function setValue($value) {
-		$this->value = (bool) $value;
-	}
-	
-	public function optionValueToAttributeValue($value) {
-		return (boolean) $value;
+
+	public function getNature(): int {
+		return self::NATURE_LABELLESS;
 	}
 }

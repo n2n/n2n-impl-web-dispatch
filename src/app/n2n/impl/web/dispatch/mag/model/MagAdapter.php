@@ -21,6 +21,7 @@
  */
 namespace n2n\impl\web\dispatch\mag\model;
 
+use n2n\util\ex\IllegalStateException;
 use n2n\web\dispatch\map\bind\MappingDefinition;
 use n2n\impl\web\ui\view\html\HtmlView;
 use n2n\web\dispatch\mag\Mag;
@@ -28,27 +29,53 @@ use n2n\l10n\N2nLocale;
 use n2n\l10n\Lstr;
 use n2n\web\dispatch\mag\MagCollection;
 
+/**
+ * Class MagAdapter
+ * @package n2n\impl\web\dispatch\mag\model
+ */
 abstract class MagAdapter implements Mag {
 	protected $propertyName;
 	protected $labelLstr;
 	protected $attrs = array();
 	protected $value;
-	
-	public function __construct(string $propertyName, $labelLstr, $value = null, array $attrs = null) {
-		$this->propertyName = $propertyName;
+
+	/**
+	 * MagAdapter constructor.
+	 * @param $labelLstr
+	 * @param null $value
+	 * @param array|null $attrs
+	 */
+	public function __construct($labelLstr, $value = null, array $attrs = null) {
 		$this->labelLstr = Lstr::create($labelLstr);
 		$this->setAttrs((array) $attrs);
 		$this->value = $value;
 	}
-	
+
+	public function setPropertyName(string $name) {
+		$this->propertyName = $name;
+	}
+
+	/**
+	 * @return string
+	 */
 	public function getPropertyName(): string {
+		if ($this->propertyName === null) {
+			throw new IllegalStateException('Property name not set for Mag: ' . get_class($this));
+		}
 		return $this->propertyName;
 	}
-	
+
+	/**
+	 * @param N2nLocale $n2nLocale
+	 * @return string
+	 */
 	public function getLabel(N2nLocale $n2nLocale): string {
 		return $this->labelLstr->t($n2nLocale);
 	}
-	
+
+	/**
+	 * @param Lstr $labelL10nStr
+	 */
 	public function setLabelLstr(Lstr $labelL10nStr) {
 		$this->labelLstr = $labelL10nStr;
 	}
@@ -69,7 +96,7 @@ abstract class MagAdapter implements Mag {
 	 * @see \n2n\web\dispatch\mag\Mag::setupMappingDefinition()
 	 */
 	public function setupMappingDefinition(MappingDefinition $md) {
-		$md->getMappingResult()->setLabel($this->propertyName, (string) $this->labelLstr);
+		$md->getMappingResult()->setLabel($this->getPropertyName(), (string) $this->labelLstr);
 	}
 	
 	/**
@@ -101,5 +128,9 @@ abstract class MagAdapter implements Mag {
 	}
 	
 	public function whenAssigned(MagCollection $magCollection) {
+	}
+
+	public function getNature(): int {
+		return 0;
 	}
 }

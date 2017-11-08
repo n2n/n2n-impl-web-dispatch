@@ -22,6 +22,7 @@
 namespace n2n\impl\web\dispatch\mag\model;
 
 use n2n\impl\web\dispatch\map\val\ValIsset;
+use n2n\l10n\Lstr;
 use n2n\web\dispatch\map\PropertyPath;
 use n2n\impl\web\ui\view\html\HtmlView;
 use n2nutil\jquery\datepicker\DatePickerHtmlBuilder;
@@ -31,47 +32,83 @@ use n2n\web\dispatch\map\bind\BindingDefinition;
 use n2n\web\dispatch\property\ManagedProperty;
 use n2n\web\ui\UiComponent;
 
+/**
+ * Class DateTimeMag
+ * @package n2n\impl\web\dispatch\mag\model
+ */
 class DateTimeMag extends MagAdapter {
 	private $mandatory;
 	private $dateStyle;
 	private $timeStyle;
 	private $icuPattern;
 	private $inputAttrs;
-	
-	public function __construct($propertyName, $label, $dateStyle = null, $timeStyle = null, 
-			$icuPattern = null, \DateTime $value = null, $mandatory = false, array $inputAttrs = null) {
-		parent::__construct($propertyName, $label, $value);
+
+	/**
+	 * DateTimeMag constructor.
+	 * @param string|Lstr $label
+	 * @param string $dateStyle
+	 * @param string $timeStyle
+	 * @param string $icuPattern
+	 * @param \DateTime|null $value
+	 * @param bool $mandatory
+	 * @param array|null $inputAttrs
+	 */
+	public function __construct($label, string $dateStyle = null, string $timeStyle = null,
+			string $icuPattern = null, \DateTime $value = null, bool $mandatory = false, array $inputAttrs = null) {
+		parent::__construct($label, $value);
 		$this->mandatory = $mandatory;
 		$this->dateStyle = $dateStyle;
 		$this->timeStyle = $timeStyle;
 		$this->icuPattern = $icuPattern;
 		$this->inputAttrs = $inputAttrs;
-	}	
-	
-	public function getDateStyle() {
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getDateStyle(): string {
 		return $this->dateStyle;
 	}
 
-	public function setDateStyle($dateStyle) {
+	/**
+	 * @param string $dateStyle
+	 */
+	public function setDateStyle(string $dateStyle) {
 		$this->dateStyle = $dateStyle;
 	}
 
-	public function getTimeStyle() {
+	/**
+	 * @return string
+	 */
+	public function getTimeStyle(): string {
 		return $this->timeStyle;
 	}
 
-	public function setTimeStyle($timeStyle) {
+	/**
+	 * @param string $timeStyle
+	 */
+	public function setTimeStyle(string $timeStyle) {
 		$this->timeStyle = $timeStyle;
 	}
 
-	public function getIcuPattern() {
+	/**
+	 * @return string
+	 */
+	public function getIcuPattern(): string {
 		return $this->icuPattern;
 	}
 
-	public function setIcuPattern($icuPattern) {
+	/**
+	 * @param string $icuPattern
+	 */
+	public function setIcuPattern(string $icuPattern) {
 		$this->icuPattern = $icuPattern;
 	}
 
+	/**
+	 * @param AccessProxy $accessProxy
+	 * @return ManagedProperty
+	 */
 	public function createManagedProperty(AccessProxy $accessProxy): ManagedProperty {
 		$dateTimeProperty = new DateTimeProperty($accessProxy, false);
 		
@@ -87,15 +124,22 @@ class DateTimeMag extends MagAdapter {
 		
 		return $dateTimeProperty;
 	}
-	
+
+	/**
+	 * @param BindingDefinition $bd
+	 */
 	public function setupBindingDefinition(BindingDefinition $bd) {
 		if ($this->mandatory) {
 			$bd->val($this->propertyName, new ValIsset());
 		}
 	}
-	
-	public function createUiField(PropertyPath $propertyPath, HtmlView $htmlView): UiComponent {
-		$datePickerHtml = new DatePickerHtmlBuilder($htmlView);
-		return $datePickerHtml->getFormDatePicker($propertyPath, $this->inputAttrs);
+
+	/**
+	 * @param PropertyPath $propertyPath
+	 * @param HtmlView $view
+	 * @return UiComponent
+	 */
+	public function createUiField(PropertyPath $propertyPath, HtmlView $view): UiComponent {
+		return $view->getFormHtmlBuilder()->getInput($propertyPath);
 	}
 }

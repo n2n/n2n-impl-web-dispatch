@@ -27,12 +27,21 @@ use n2n\web\dispatch\property\ManagedProperty;
 use n2n\impl\web\dispatch\property\ScalarProperty;
 
 abstract class ScalarMagAdapter extends MagAdapter {
-	
 
-	public function __construct(string $propertyName, $labelLstr, $value = null, array $containerAttrs = null) {
-		parent::__construct($propertyName, $labelLstr, $value, $containerAttrs);
+	/**
+	 * ScalarMagAdapter constructor.
+	 * @param $labelLstr
+	 * @param null $value
+	 * @param array|null $containerAttrs
+	 */
+	public function __construct($labelLstr, $value = null, array $containerAttrs = null) {
+		parent::__construct($labelLstr, $value, $containerAttrs);
 	}
-	
+
+	/**
+	 * @param AccessProxy $accessProxy
+	 * @return ManagedProperty
+	 */
 	public function createManagedProperty(AccessProxy $accessProxy): ManagedProperty {
 		return new ScalarProperty($accessProxy, false);		
 	}

@@ -31,65 +31,116 @@ use n2n\impl\web\dispatch\map\val\ValNotEmpty;
 use n2n\web\dispatch\property\ManagedProperty;
 use n2n\web\ui\UiComponent;
 
+/**
+ * Class NumericMag
+ * @package n2n\impl\web\dispatch\mag\model
+ */
 class NumericMag extends MagAdapter {
 	private $mandatory;
 	private $minValue;
 	private $maxValue;
 	private $decimalPlaces;
 	private $inputAttrs;
-	
-	public function __construct($propertyName, $label, $value = null, $mandatory = false, 
+
+	/**
+	 * NumericMag constructor.
+	 * @param $label
+	 * @param null $value
+	 * @param bool $mandatory
+	 * @param null $minValue
+	 * @param null $maxValue
+	 * @param int $decimalPlaces
+	 * @param array|null $containerAttrs
+	 * @param array|null $inputAttrs
+	 */
+	public function __construct($label, $value = null, $mandatory = false,
 			$minValue = null, $maxValue = null, $decimalPlaces = 0, array $containerAttrs = null, array $inputAttrs = null) {
-		parent::__construct($propertyName, $label, $value, $containerAttrs);
+		parent::__construct($label, $value, $containerAttrs);
 		$this->mandatory = (bool) $mandatory;
 		$this->value = $value;
 		$this->minValue = $minValue;
 		$this->maxValue = $maxValue;
 		$this->decimalPlaces = (int) $decimalPlaces;
 		$this->inputAttrs = $inputAttrs;
-	}	
-	
+	}
+
+	/**
+	 * @return bool
+	 */
 	public function isMandatory(): bool {
 		return $this->mandatory;
 	}
-	
+
+	/**
+	 * @param $mandatory
+	 */
 	public function setMandatory($mandatory) {
 		$this->mandatory = (bool) $mandatory;
 	}
-	
+
+	/**
+	 * @param $minValue
+	 */
 	public function setMinValue($minValue) {
 		$this->minValue = $minValue;
 	}
-	
+
+	/**
+	 * @return null
+	 */
 	public function getMinValue() {
 		return $this->minValue;
 	}
-	
+
+	/**
+	 * @param $maxValue
+	 */
 	public function setMaxValue($maxValue) {
 		$this->maxValue = $maxValue;
 	}
-	
+
+	/**
+	 * @return null
+	 */
 	public function getMaxValue() {
 		return $this->maxValue;
 	}
-	
+
+	/**
+	 * @param $decimalPlace
+	 */
 	public function setDecimalPlaces($decimalPlace) {
 		$this->decimalPlaces = $decimalPlace;
 	}
-	
+
+	/**
+	 * @return int
+	 */
 	public function getDecimalPlaces() {
 		return $this->decimalPlaces;
 	}
-		
+
+	/**
+	 * @param PropertyPath $propertyPath
+	 * @param HtmlView $view
+	 * @return UiComponent
+	 */
 	public function createUiField(PropertyPath $propertyPath, HtmlView $view): UiComponent {
 		return $view->getFormHtmlBuilder()->getInput($propertyPath, 
 				array('min' => $this->minValue, 'max' => $this->maxValue), ($this->decimalPlaces > 0 ? null : 'number'));
 	}
-	
+
+	/**
+	 * @param AccessProxy $accessProxy
+	 * @return ManagedProperty
+	 */
 	public function createManagedProperty(AccessProxy $accessProxy): ManagedProperty {
 		return new ScalarProperty($accessProxy, false);
 	}
 
+	/**
+	 * @param BindingDefinition $bd
+	 */
 	public function setupBindingDefinition(BindingDefinition $bd) {
 		if ($this->mandatory) {
 			$bd->val($this->getPropertyName(), new ValNotEmpty());

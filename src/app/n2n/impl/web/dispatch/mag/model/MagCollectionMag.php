@@ -32,16 +32,29 @@ use n2n\reflection\ArgUtils;
 use n2n\web\ui\UiComponent;
 use n2n\web\dispatch\property\ManagedProperty;
 
+/**
+ * Class MagCollectionMag
+ * @package n2n\impl\web\dispatch\mag\model
+ */
 class MagCollectionMag extends MagAdapter {
 	private $magCollection;
-	
-	public function __construct($propertyName, $label, MagCollection $magCollection, 
+
+	/**
+	 * MagCollectionMag constructor.
+	 * @param $label
+	 * @param MagCollection $magCollection
+	 * @param array|null $containerAttrs
+	 */
+	public function __construct($label, MagCollection $magCollection,
 			array $containerAttrs = null) {
-		parent::__construct($propertyName, $label, 
+		parent::__construct($label,
 				HtmlUtils::mergeAttrs(array('class' => 'n2n-option-collection-option'), (array) $containerAttrs));
 		$this->magCollection = $magCollection;
 	}
-	
+
+	/**
+	 * @return MagCollection
+	 */
 	public function getMagCollection() {
 		return $this->magCollection;
 	}
@@ -64,26 +77,41 @@ class MagCollectionMag extends MagAdapter {
 	public function createManagedProperty(AccessProxy $accessProxy): ManagedProperty {
 		return new ObjectProperty($accessProxy, false);
 	}
-	
+
+	/**
+	 * @return array
+	 */
 	public function getValue() {
 		return $this->magCollection->readValues();
 	}
-	
+
+	/**
+	 * @param mixed $value
+	 */
 	public function setValue($value) {
 		ArgUtils::valType($value, 'array');
 		
 		$this->magCollection->writeValues($value);
 	}
-	
+
+	/**
+	 * @return MagForm
+	 */
 	public function getFormValue() {
 		return new MagForm($this->magCollection);
 	}
-	
+
+	/**
+	 * @param mixed $formValue
+	 */
 	public function setFormValue($formValue){
 		ArgUtils::valObject($formValue, MagForm::class);
 		$this->magCollection = $formValue->getMagCollection();
 	}
-	
+
+	/**
+	 * @param BindingDefinition $bindingDefinition
+	 */
 	public function setupBindingDefinition(BindingDefinition $bindingDefinition) {
 		
 	}
