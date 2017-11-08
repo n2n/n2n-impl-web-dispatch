@@ -33,8 +33,8 @@ namespace n2n\impl\web\dispatch\mag\model;
 // class StaticMagCollectionArrayMag extends MagAdapter {
 // 	private $fields = array();
 	
-// 	public function __construct($propertyName, $label) {
-// 		parent::__construct($propertyName, $label, array(), true);
+// 	public function __construct($label) {
+// 		parent::__construct($label, array(), true);
 // 	}
 	
 // 	public function createManagedProperty($propertyName, DispatchableTypeAnalyzer $typeAnalyzer) {

@@ -25,17 +25,16 @@ use n2n\impl\web\dispatch\map\val\ValNotEmpty;
 use n2n\impl\web\ui\view\html\HtmlElement;
 use n2n\l10n\DynamicTextCollection;
 use n2n\l10n\Lstr;
-use n2n\web\dispatch\mag\UiOutfitter;
 use n2n\web\dispatch\map\PropertyPath;
 use n2n\impl\web\ui\view\html\HtmlView;
 use n2n\impl\web\dispatch\map\val\ValEnum;
 use n2n\reflection\property\AccessProxy;
 use n2n\impl\web\dispatch\property\ScalarProperty;
 use n2n\web\dispatch\map\bind\BindingDefinition;
-use n2n\impl\web\ui\view\html\HtmlBuilderMeta;
 use n2n\web\dispatch\property\ManagedProperty;
 use n2n\web\ui\Raw;
 use n2n\web\ui\UiComponent;
+use n2n\web\dispatch\mag\UiOutfitter;
 
 /**
  * Class EnumArrayMag

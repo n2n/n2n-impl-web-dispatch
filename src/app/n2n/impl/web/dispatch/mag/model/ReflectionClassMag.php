@@ -46,9 +46,9 @@ class ReflectionClassMag extends MagAdapter {
 	private $inputAttrs;
 	private $isAClass;
 		
-	public function __construct($propertyName, $label, \ReflectionClass $isAClass, $value = null, 
+	public function __construct($label, \ReflectionClass $isAClass, $value = null, 
 			$mandatory = false, $maxlength = null, array $inputAttrs = null) {
-		parent::__construct($propertyName, $label, $value);
+		parent::__construct($label, $value);
 		
 		$this->mandatory = $mandatory;
 		$this->maxlength = $maxlength;

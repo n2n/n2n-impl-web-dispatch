@@ -23,8 +23,6 @@ namespace n2n\impl\web\dispatch\mag\model;
 
 use n2n\io\managed\File;
 use n2n\io\managed\FileManager;
-use n2n\io\managed\impl\CommonFile;
-use n2n\io\managed\impl\PublicFileManager;
 
 class ManagedFileMag extends FileMag {
 	

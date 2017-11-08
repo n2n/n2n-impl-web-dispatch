@@ -34,8 +34,8 @@ class EnablerMag extends BoolMag {
 	private $associatedMagWrappers;
 	private $htmlId;
 	
-	public function __construct($propertyName, $labelLstr, bool $value = false, array $associatedMagWrappers = null) {
-		parent::__construct($propertyName, $labelLstr, $value);
+	public function __construct($labelLstr, bool $value = false, array $associatedMagWrappers = null) {
+		parent::__construct($labelLstr, $value);
 		$this->setAssociatedMags((array) $associatedMagWrappers);
 		$this->htmlId = HtmlUtils::buildUniqueId('n2n-impl-web-dispatch-enabler-group-');
 		$this->setInputAttrs(array());

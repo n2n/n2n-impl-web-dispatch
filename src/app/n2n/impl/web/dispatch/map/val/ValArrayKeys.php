@@ -23,7 +23,6 @@ namespace n2n\impl\web\dispatch\map\val;
 
 use n2n\web\dispatch\map\val\SinglePropertyValidator;
 use n2n\web\dispatch\map\val\ValidationUtils;
-use n2n\core\N2N;
 use n2n\reflection\ArgUtils;
 
 class ValArrayKeys extends SinglePropertyValidator {

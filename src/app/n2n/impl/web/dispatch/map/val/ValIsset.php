@@ -23,7 +23,6 @@ namespace n2n\impl\web\dispatch\map\val;
 
 use n2n\l10n\Message;
 use n2n\web\dispatch\map\val\ValidationUtils;
-use n2n\core\N2N;
 use n2n\web\dispatch\map\val\SimplePropertyValidator;
 
 class ValIsset extends SimplePropertyValidator {

@@ -24,7 +24,6 @@ namespace n2n\impl\web\dispatch\map\val;
 use n2n\web\dispatch\map\val\SinglePropertyValidator;
 use n2n\web\dispatch\map\val\ValidationUtils;
 use n2n\reflection\ArgUtils;
-use n2n\core\N2N;
 
 class ValMandatoryArrayKeys extends SinglePropertyValidator {
 	const DEFAULT_ERROR_TEXT_CODE = 'n2n.dispatch.val.ValMandatoryArrayKeys'; 

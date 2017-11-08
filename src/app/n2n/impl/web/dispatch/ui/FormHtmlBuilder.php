@@ -34,8 +34,6 @@ use n2n\util\ex\NotYetImplementedException;
 use n2n\util\ex\IllegalStateException;
 use n2n\web\dispatch\map\PropertyPath;
 use n2n\web\dispatch\DispatchContext;
-use n2nutil\bootstrap\mag\BsUiOutfitter;
-use n2nutil\bootstrap\ui\BsComposer;
 
 class FormHtmlBuilder {
 	private $view;

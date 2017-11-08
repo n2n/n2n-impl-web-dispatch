@@ -24,7 +24,6 @@ namespace n2n\impl\web\dispatch\ui;
 use n2n\impl\web\ui\view\html\HtmlView;
 use n2n\l10n\DynamicTextCollection;
 use n2n\impl\web\ui\view\html\HtmlElement;
-use n2n\impl\web\dispatch\ui\FormHtmlBuilder;
 use n2n\impl\web\ui\view\html\HtmlSnippet;
 use n2n\impl\web\ui\view\html\HtmlUtils;
 use n2n\web\dispatch\Dispatchable;

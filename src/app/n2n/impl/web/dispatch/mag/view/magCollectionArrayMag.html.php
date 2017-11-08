@@ -21,10 +21,9 @@
  */
 
 use n2n\web\dispatch\map\PropertyPath;
-use \n2n\web\dispatch\mag\UiOutfitter;
 use n2n\impl\web\ui\view\html\HtmlView;
 use n2n\impl\web\ui\view\html\HtmlElement;
-use \n2n\impl\web\ui\view\html\HtmlUtils;
+use n2n\web\dispatch\mag\UiOutfitter;
 /**
  * @var \n2n\web\ui\view\View $view
  */
@@ -36,7 +35,7 @@ $propertyPath = $view->getParam('propertyPath');
 $view->assert($propertyPath instanceof PropertyPath);
 
 $uiOutfitter = $view->getParam('uiOutfitter');
-$view->assert($uiOutfitter instanceof \n2n\web\dispatch\mag\UiOutfitter);
+$view->assert($uiOutfitter instanceof UiOutfitter);
 
 $numExisting = $view->getParam('numExisting');
 $num = $view->getParam('num');

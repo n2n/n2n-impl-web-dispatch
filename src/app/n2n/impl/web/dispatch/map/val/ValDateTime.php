@@ -24,7 +24,6 @@ namespace n2n\impl\web\dispatch\map\val;
 use n2n\web\dispatch\map\val\SimplePropertyValidator;
 use n2n\reflection\ArgUtils;
 use n2n\web\dispatch\map\val\ValidationUtils;
-use n2n\core\N2N;
 
 class ValDateTime extends SimplePropertyValidator {
 	const DEFAULT_MIN_ERROR_TEXT_CODE = 'n2n.dispatch.val.ValDateTime.min';

@@ -23,7 +23,6 @@ namespace n2n\impl\web\dispatch\map\val;
 
 use n2n\web\dispatch\map\val\SimplePropertyValidator;
 use n2n\reflection\ArgUtils;
-use n2n\core\N2N;
 use n2n\io\managed\File;
 
 class ValFileExtensions extends SimplePropertyValidator {

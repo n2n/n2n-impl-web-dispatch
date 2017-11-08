@@ -31,7 +31,6 @@ use n2n\l10n\MessageCode;
 use n2n\web\dispatch\map\PropertyPathPart;
 use n2n\web\dispatch\map\MappingResult;
 use n2n\l10n\Message;
-use n2n\core\N2N;
 use n2n\web\dispatch\target\ObjectItem;
 use n2n\web\dispatch\target\build\ParamInvestigator;
 

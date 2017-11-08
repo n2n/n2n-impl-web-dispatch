@@ -37,9 +37,9 @@ class EnumEnablerMag extends EnumMag {
 	private $htmlId;
 	private $disabledIgnored = true;
 	
-	public function __construct($propertyName, $labelLstr, array $options, $value = null, bool $mandatory = false, 
+	public function __construct($labelLstr, array $options, $value = null, bool $mandatory = false, 
 			array $associatedMagWrapperMap = null) {
-		parent::__construct($propertyName, $labelLstr, $options, $value, $mandatory);
+		parent::__construct($labelLstr, $options, $value, $mandatory);
 		
 		$this->setAssociatedMagWrapperMap((array) $associatedMagWrapperMap);
 		$this->htmlId = HtmlUtils::buildUniqueId('n2n-impl-web-dispatch-enum-enabler-group');

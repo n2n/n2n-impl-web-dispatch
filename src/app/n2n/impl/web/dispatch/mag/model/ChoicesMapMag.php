@@ -32,8 +32,8 @@ use n2n\web\dispatch\mag\UiOutfitter;
 
 class ChoicesMapMag extends MagAdapter {
 	
-	public function __construct($propertyName, $label, array $options) {
-		parent::__construct($propertyName, $label, $options);
+	public function __construct($label, array $options) {
+		parent::__construct($label, $options);
 	}
 	
 	public function setupBindingDefinition(BindingDefinition $bindingDefinition) {
