@@ -31,6 +31,7 @@ use n2n\reflection\property\AccessProxy;
 use n2n\web\dispatch\map\bind\BindingDefinition;
 use n2n\web\dispatch\property\ManagedProperty;
 use n2n\web\ui\UiComponent;
+use n2n\web\dispatch\mag\UiOutfitter;
 
 /**
  * Class DateTimeMag
@@ -139,7 +140,7 @@ class DateTimeMag extends MagAdapter {
 	 * @param HtmlView $view
 	 * @return UiComponent
 	 */
-	public function createUiField(PropertyPath $propertyPath, HtmlView $view): UiComponent {
+	public function createUiField(PropertyPath $propertyPath, HtmlView $view, UiOutfitter $uiOutfitter): UiComponent {
 		return $view->getFormHtmlBuilder()->getInput($propertyPath);
 	}
 }

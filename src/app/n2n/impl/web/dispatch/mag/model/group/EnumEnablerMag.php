@@ -30,6 +30,7 @@ use n2n\web\dispatch\mag\MagWrapper;
 use n2n\impl\web\dispatch\mag\model\EnumMag;
 use n2n\reflection\property\TypeConstraint;
 use n2n\web\dispatch\map\bind\MappingDefinition;
+use n2n\web\dispatch\mag\UiOutfitter;
 
 class EnumEnablerMag extends EnumMag {
 	private $associatedMagWrapperMap;
@@ -106,7 +107,7 @@ class EnumEnablerMag extends EnumMag {
 		}
 	}
 	
-	public function createUiField(PropertyPath $propertyPath, HtmlView $view): UiComponent {
+	public function createUiField(PropertyPath $propertyPath, HtmlView $view, UiOutfitter $uiOutfitter): UiComponent {
 // 		$view->getHtmlBuilder()->meta()->addLibrary(new JQueryLibrary(3, true));
 // 		$view->getHtmlBuilder()->meta()->bodyEnd()->addJs('js/ajah.js', 'n2n\impl\web\ui');
 		$view->getHtmlBuilder()->meta()->addJs('js/group.js', 'n2n\impl\web\dispatch');

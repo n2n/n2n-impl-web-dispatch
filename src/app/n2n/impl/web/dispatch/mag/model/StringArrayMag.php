@@ -75,7 +75,7 @@ class StringArrayMag extends MagAdapter {
 	 * @param HtmlView $view
 	 * @return UiComponent
 	 */
-	public function createUiField(PropertyPath $propertyPath, HtmlView $view): UiComponent {
+	public function createUiField(PropertyPath $propertyPath, HtmlView $view, UiOutfitter $uiOutfitter): UiComponent {
 		$formHtml = $view->getFormHtmlBuilder();
 		$StringMags = $formHtml->meta()->getMapValue($propertyPath);
 		$uiComponent = new HtmlElement('ul', array('class' => 'n2n-option-array', 'data-num-existing' => count($StringMags)));

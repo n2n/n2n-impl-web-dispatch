@@ -68,7 +68,7 @@ namespace n2n\impl\web\dispatch\mag\model;
 // 	public function setupBindingDefinition(BindingConstraints $bindingConstraints) {
 // 	}
 	
-// 	public function createUiField(PropertyPath $propertyPath, HtmlView $view): UiComponent {
+// 	public function createUiField(PropertyPath $propertyPath, HtmlView $view, UiOutfitter $uiOutfitter): UiComponent {
 // 		return $view->getImport('\n2n\view\option\staticMagCollectionArrayMag.html',
 // 				array('propertyPath' => $propertyPath));
 // 	}

@@ -34,6 +34,7 @@ use n2n\web\dispatch\map\bind\BindingDefinition;
 use n2n\impl\web\dispatch\map\val\ValNotEmpty;
 use n2n\web\dispatch\property\ManagedProperty;
 use n2n\web\ui\UiComponent;
+use n2n\web\dispatch\mag\UiOutfitter;
 
 /**
  * Class FileMag
@@ -111,17 +112,19 @@ class FileMag extends MagAdapter {
 	 * @param HtmlView $htmlView
 	 * @return UiComponent
 	 */
-	public function createUiField(PropertyPath $propertyPath, HtmlView $htmlView): UiComponent {
+	public function createUiField(PropertyPath $propertyPath, HtmlView $htmlView, UiOutfitter $uo): UiComponent {
 		$allowedExtensionString = '';
 		$counter = 0;
-		foreach ($this->allowedExtensions as $allowedExtension) {
-			$allowedExtensionString .= $allowedExtension;
-
-			if (sizeof($this->allowedExtensions) !== ++$counter) {
-				$allowedExtensionString .= ',';
+		if ($this->allowedExtensions !== null) {
+			foreach ($this->allowedExtensions as $allowedExtension) {
+				$allowedExtensionString .= $allowedExtension;
+	
+				if (sizeof($this->allowedExtensions) !== ++$counter) {
+					$allowedExtensionString .= ',';
+				}
 			}
+			$this->inputAttrs['accept'] = $allowedExtensionString;
 		}
-		$this->inputAttrs['accept'] = $allowedExtensionString;
 		return $htmlView->getFormHtmlBuilder()->getInputFileWithLabel($propertyPath, $this->inputAttrs);
 	}
 }

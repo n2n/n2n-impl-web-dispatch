@@ -31,6 +31,7 @@ use n2n\web\dispatch\map\bind\BindingDefinition;
 use n2n\reflection\ArgUtils;
 use n2n\web\ui\UiComponent;
 use n2n\web\dispatch\property\ManagedProperty;
+use n2n\web\dispatch\mag\UiOutfitter;
 
 /**
  * Class MagCollectionMag
@@ -64,7 +65,7 @@ class MagCollectionMag extends MagAdapter {
 	 * @see \n2n\web\dispatch\mag\Mag::createUiField($propertyPath, $view)
 	 * @return UiComponent
 	 */
-	public function createUiField(PropertyPath $propertyPath, HtmlView $view): UiComponent {
+	public function createUiField(PropertyPath $propertyPath, HtmlView $view, UiOutfitter $uiOutfitter): UiComponent {
 		return $view->getImport('\n2n\impl\web\dispatch\mag\view\magCollectionOption.html',
 				array('propertyPath' => $propertyPath));
 	}

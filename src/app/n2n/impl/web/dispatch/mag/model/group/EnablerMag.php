@@ -28,6 +28,7 @@ use n2n\impl\web\ui\view\html\HtmlView;
 use n2n\impl\web\ui\view\html\HtmlUtils;
 use n2n\web\ui\UiComponent;
 use n2n\web\dispatch\mag\MagWrapper;
+use n2n\web\dispatch\mag\UiOutfitter;
 
 class EnablerMag extends BoolMag {
 	private $associatedMagWrappers;
@@ -68,7 +69,7 @@ class EnablerMag extends BoolMag {
 		return $this->associatedMagWrappers;
 	}
 	
-	public function createUiField(PropertyPath $propertyPath, HtmlView $view): UiComponent {
+	public function createUiField(PropertyPath $propertyPath, HtmlView $view, UiOutfitter $uiOutfitter): UiComponent {
 // 		$view->getHtmlBuilder()->meta()->addLibrary(new JQueryLibrary(3, true));
 // 		$view->getHtmlBuilder()->meta()->bodyEnd()->addJs('js/ajah.js', 'n2n\impl\web\ui');
 		$view->getHtmlBuilder()->meta()->addJs('js/group.js', 'n2n\impl\web\dispatch');

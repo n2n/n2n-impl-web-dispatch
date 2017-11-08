@@ -28,6 +28,7 @@ use n2n\web\ui\UiComponent;
 use n2n\web\dispatch\property\ManagedProperty;
 use n2n\web\dispatch\map\bind\BindingDefinition;
 use n2n\impl\web\dispatch\property\ObjectProperty;
+use n2n\web\dispatch\mag\UiOutfitter;
 
 class ChoicesMapMag extends MagAdapter {
 	
@@ -42,7 +43,7 @@ class ChoicesMapMag extends MagAdapter {
 		return new ObjectProperty($accessProxy, true);
 	}
 
-	public function createUiField(PropertyPath $propertyPath, HtmlView $view): UiComponent {
+	public function createUiField(PropertyPath $propertyPath, HtmlView $view, UiOutfitter $uiOutfitter): UiComponent {
 		return $view->getImport('\n2n\impl\web\dispatch\mag\view\choicesMapForm.html',
 				array('propertyPath' => $propertyPath));
 	}

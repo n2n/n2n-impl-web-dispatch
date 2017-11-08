@@ -376,7 +376,7 @@ class FormHtmlBuilder {
 		$propertyPath = $this->meta->createPropertyPath($propertyExpression);
 		$magWrapper = $this->meta->lookupMagWrapper($propertyPath);
 		$this->magStack[] = array('tagName' => $tagName, 'propertyPath' => $propertyPath, 'magWrapper' => $magWrapper,
-				'outfitter' => $uiOutfitter);
+				'outfitter' => $uiOutfitter ?? new BasicUiOutfitter());
 
 		return new Raw('<' . htmlspecialchars((string) $tagName) . HtmlElement::buildAttrsHtml(
 				HtmlUtils::mergeAttrs($magWrapper->getContainerAttrs($this->view), (array) $attrs)) . '>');
@@ -430,36 +430,36 @@ class FormHtmlBuilder {
 
 	// adventure zone
 
-	public function magGroup($propertyExpression = null, BsComposer $bsComposer = null) {
-		return $this->getMagGroup();
-	}
+// 	public function magGroup($propertyExpression = null, BsComposer $bsComposer = null) {
+// 		return $this->getMagGroup();
+// 	}
 
-	public function getMagGroup($propertyExpression = null, BsComposer $bsComposer = null) {
-		$propertyPath = $this->meta->createPropertyPath($propertyExpression);
+// 	public function getMagGroup($propertyExpression = null, BsComposer $bsComposer = null) {
+// 		$propertyPath = $this->meta->createPropertyPath($propertyExpression);
 
-		$magWrapper = $this->formHtml->meta()->lookupMagWrapper($propertyPath);
-		$mag = $magWrapper->getMag();
-		$containerAttrs = $magWrapper->getContainerAttrs($this->view);
+// 		$magWrapper = $this->formHtml->meta()->lookupMagWrapper($propertyPath);
+// 		$mag = $magWrapper->getMag();
+// 		$containerAttrs = $magWrapper->getContainerAttrs($this->view);
 
-		$bsUiOutfitter = new BasicUiOutfitter();
-		$nature = $mag->getNature();
+// 		$bsUiOutfitter = new BasicUiOutfitter();
+// 		$nature = $mag->getNature();
 
-		$uiLabel = null;
-		if ($nature & Mag::NATURE_GROUP) {
+// 		$uiLabel = null;
+// 		if ($nature & Mag::NATURE_GROUP) {
 
-		} else if (!($nature & Mag::NATURE_LABELLESS)) {
+// 		} else if (!($nature & Mag::NATURE_LABELLESS)) {
 
-		}
+// 		}
 
-		$uiControl = $magWrapper->getMag()->createUiField($propertyPath, $this->view, $bsUiOutfitter);
+// 		$uiControl = $magWrapper->getMag()->createUiField($propertyPath, $this->view, $bsUiOutfitter);
 
-		$htmlElement = $this->createUiFormGroup($propertyPath, $uiLabel, $uiControl, $bsConfig);
-		$htmlElement->setAttrs(HtmlUtils::mergeAttrs($containerAttrs, $htmlElement->getAttrs()));
+// 		$htmlElement = $this->createUiFormGroup($propertyPath, $uiLabel, $uiControl, $bsConfig);
+// 		$htmlElement->setAttrs(HtmlUtils::mergeAttrs($containerAttrs, $htmlElement->getAttrs()));
 
-		if ($nature & Mag::NATURE_GROUP) {
-			$htmlElement = new HtmlElement('fieldset', null, $htmlElement);
-		}
+// 		if ($nature & Mag::NATURE_GROUP) {
+// 			$htmlElement = new HtmlElement('fieldset', null, $htmlElement);
+// 		}
 
-		return $htmlElement;
-	}
+// 		return $htmlElement;
+// 	}
 }
