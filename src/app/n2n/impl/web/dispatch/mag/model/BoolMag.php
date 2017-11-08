@@ -33,6 +33,7 @@ use n2n\impl\web\dispatch\property\ScalarProperty;
 use n2n\web\dispatch\property\ManagedProperty;
 use n2n\web\ui\UiComponent;
 use n2n\reflection\ArgUtils;
+use n2n\l10n\N2nLocale;
 
 /**
  * Class BoolMag
@@ -82,6 +83,10 @@ class BoolMag extends MagAdapter {
 	public function setupBindingDefinition(BindingDefinition $bd) {
 	}
 
+	public function getLabel(N2nLocale $n2nLocale): string {
+		return '';
+	}
+	
 	/**
 	 * @param PropertyPath $propertyPath
 	 * @param HtmlView $view
@@ -92,7 +97,7 @@ class BoolMag extends MagAdapter {
 
 		$label = new HtmlElement('label', $uiOutfitter->buildAttrs(UiOutfitter::NATURE_CHECK_LABEL));
 		$label->appendLn($view->getFormHtmlBuilder()->getInputCheckbox($propertyPath, true, $inputAttrs));
-		$label->appendLn($this->getLabel($view->getN2nLocale()));
+		$label->appendLn($this->labelLstr->t($view->getN2nLocale()));
 
 		return $label;
 	}
