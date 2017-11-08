@@ -154,10 +154,12 @@ class AriaFormHtmlBuilder {
 		$this->view->out($this->getMessage($propertyExpression, $containerTagName, $containerAttrs));
 	}
 	
-	public function getMessage($propertyExpression = null, string $containerTagName = 'div', array $containerAttrs = null) {
+	public function getMessage($propertyExpression = null, string $containerTagName = 'div', array $containerAttrs = null,
+			bool $recursive = true, bool $markAsProcessed = true, bool $unprocessedOnly = true) {
 		$containerAttrs = HtmlUtils::mergeAttrs(array('id' => $this->createErrorId($propertyExpression)), 
 				(array) $containerAttrs);
-		return $this->formHtml->getMessage($propertyExpression, $containerTagName, $containerAttrs);
+		return $this->formHtml->getMessage($propertyExpression, $containerTagName, $containerAttrs, 
+				$recursive, $markAsProcessed, $unprocessedOnly);
 	}
 
 	private function createErrorId($propertyExpression = null) {

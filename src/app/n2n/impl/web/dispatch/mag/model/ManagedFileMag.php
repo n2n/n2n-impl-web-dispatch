@@ -27,7 +27,7 @@ use n2n\io\managed\FileManager;
 class ManagedFileMag extends FileMag {
 	
 	/**
-	 * @var \n2n\io\fs\PersistableFileManager
+	 * @var FileManager
 	 */
 	private $fileManager;
 	private $value;
