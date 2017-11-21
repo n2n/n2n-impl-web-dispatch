@@ -32,6 +32,7 @@ use n2n\reflection\property\AccessProxy;
 use n2n\web\dispatch\map\bind\BindingDefinition;
 use n2n\web\dispatch\property\ManagedProperty;
 use n2n\web\ui\UiComponent;
+use n2n\web\dispatch\mag\UiOutfitter;
 
 /**
  * Class MultiSelectMag
@@ -102,7 +103,7 @@ class MultiSelectMag extends MagAdapter {
 	 * @param HtmlView $htmlView
 	 * @return UiComponent
 	 */
-	public function createUiField(PropertyPath $propertyPath, HtmlView $htmlView): UiComponent {
+	public function createUiField(PropertyPath $propertyPath, HtmlView $htmlView, UiOutfitter $uiOutfitter): UiComponent {
 		$ul = new HtmlElement('ul', array('class' => 'n2n-multiselect-option'));
 		
 		$formHtml = $htmlView->getFormHtmlBuilder();

@@ -31,6 +31,7 @@ use n2n\reflection\property\AccessProxy;
 use n2n\impl\web\dispatch\property\ScalarProperty;
 use n2n\web\dispatch\property\ManagedProperty;
 use n2n\web\ui\UiComponent;
+use n2n\web\dispatch\mag\UiOutfitter;
 
 /**
  * It is !!!VERY DANGEROUS!!! to use this Mag 
@@ -83,7 +84,7 @@ class ClassNameMag extends MagAdapter {
 		$bd->val($this->propertyName, new ValReflectionClass($this->isAClass));
 	}
 	
-	public function createUiField(PropertyPath $propertyPath, HtmlView $htmlView): UiComponent {
+	public function createUiField(PropertyPath $propertyPath, HtmlView $htmlView, UiOutfitter $uiOutfitter): UiComponent {
 		return $htmlView->getFormHtmlBuilder()->getInput($propertyPath, $this->inputAttrs);
 	}
 }
