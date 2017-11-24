@@ -24,6 +24,7 @@ namespace n2n\impl\web\dispatch\mag\model;
 use n2n\impl\web\dispatch\map\val\ValIsset;
 use n2n\l10n\Lstr;
 use n2n\web\dispatch\map\PropertyPath;
+use n2n\impl\web\ui\view\html\HtmlUtils;
 use n2n\impl\web\ui\view\html\HtmlView;
 use n2n\impl\web\dispatch\property\DateTimeProperty;
 use n2n\reflection\property\AccessProxy;
@@ -41,7 +42,7 @@ class DateTimeMag extends MagAdapter {
 	private $dateStyle;
 	private $timeStyle;
 	private $icuPattern;
-	private $inputAttrs;
+	protected $inputAttrs;
 
 	/**
 	 * DateTimeMag constructor.
@@ -140,6 +141,9 @@ class DateTimeMag extends MagAdapter {
 	 * @return UiComponent
 	 */
 	public function createUiField(PropertyPath $propertyPath, HtmlView $view, UiOutfitter $uiOutfitter): UiComponent {
-		return $view->getFormHtmlBuilder()->getInput($propertyPath);
+		$attrs = HtmlUtils::mergeAttrs($uiOutfitter->buildAttrs(UiOutfitter::NATURE_TEXT|UiOutfitter::NATURE_MAIN_CONTROL), 
+				$this->inputAttrs);
+		
+		return $view->getFormHtmlBuilder()->getInput($propertyPath, $attrs);
 	}
 }

@@ -33,6 +33,7 @@ use n2n\web\dispatch\property\ManagedProperty;
 use n2n\l10n\N2nLocale;
 use n2n\l10n\Lstr;
 use n2n\web\dispatch\mag\UiOutfitter;
+use n2n\impl\web\ui\view\html\HtmlUtils;
 
 /**
  * Class EnumMag
@@ -131,8 +132,12 @@ class EnumMag extends MagAdapter {
 	 * @param HtmlView $view
 	 * @return UiComponent
 	 */
-	public function createUiField(PropertyPath $propertyPath, HtmlView $view, UiOutfitter $uiOutfitter): UiComponent {
-		return $view->getFormHtmlBuilder()->getSelect($propertyPath, $this->buildOptions($view->getN2nLocale()), $this->inputAttrs);
+	public function createUiField(PropertyPath $propertyPath, HtmlView $view, UiOutfitter $uo): UiComponent {
+		$attrs = HtmlUtils::mergeAttrs(
+				$uo->buildAttrs(UiOutfitter::NATURE_SELECT|UiOutfitter::NATURE_MAIN_CONTROL), $this->inputAttrs);
+		
+		return $view->getFormHtmlBuilder()->getSelect($propertyPath, $this->buildOptions($view->getN2nLocale()), 
+				$attrs);
 	}
 
 	/**
