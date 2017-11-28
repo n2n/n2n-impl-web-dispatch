@@ -78,6 +78,6 @@ class EnablerMag extends BoolMag {
 			$associatedMagWrapper->addMarkAttrs(array('class' => $this->htmlId));
 		}
 			
-		return parent::createUiField($propertyPath, $view);
+		return parent::createUiField($propertyPath, $view, $uiOutfitter);
 	}
 }
