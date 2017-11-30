@@ -23,11 +23,18 @@
 		}
 	};
 	
-	n2n.dispatch.registerCallback(boolEnabler);
 	if (document.readyState === "complete" || document.readyState === "interactive") {
 		boolEnabler();
 	} else {
 		document.addEventListener("DOMContentLoaded", boolEnabler);
+	}
+	
+	if (n2n.dispatch) {
+		n2n.dispatch.registerCallback(boolEnabler);
+	}
+	
+	if (Jhtml) {
+		Jhtml.ready(boolEnabler);
 	}
 	
 	
@@ -60,10 +67,17 @@
 		}
 	};
 		
-	n2n.dispatch.registerCallback(enumEnablerFunc);
 	if (document.readyState === "complete" || document.readyState === "interactive") {
 		enumEnablerFunc();
 	} else {
 		document.addEventListener("DOMContentLoaded", enumEnablerFunc);
+	}
+	
+	if (n2n.dispatch) {
+		n2n.dispatch.registerCallback(enumEnablerFunc);
+	}
+	
+	if (Jhtml) {
+		Jhtml.ready(enumEnablerFunc);
 	}
 })();
