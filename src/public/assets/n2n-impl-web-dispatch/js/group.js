@@ -34,8 +34,8 @@
 		};
 		
 		for (var i = 0, ii = enablerElems.length; i < ii; i++) {
-			enablerElems[i].removeEventListener("click", callback);
-			enablerElems[i].addEventListener("click", callback);
+			enablerElems[i].removeEventListener("change", callback);
+			enablerElems[i].addEventListener("change", callback);
 			
 			updateEnabler(enablerElems[i]);
 		}
