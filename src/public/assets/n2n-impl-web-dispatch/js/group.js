@@ -24,7 +24,11 @@
 	};
 	
 	n2n.dispatch.registerCallback(boolEnabler);
-	document.addEventListener("DOMContentLoaded", boolEnabler);
+	if (document.readyState === "complete" || document.readyState === "interactive") {
+		boolEnabler();
+	} else {
+		document.addEventListener("DOMContentLoaded", boolEnabler);
+	}
 	
 	
 	var enumEnablerFunc = function () {
@@ -57,5 +61,9 @@
 	};
 		
 	n2n.dispatch.registerCallback(enumEnablerFunc);
-	document.addEventListener("DOMContentLoaded", enumEnablerFunc);
+	if (document.readyState === "complete" || document.readyState === "interactive") {
+		enumEnablerFunc();
+	} else {
+		document.addEventListener("DOMContentLoaded", enumEnablerFunc);
+	}
 })();
