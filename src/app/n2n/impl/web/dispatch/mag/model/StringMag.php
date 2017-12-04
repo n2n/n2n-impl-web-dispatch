@@ -153,7 +153,7 @@ class StringMag extends MagAdapter {
 
 		if ($this->isMultiline()) {
 			$attrs = HtmlUtils::mergeAttrs(
-					$uo->buildAttrs(UiOutfitter::NATURE_TEXTAREA|UiOutfitter::NATURE_MAIN_CONTROL), $this->inputAttrs);
+					$uo->buildAttrs(UiOutfitter::NATURE_TEXT_AREA|UiOutfitter::NATURE_MAIN_CONTROL), $this->inputAttrs);
 			return $htmlView->getFormHtmlBuilder()->getTextarea($propertyPath, $attrs);
 		}
 
