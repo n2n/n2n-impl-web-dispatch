@@ -20,27 +20,27 @@
  * Thomas Günther.......: Developer, Hangar
  */
 
-use n2n\web\dispatch\map\PropertyPath;
-use n2n\impl\web\ui\view\html\HtmlView;
-use n2n\impl\web\ui\view\html\HtmlElement;
-use n2n\web\dispatch\mag\UiOutfitter;
-/**
- * @var \n2n\web\ui\view\View $view
- */
-$view = HtmlView::view($view);
-$html = HtmlView::html($view);
-$formHtml = HtmlView::formHtml($view);
-
-$propertyPath = $view->getParam('propertyPath');
-$view->assert($propertyPath instanceof PropertyPath);
-
-$uiOutfitter = $view->getParam('uiOutfitter');
-$view->assert($uiOutfitter instanceof UiOutfitter);
-
-$numExisting = $view->getParam('numExisting');
-$num = $view->getParam('num');
-
-$itemAttrsHtml = HtmlElement::buildAttrsHtml($uiOutfitter->buildAttrs(UiOutfitter::NATURE_MASSIVE_ARRAY_ITEM));
+	use n2n\web\dispatch\map\PropertyPath;
+	use n2n\impl\web\ui\view\html\HtmlView;
+	use n2n\impl\web\ui\view\html\HtmlElement;
+	use n2n\web\dispatch\mag\UiOutfitter;
+	/**
+	 * @var \n2n\web\ui\view\View $view
+	 */
+	$view = HtmlView::view($view);
+	$html = HtmlView::html($view);
+	$formHtml = HtmlView::formHtml($view);
+	
+	$propertyPath = $view->getParam('propertyPath');
+	$view->assert($propertyPath instanceof PropertyPath);
+	
+	$uiOutfitter = $view->getParam('uiOutfitter');
+	$view->assert($uiOutfitter instanceof UiOutfitter);
+	
+	$numExisting = $view->getParam('numExisting');
+	$num = $view->getParam('num');
+	
+	$itemAttrsHtml = HtmlElement::buildAttrsHtml($uiOutfitter->buildAttrs(UiOutfitter::NATURE_MASSIVE_ARRAY_ITEM));
 ?>
 <div<?php $view->out(HtmlElement::buildAttrsHtml($uiOutfitter->buildAttrs(UiOutfitter::NATURE_MASSIVE_ARRAY))) ?>>
 	<?php $formHtml->meta()->arrayProps($propertyPath, function() use ($formHtml, $view, $uiOutfitter, $html, $itemAttrsHtml) { ?>
