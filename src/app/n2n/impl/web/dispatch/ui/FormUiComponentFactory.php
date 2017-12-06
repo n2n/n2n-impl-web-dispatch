@@ -24,6 +24,7 @@ namespace n2n\impl\web\dispatch\ui;
 use n2n\web\dispatch\map\PropertyPath;
 use n2n\web\dispatch\map\AnalyzerResult;
 use n2n\web\ui\Raw;
+use n2n\web\ui\UiException;
 use n2n\impl\web\ui\view\html\HtmlElement;
 use n2n\impl\web\ui\view\html\HtmlUtils;
 use n2n\web\dispatch\property\SimpleProperty;
@@ -40,6 +41,7 @@ use n2n\impl\web\dispatch\property\ObjectProperty;
 use n2n\reflection\ReflectionUtils;
 use n2n\web\ui\UiComponent;
 use n2n\impl\web\ui\view\html\HtmlSnippet;
+use n2n\impl\web\ui\view\html\AttributeNameIsReservedException;
 
 class FormUiComponentFactory {
 	const HTML_ID_PREFIX = 'n2n-';
@@ -108,7 +110,7 @@ class FormUiComponentFactory {
 	/**
 	 * @param mixed $fixedValue
 	 * @param AnalyzerResult $result
-	 * @return scalar
+	 * @return mixed scalar
 	 */
 	private function buildInputValue($fixedValue, AnalyzerResult $result) {
 		if ($fixedValue !== null) {
@@ -467,7 +469,7 @@ class FormUiComponentFactory {
 	
 	/**
 	 * @param PropertyPath $propertyPath
-	 * @param unknown $label
+	 * @param string|UiComponent $label
 	 * @param array $attrs
 	 * @return \n2n\impl\web\ui\view\html\HtmlElement
 	 * @throws AttributeNameIsReservedException
