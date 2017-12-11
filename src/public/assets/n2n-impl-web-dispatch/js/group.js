@@ -33,7 +33,7 @@
 		n2n.dispatch.registerCallback(boolEnabler);
 	}
 	
-	if (Jhtml) {
+	if (window.Jhtml) {
 		Jhtml.ready(boolEnabler);
 	}
 	
@@ -77,7 +77,7 @@
 		n2n.dispatch.registerCallback(enumEnablerFunc);
 	}
 	
-	if (Jhtml) {
+	if (window.Jhtml) {
 		Jhtml.ready(enumEnablerFunc);
 	}
 })();
