@@ -76,6 +76,13 @@ class Form {
 	}
 	
 	/**
+	 * @return \n2n\web\dispatch\Dispatchable
+	 */
+	public function getDispatchable() {
+		return $this->mappingPathResover->getBaseMappingResult()->getObject();
+	}
+	
+	/**
 	 * @return MappingPathResolver
 	 */
 	public function getMappingPathResolver(): MappingPathResolver {
@@ -172,7 +179,7 @@ class Form {
 				. self::ID_PART_SEPARATOR . self::ID_FORM_MARK_PART;
 		
 		$idSuffix = '';
-		foreach ($propertyPath as $propertyPathPart) {
+		foreach ($propertyPath->toArray() as $propertyPathPart) {
 			$idSuffix .= self::ID_PART_SEPARATOR . $propertyPathPart->getPropertyName();
 			if ($propertyPathPart->isArray()) {
 				$idSuffix .= self::ID_PART_SEPARATOR . $propertyPathPart->getArrayKey();
