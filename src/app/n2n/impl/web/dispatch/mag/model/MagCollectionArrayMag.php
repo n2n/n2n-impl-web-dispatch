@@ -176,6 +176,8 @@ class MagCollectionArrayMag extends MagAdapter {
 	 * @return UiComponent
 	 */
 	public function createUiField(PropertyPath $propertyPath, HtmlView $view, UiOutfitter $uiOutfitter): UiComponent {
+		$uiOutfitter->createMagDispatchableView($propertyPath, $view);
+
 		$numExisting = sizeof($view->getFormHtmlBuilder()->meta()->getMapValue($propertyPath));
 		$attrs = HtmlUtils::mergeAttrs($this->getContainerAttrs($view));
 		$this->setAttrs($attrs);
@@ -188,7 +190,7 @@ class MagCollectionArrayMag extends MagAdapter {
 		}
 
 		return $view->getImport('\n2n\impl\web\dispatch\mag\view\magCollectionArrayMag.html',
-			array('propertyPath' => $propertyPath, 'uiOutfitter' => $uiOutfitter, 'numExisting' => $numExisting, 'num' => $num));
+				array('propertyPath' => $propertyPath, 'uiOutfitter' => $uiOutfitter, 'numExisting' => $numExisting, 'num' => $num));
 	}
 
 	public function getNature(): int{
