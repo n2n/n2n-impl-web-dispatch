@@ -127,8 +127,11 @@ class NumericMag extends MagAdapter {
 	 * @return UiComponent
 	 */
 	public function createUiField(PropertyPath $propertyPath, HtmlView $view, UiOutfitter $uiOutfitter): UiComponent {
-		return $view->getFormHtmlBuilder()->getInput($propertyPath, 
-				array('min' => $this->minValue, 'max' => $this->maxValue), ($this->decimalPlaces > 0 ? null : 'number'));
+		$attrs = array_merge(array('min' => $this->minValue, 'max' => $this->maxValue),
+				$uiOutfitter->buildAttrs(UiOutfitter::NATURE_MAIN_CONTROL));
+
+		return $view->getFormHtmlBuilder()->getInput($propertyPath, $attrs,
+				($this->decimalPlaces > 0 ? null : 'number'));
 	}
 
 	/**
