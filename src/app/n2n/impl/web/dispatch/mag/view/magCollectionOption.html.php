@@ -30,6 +30,7 @@
 	$propertyPath = $view->getParam('propertyPath');
 	$view->assert($propertyPath instanceof PropertyPath);
 ?>
+
 <ul class="n2n-option-collection">
 	<?php $formHtml->meta()->objectProps($propertyPath, function () use ($view, $formHtml) { ?>
 		<?php $formHtml->magOpen('li') ?>

@@ -21,7 +21,7 @@
 	MagCollection.prototype.setupBtns = function() {
 		for (var i = 0; i < this.collectionItemElems.length; i++) {
 			var elem = this.collectionItemElems[i];
-			elem.appendChild(this.createRemoveBtn(elem));
+			$(elem).find('.mag-collection-control-wrapper').append(this.createRemoveBtn(elem));
 		}
 
 		this.containerElem.parentElement.appendChild(this.addBtn);
@@ -140,16 +140,14 @@ function enumUpdateEnabler(elem) {
 }
 (function () {
 
-	if (document.readyState === "complete" || document.readyState === "interactive") {
-		enumEnablerFunc([document.documentElement]);
-	} else {
-		document.addEventListener("DOMContentLoaded", enumEnablerFunc([document.documentElement]));
-	}
-
 	if (window.Jhtml) {
 		Jhtml.ready(function (elements) {
 			enumEnablerFunc(elements);
 		});
+	} else if (document.readyState === "complete" || document.readyState === "interactive") {
+		enumEnablerFunc([document.documentElement]);
+	} else {
+		document.addEventListener("DOMContentLoaded", enumEnablerFunc([document.documentElement]));
 	}
 })();
 /*

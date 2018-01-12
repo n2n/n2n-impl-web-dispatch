@@ -7,7 +7,6 @@
 
 	$propertyPath = $view->getParam('propertyPath', false);
 	$view->assert($propertyPath === null || $propertyPath instanceof \n2n\web\dispatch\map\PropertyPath);
-
 ?>
 
 <?php $view->out('<ul class="n2n-option-collection">') ?>
