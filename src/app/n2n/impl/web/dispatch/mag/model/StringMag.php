@@ -160,6 +160,7 @@ class StringMag extends MagAdapter {
 
 		$attrs = HtmlUtils::mergeAttrs(
 				$uo->buildAttrs(UiOutfitter::NATURE_TEXT|UiOutfitter::NATURE_MAIN_CONTROL), $this->inputAttrs);
+
 		return $htmlView->getFormHtmlBuilder()->getInput($propertyPath, $attrs);
 	}
 }
