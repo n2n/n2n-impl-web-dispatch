@@ -75,19 +75,22 @@
 	var initedMagColElems = [];
 
 	var init = function (elements) {
-		var magColElems = [];
-		for (var i in elements) {
-			magColElems.push(Array.from(elements[i].getElementsByClassName("n2n-impl-web-dispatch-mag-collection")));
-		}
-
-		for (var i = 0; i < magColElems.length; i++) {
-			if (initedMagColElems.indexOf(magColElems[i][0]) > -1) {
-				continue;
-			}
-
-			new MagCollection(magColElems[i][0]);
-			initedMagColElems.push(magColElems[i][0]);
-		}
+		
+		// @nikolai da führt irgendetwas zu fehlern!
+		
+//		var magColElems = [];
+//		for (var i in elements) {
+//			magColElems.push(Array.from(elements[i].getElementsByClassName("n2n-impl-web-dispatch-mag-collection")));
+//		}
+//
+//		for (var i = 0; i < magColElems.length; i++) {
+//			if (initedMagColElems.indexOf(magColElems[i][0]) > -1) {
+//				continue;
+//			}
+//
+//			new MagCollection(magColElems[i][0]);
+//			initedMagColElems.push(magColElems[i][0]);
+//		}
 	}
 
 	if (document.readyState === "complete" || document.readyState === "interactive") {
