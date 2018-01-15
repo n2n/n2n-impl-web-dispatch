@@ -112,6 +112,6 @@ class EnumEnablerMag extends EnumMag {
 // 		$view->getHtmlBuilder()->meta()->bodyEnd()->addJs('js/ajah.js', 'n2n\impl\web\ui');
 		$view->getHtmlBuilder()->meta()->addJs('js/group.js', 'n2n\impl\web\dispatch');
 		
-		return parent::createUiField($propertyPath, $view);
+		return parent::createUiField($propertyPath, $view, $uiOutfitter);
 	}
 }
