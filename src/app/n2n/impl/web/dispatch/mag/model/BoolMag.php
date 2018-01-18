@@ -93,9 +93,9 @@ class BoolMag extends MagAdapter {
 	 * @return UiComponent
 	 */
 	public function createUiField(PropertyPath $propertyPath, HtmlView $view, UiOutfitter $uiOutfitter): UiComponent {
-		$inputAttrs = HtmlUtils::mergeAttrs($uiOutfitter->buildAttrs(UiOutfitter::NATURE_CHECK|UiOutfitter::NATURE_MAIN_CONTROL, $this->inputAttrs));
+		$inputAttrs = HtmlUtils::mergeAttrs($uiOutfitter->createAttrs(UiOutfitter::NATURE_CHECK|UiOutfitter::NATURE_MAIN_CONTROL, $this->inputAttrs));
 
-		$label = new HtmlElement('label', $uiOutfitter->buildAttrs(UiOutfitter::NATURE_CHECK_LABEL));
+		$label = new HtmlElement('label', $uiOutfitter->createAttrs(UiOutfitter::NATURE_CHECK_LABEL));
 		$label->appendLn($view->getFormHtmlBuilder()->getInputCheckbox($propertyPath, true, $inputAttrs));
 		$label->appendLn($this->labelLstr->t($view->getN2nLocale()));
 

@@ -134,7 +134,7 @@ class EnumMag extends MagAdapter {
 	 */
 	public function createUiField(PropertyPath $propertyPath, HtmlView $view, UiOutfitter $uo): UiComponent {
 		$attrs = HtmlUtils::mergeAttrs(
-				$uo->buildAttrs(UiOutfitter::NATURE_SELECT|UiOutfitter::NATURE_MAIN_CONTROL), $this->inputAttrs);
+				$uo->createAttrs(UiOutfitter::NATURE_SELECT|UiOutfitter::NATURE_MAIN_CONTROL), $this->inputAttrs);
 		
 		return $view->getFormHtmlBuilder()->getSelect($propertyPath, $this->buildOptions($view->getN2nLocale()), 
 				$attrs);

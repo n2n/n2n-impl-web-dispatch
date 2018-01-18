@@ -141,7 +141,7 @@ class DateTimeMag extends MagAdapter {
 	 * @return UiComponent
 	 */
 	public function createUiField(PropertyPath $propertyPath, HtmlView $view, UiOutfitter $uiOutfitter): UiComponent {
-		$attrs = HtmlUtils::mergeAttrs($uiOutfitter->buildAttrs(UiOutfitter::NATURE_TEXT|UiOutfitter::NATURE_MAIN_CONTROL), 
+		$attrs = HtmlUtils::mergeAttrs($uiOutfitter->createAttrs(UiOutfitter::NATURE_TEXT|UiOutfitter::NATURE_MAIN_CONTROL),
 				$this->inputAttrs);
 		
 		return $view->getFormHtmlBuilder()->getInput($propertyPath, $attrs);
