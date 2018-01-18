@@ -57,10 +57,10 @@
 		<?php $formHtml->meta()->arrayProps($propertyPath, function() use ($formHtml, $view,
 			$uiOutfitter, $html, $itemAttrsHtml, $attrsNature) { ?>
 
-			<?php $html->out($uiOutfitter->buildElement(UiOutfitter::EL_NATURE_ARRAY_ITEM_CONTROL, null,
+			<?php $html->out($uiOutfitter->createElement(UiOutfitter::EL_NATURE_ARRAY_ITEM_CONTROL, null,
 					$uiOutfitter->createMagDispatchableView(null, $view))) ?>
 		<?php }, $num) ?>
 	</div>
 
-	<?php $html->out($uiOutfitter->buildElement(UiOutfitter::EL_NATURE_CONTROL_ADD, array('class' => \n2n\web\dispatch\mag\MagCollection::CONTROL_ADD_CLASS), '')) ?>
+	<?php $html->out($uiOutfitter->createElement(UiOutfitter::EL_NATURE_CONTROL_ADD, array('class' => \n2n\web\dispatch\mag\MagCollection::CONTROL_ADD_CLASS), '')) ?>
 </div>
