@@ -31,7 +31,6 @@ use n2n\reflection\property\AccessProxy;
 use n2n\web\dispatch\map\bind\BindingDefinition;
 use n2n\impl\web\dispatch\property\ObjectProperty;
 use n2n\web\dispatch\property\ManagedProperty;
-use n2n\web\ui\Raw;
 use n2n\web\ui\UiComponent;
 use n2n\web\dispatch\mag\MagDispatchable;
 use n2n\web\dispatch\mag\UiOutfitter;

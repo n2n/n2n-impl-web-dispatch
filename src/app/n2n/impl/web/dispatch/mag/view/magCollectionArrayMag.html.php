@@ -23,7 +23,6 @@
 	use n2n\web\dispatch\map\PropertyPath;
 	use \n2n\web\dispatch\mag\UiOutfitter;
 	use n2n\impl\web\ui\view\html\HtmlView;
-	use \n2n\util\StringUtils;
 	/**
 	 * @var \n2n\web\ui\view\View $view
 	 */
