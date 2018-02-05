@@ -41,15 +41,10 @@
 	$numExisting = $view->getParam('numExisting');
 	$num = $view->getParam('num');
 
-	//$html->meta()->addLibrary(new \n2nutil\jquery\JQueryLibrary(3));
 	$html->meta()->addJs('js/mag-collection.js', 'n2n\impl\web\dispatch', false, false, null,
 		\n2n\impl\web\ui\view\html\HtmlBuilderMeta::TARGET_BODY_END);
 
 	$attrsNature = UiOutfitter::NATURE_MASSIVE_ARRAY_ITEM + UiOutfitter::NATURE_MASSIVE_ARRAY_ITEM_CONTROL;
-/**
- * @var \rocket\core\model\Rocket $rocket
- */
-	$rocket = \n2n\core\N2N::getLookupManager()->lookup('\rocket\core\model\Rocket');
 ?>
 <div class="n2n-impl-web-dispatch-mag-collection" data-mag-collection-item-existing="<?php $html->out($numExisting) ?>"
 	data-mag-collection-item-adder-class="<?php $html->out(\n2n\web\dispatch\mag\MagCollection::CONTROL_ADD_CLASS) ?>"
