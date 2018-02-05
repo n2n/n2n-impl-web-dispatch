@@ -28,6 +28,18 @@ class BasicUiOutfitter implements UiOutfitter {
 			return new HtmlElement('span', $attrs, $contents);
 		}
 
+		if ($elemNature & self::EL_NATURE_ARRAY_ITEM_CONTROL) {
+			$summary = new HtmlElement('div',null, '');
+			$container = new HtmlElement('div', HtmlUtils::mergeAttrs($attrs, $this->createAttrs(UiOutfitter::NATURE_MASSIVE_ARRAY_ITEM_STRUCTURE)), $summary);
+
+			$summary->appendLn(new HtmlElement('div',null, ''));
+			$summary->appendLn(new HtmlElement('div', null, $contents));
+			$summary->appendLn(new HtmlElement('div', array('class' => MagCollection::CONTROL_WRAPPER_CLASS),
+			$this->createElement(UiOutfitter::EL_NATURE_CONTROL_REMOVE, array('class' => MagCollection::CONTROL_REMOVE_CLASS), '')));
+
+			return $container;
+		}
+
 		return new HtmlSnippet($contents);
 	}
 

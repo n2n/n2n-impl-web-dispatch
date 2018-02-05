@@ -1,11 +1,12 @@
 (function () {
-	function MagCollection(elemJq, adderClassName, removerClassName) {
+	function MagCollection(elemJq, adderClassName, removerClassName, filledCount) {
 		this.containerElemJq = elemJq;
-		this.collectionItemContainerJq = elemJq.find(".n2n-impl-web-dispatch-mag-collection-items")
-		this.collectionItemElemJqs = this.collectionItemContainerJq.children();
+		this.collectionItemContainerJq = elemJq.find(".n2n-impl-web-dispatch-mag-collection-items");
+		this.collectionItemElemJqs = this.collectionItemContainerJq.find(".n2n-impl-web-dispatch-mag-collection-item");
 		this.hiddenElemJqs = [];
 		this.adderClassName = adderClassName;
 		this.removerClassName = removerClassName;
+		this.filledCount = filledCount;
 		this.init();
 	}
 
@@ -14,8 +15,7 @@
 		var that = this;
 
 		adderBtnJq.click(function (e) {
-			var elemJq = that.hiddenElemJqs.pop();
-			elemJq.show();
+			var elemJq = that.hiddenElemJqs.shift();
 			that.collectionItemContainerJq.append(elemJq);
 
 			if (that.hiddenElemJqs.length === 0) {
@@ -26,22 +26,28 @@
 			return false;
 		});
 
+		var showCount = this.filledCount;
 		this.collectionItemElemJqs.each(function (i, elem) {
 			var collectionItemElemJq = $(elem);
 			var removerBtnJq = collectionItemElemJq.find("." + that.removerClassName);
+
 			removerBtnJq.click(function (e) {
-				collectionItemElemJq.hide();
+				collectionItemElemJq.detach();
 				that.hiddenElemJqs.push(collectionItemElemJq);
 
 				if (that.hiddenElemJqs.length > 0) {
 					that.containerElemJq.find("." + that.adderClassName).show();
 				}
-
 				e.stopPropagation();
 				return false;
 			});
 
-			collectionItemElemJq.hide();
+			if (showCount > 0) {
+				showCount--;
+				return;
+			}
+
+			collectionItemElemJq.detach();
 			that.hiddenElemJqs.push(collectionItemElemJq);
 		})
 	}
@@ -51,8 +57,9 @@
 			var magCollectionElemJq = $(elements).find(magCollectionElem);
 			var adderClass = magCollectionElemJq.data("magCollectionItemAdderClass");
 			var removerClass = magCollectionElemJq.data("magCollectionItemRemoverClass");
+			var showCount = magCollectionElemJq.data("magCollectionShowCount");
 
-			new MagCollection(magCollectionElemJq, adderClass, removerClass);
+			new MagCollection(magCollectionElemJq, adderClass, removerClass, showCount);
 		});
 	}
 
@@ -95,7 +102,6 @@ function enumUpdateEnabler(elem) {
 	}
 }
 (function () {
-
 	if (window.Jhtml) {
 		Jhtml.ready(function (elements) {
 			enumEnablerFunc(elements);
