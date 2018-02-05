@@ -17,7 +17,7 @@
 
 		this.adderBtn.onclick = function (e) {
 			var elem = that.hiddenElems.shift();
-			that.collectionItemContainer.append(elem);
+			that.collectionItemContainer.appendChild(elem.children[0]);
 
 			if (that.hiddenElems.length === 0) {
 				that.adderBtn.style.display = "none";
@@ -29,16 +29,16 @@
 
 		var showCount = this.filledCount;
 		for (let collectionItemElem of this.collectionItemElems) {
-			var removerBtn = collectionItemElem.getElementsByClassName(that.removerClassName)[0];
+			var template = document.createElement("template");
+			let removerBtn = collectionItemElem.getElementsByClassName(that.removerClassName)[0];
 
-			removerBtn.onclick = function (e) {
-				collectionItemElem.remove();
-				that.hiddenElems.push(collectionItemElem);
-
+			removerBtn.onclick = function () {
+				that.hiddenElems.push(template);
+				template.appendChild(collectionItemElem);
 				if (that.hiddenElems.length > 0) {
 					that.adderBtn.style.display = "block";
 				}
-				e.stopPropagation();
+
 				return false;
 			};
 
@@ -47,19 +47,19 @@
 				return;
 			}
 
-			collectionItemElem.remove();
-			that.hiddenElems.push(collectionItemElem);
+			this.hiddenElems.push(template);
+			template.appendChild(collectionItemElem);
 		}
 	}
 
 	var init = function (elements) {
-		let collectionElements = [];
-		for (let elem of elements) {
-			let collectionElemsArr = [].slice.call(elem.getElementsByClassName("n2n-impl-web-dispatch-mag-collection"));
+		var collectionElements = [];
+		for (var elem of elements) {
+			var collectionElemsArr = [].slice.call(elem.getElementsByClassName("n2n-impl-web-dispatch-mag-collection"));
 			collectionElements = collectionElements.concat(collectionElemsArr);
 		}
 
-		for (let collectionElem of collectionElements) {
+		for (var collectionElem of collectionElements) {
 			var adderClass = collectionElem.dataset.magCollectionItemAdderClass;
 			var removerClass = collectionElem.dataset.magCollectionItemRemoverClass;
 			var showCount = collectionElem.dataset.magCollectionShowCount;
@@ -68,15 +68,18 @@
 		};
 	}
 
-	if (document.readyState === "complete" || document.readyState === "interactive") {
-		init([document.documentElement]);
-	} else if (!window.Jhtml) {
-		document.addEventListener("DOMContentLoaded", init([document.documentElement]));
-	}
-
+	// To make sure this script is executed after other javascript files have been loaded,
+	// javascript files that could potentially set events on the to-be removed objects,
+	// setTimeout is used. setTimeout() requeues the execution queue and the init function is placed at the end.
 	if (window.Jhtml) {
 		Jhtml.ready(function (elements) {
-			init(elements);
+			setTimeout(function () { init(elements); });
+		});
+	} else if (document.readyState === "complete" || document.readyState === "interactive") {
+		setTimeout(function () { init([document.documentElement]); });
+	} else {
+		document.addEventListener("DOMContentLoaded", function () {
+			setTimeout(function () { init([document.documentElement]); });
 		});
 	}
 })();
