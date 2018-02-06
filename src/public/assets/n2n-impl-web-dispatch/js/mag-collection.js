@@ -16,7 +16,7 @@
 		var that = this;
 
 		this.adderBtn.onclick = function (e) {
-			var elem = that.hiddenElems.shift();
+			var elem = that.hiddenElems.pop();
 			that.collectionItemContainer.appendChild(elem.children[0]);
 
 			if (that.hiddenElems.length === 0) {
@@ -29,6 +29,7 @@
 
 		var showCount = this.filledCount;
 		for (let collectionItemElem of this.collectionItemElems) {
+			console.log(collectionItemElem);
 			var template = document.createElement("template");
 			let removerBtn = collectionItemElem.getElementsByClassName(that.removerClassName)[0];
 
@@ -44,22 +45,24 @@
 
 			if (showCount > 0) {
 				showCount--;
-				return;
+				continue;
 			}
 
 			this.hiddenElems.push(template);
 			template.appendChild(collectionItemElem);
 		}
+
+		console.log("ready");
 	}
 
 	var init = function (elements) {
 		var collectionElements = [];
-		for (var elem of elements) {
-			var collectionElemsArr = [].slice.call(elem.getElementsByClassName("n2n-impl-web-dispatch-mag-collection"));
+		for (let elem of elements) {
+			let collectionElemsArr = [].slice.call(elem.getElementsByClassName("n2n-impl-web-dispatch-mag-collection"));
 			collectionElements = collectionElements.concat(collectionElemsArr);
 		}
 
-		for (var collectionElem of collectionElements) {
+		for (let collectionElem of collectionElements) {
 			var adderClass = collectionElem.dataset.magCollectionItemAdderClass;
 			var removerClass = collectionElem.dataset.magCollectionItemRemoverClass;
 			var showCount = collectionElem.dataset.magCollectionShowCount;
