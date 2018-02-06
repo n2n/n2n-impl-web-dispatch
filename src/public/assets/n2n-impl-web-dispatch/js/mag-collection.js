@@ -29,7 +29,6 @@
 
 		var showCount = this.filledCount;
 		for (let collectionItemElem of this.collectionItemElems) {
-			console.log(collectionItemElem);
 			var template = document.createElement("template");
 			let removerBtn = collectionItemElem.getElementsByClassName(that.removerClassName)[0];
 
@@ -51,8 +50,6 @@
 			this.hiddenElems.push(template);
 			template.appendChild(collectionItemElem);
 		}
-
-		console.log("ready");
 	}
 
 	var init = function (elements) {
