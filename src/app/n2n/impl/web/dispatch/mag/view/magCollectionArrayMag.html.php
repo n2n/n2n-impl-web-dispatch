@@ -23,7 +23,6 @@
 	use n2n\web\dispatch\map\PropertyPath;
 	use \n2n\web\dispatch\mag\UiOutfitter;
 	use n2n\impl\web\ui\view\html\HtmlView;
-	use \n2n\util\StringUtils;
 	/**
 	 * @var \n2n\web\ui\view\View $view
 	 */
@@ -34,33 +33,36 @@
 	$propertyPath = $view->getParam('propertyPath');
 	$view->assert($propertyPath instanceof PropertyPath);
 
-/**
- * @var UiOutfitter $uiOutfitter
- */
+	/**
+	* @var UiOutfitter $uiOutfitter
+ 	*/
 	$uiOutfitter = $view->getParam('uiOutfitter');
 	$view->assert($uiOutfitter instanceof \n2n\web\dispatch\mag\UiOutfitter);
 	$numExisting = $view->getParam('numExisting');
 	$num = $view->getParam('num');
-	$itemAttrsHtml = array('n2n-impl-web-dispatch-mag-collection-item');
 
-	$html->meta()->addLibrary(new \n2nutil\jquery\JQueryLibrary(3));
 	$html->meta()->addJs('js/mag-collection.js', 'n2n\impl\web\dispatch', false, false, null,
 		\n2n\impl\web\ui\view\html\HtmlBuilderMeta::TARGET_BODY_END);
 
 	$attrsNature = UiOutfitter::NATURE_MASSIVE_ARRAY_ITEM + UiOutfitter::NATURE_MASSIVE_ARRAY_ITEM_CONTROL;
 ?>
 <div class="n2n-impl-web-dispatch-mag-collection" data-mag-collection-item-existing="<?php $html->out($numExisting) ?>"
-	 data-mag-collection-item-adder-class="<?php $html->out(\n2n\web\dispatch\mag\MagCollection::CONTROL_ADD_CLASS) ?>"
-	 data-mag-collection-item-remover-class="<?php $html->out(\n2n\web\dispatch\mag\MagCollection::CONTROL_REMOVE_CLASS) ?>">
+	data-mag-collection-item-adder-class="<?php $html->out(\n2n\web\dispatch\mag\MagCollection::CONTROL_ADD_CLASS) ?>"
+	data-mag-collection-item-remover-class="<?php $html->out(\n2n\web\dispatch\mag\MagCollection::CONTROL_REMOVE_CLASS) ?>"
+	data-mag-collection-show-count="<?php $html->out($numExisting) ?>">
 
 	<div class="n2n-impl-web-dispatch-mag-collection-items">
 		<?php $formHtml->meta()->arrayProps($propertyPath, function() use ($formHtml, $view,
-			$uiOutfitter, $html, $itemAttrsHtml, $attrsNature) { ?>
+			$uiOutfitter, $html, $attrsNature) { ?>
+			<div class="n2n-impl-web-dispatch-mag-collection-item">
+				<?php $formHtml->optionalObjectEnabledHidden() ?>
 
-			<?php $html->out($uiOutfitter->createElement(UiOutfitter::EL_NATURE_ARRAY_ITEM_CONTROL, null,
-					$uiOutfitter->createMagDispatchableView(null, $view))) ?>
+				<?php $html->out($uiOutfitter->createElement(UiOutfitter::EL_NATURE_ARRAY_ITEM_CONTROL, null,
+						$uiOutfitter->createMagDispatchableView(null, $view))) ?>
+			</div>
 		<?php }, $num) ?>
 	</div>
 
-	<?php $html->out($uiOutfitter->createElement(UiOutfitter::EL_NATURE_CONTROL_ADD, array('class' => \n2n\web\dispatch\mag\MagCollection::CONTROL_ADD_CLASS), '')) ?>
+	<?php $html->out($uiOutfitter->createElement(UiOutfitter::EL_NATURE_CONTROL_ADD,
+			array('class' => \n2n\web\dispatch\mag\MagCollection::CONTROL_ADD_CLASS), 'new ... ')) ?>
 </div>

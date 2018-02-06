@@ -1,70 +1,85 @@
 (function () {
-	function MagCollection(elemJq, adderClassName, removerClassName) {
-		this.containerElemJq = elemJq;
-		this.collectionItemContainerJq = elemJq.find(".n2n-impl-web-dispatch-mag-collection-items")
-		this.collectionItemElemJqs = this.collectionItemContainerJq.children();
-		this.hiddenElemJqs = [];
+	function MagCollection(elem, adderClassName, removerClassName, filledCount) {
+		this.containerElem = elem;
+		this.collectionItemContainer = elem.getElementsByClassName("n2n-impl-web-dispatch-mag-collection-items")[0];
+		this.collectionItemElems = [].slice.call(this.collectionItemContainer.getElementsByClassName("n2n-impl-web-dispatch-mag-collection-item"));
+		this.hiddenElems = [];
 		this.adderClassName = adderClassName;
 		this.removerClassName = removerClassName;
+		this.filledCount = filledCount;
+		this.adderBtn = this.containerElem.getElementsByClassName(this.adderClassName)[0];
+
 		this.init();
 	}
 
 	MagCollection.prototype.init = function() {
-		var adderBtnJq = this.containerElemJq.find("." + this.adderClassName);
 		var that = this;
 
-		adderBtnJq.click(function (e) {
-			var elemJq = that.hiddenElemJqs.pop();
-			elemJq.show();
-			that.collectionItemContainerJq.append(elemJq);
+		this.adderBtn.onclick = function (e) {
+			var elem = that.hiddenElems.shift();
+			that.collectionItemContainer.appendChild(elem.children[0]);
 
-			if (that.hiddenElemJqs.length === 0) {
-				adderBtnJq.hide();
+			if (that.hiddenElems.length === 0) {
+				that.adderBtn.style.display = "none";
 			}
 
 			e.stopPropagation();
 			return false;
-		});
+		};
 
-		this.collectionItemElemJqs.each(function (i, elem) {
-			var collectionItemElemJq = $(elem);
-			var removerBtnJq = collectionItemElemJq.find("." + that.removerClassName);
-			removerBtnJq.click(function (e) {
-				collectionItemElemJq.hide();
-				that.hiddenElemJqs.push(collectionItemElemJq);
+		var showCount = this.filledCount;
+		for (let collectionItemElem of this.collectionItemElems) {
+			var template = document.createElement("template");
+			let removerBtn = collectionItemElem.getElementsByClassName(that.removerClassName)[0];
 
-				if (that.hiddenElemJqs.length > 0) {
-					that.containerElemJq.find("." + that.adderClassName).show();
+			removerBtn.onclick = function () {
+				that.hiddenElems.push(template);
+				template.appendChild(collectionItemElem);
+				if (that.hiddenElems.length > 0) {
+					that.adderBtn.style.display = "block";
 				}
 
-				e.stopPropagation();
 				return false;
-			});
+			};
 
-			collectionItemElemJq.hide();
-			that.hiddenElemJqs.push(collectionItemElemJq);
-		})
+			if (showCount > 0) {
+				showCount--;
+				return;
+			}
+
+			this.hiddenElems.push(template);
+			template.appendChild(collectionItemElem);
+		}
 	}
 
 	var init = function (elements) {
-		$(elements).find(".n2n-impl-web-dispatch-mag-collection").each(function(e, magCollectionElem) {
-			var magCollectionElemJq = $(elements).find(magCollectionElem);
-			var adderClass = magCollectionElemJq.data("magCollectionItemAdderClass");
-			var removerClass = magCollectionElemJq.data("magCollectionItemRemoverClass");
+		var collectionElements = [];
+		for (var elem of elements) {
+			var collectionElemsArr = [].slice.call(elem.getElementsByClassName("n2n-impl-web-dispatch-mag-collection"));
+			collectionElements = collectionElements.concat(collectionElemsArr);
+		}
 
-			new MagCollection(magCollectionElemJq, adderClass, removerClass);
-		});
+		for (var collectionElem of collectionElements) {
+			var adderClass = collectionElem.dataset.magCollectionItemAdderClass;
+			var removerClass = collectionElem.dataset.magCollectionItemRemoverClass;
+			var showCount = collectionElem.dataset.magCollectionShowCount;
+
+			new MagCollection(collectionElem, adderClass, removerClass, showCount);
+		};
 	}
 
-	if (document.readyState === "complete" || document.readyState === "interactive") {
-		init([document.documentElement]);
-	} else if (!window.Jhtml) {
-		document.addEventListener("DOMContentLoaded", init([document.documentElement]));
-	}
-
+	// To make sure this script is executed after other javascript files have been loaded,
+	// javascript files that could potentially set events on the to-be removed objects,
+	// setTimeout is used. setTimeout() requeues the execution queue and the init function is placed at the end.
 	if (window.Jhtml) {
 		Jhtml.ready(function (elements) {
-			init(elements);
+			setTimeout(function () { init(elements); });
+		});
+	} else if (document.readyState === "complete" || document.readyState === "interactive") {
+		setTimeout(function () { init([document.documentElement]); });
+	} else {
+		document.addEventListener("DOMContentLoaded", function () {
+			setTimeout(function () { init([document.documentElement]); });
 		});
 	}
 })();
@@ -95,7 +110,6 @@ function enumUpdateEnabler(elem) {
 	}
 }
 (function () {
-
 	if (window.Jhtml) {
 		Jhtml.ready(function (elements) {
 			enumEnablerFunc(elements);
