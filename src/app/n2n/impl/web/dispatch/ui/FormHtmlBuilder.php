@@ -41,6 +41,7 @@ class FormHtmlBuilder {
 	private $meta;
 	
 	private $factory;
+	private $magStack = array();
 // 	private $basePaths = array();
 // 	private $optionStack;
 	
@@ -382,8 +383,7 @@ class FormHtmlBuilder {
 	
 	private function peakMagInfo() {
 		if (!sizeof($this->magStack)) {
-			throw $this->view->decorateException(
-					new IllegalStateException('No option container opened.'));
+			throw new IllegalStateException('No mag opened.');
 		}
 		
 		return end($this->magStack);
