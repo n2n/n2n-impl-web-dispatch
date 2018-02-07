@@ -21,7 +21,6 @@
  */
 namespace n2n\impl\web\dispatch\mag\model;
 
-use n2n\impl\web\ui\view\html\HtmlElement;
 use n2n\impl\web\ui\view\html\HtmlSnippet;
 use n2n\impl\web\ui\view\html\HtmlUtils;
 use n2n\l10n\Lstr;
@@ -34,7 +33,6 @@ use n2n\impl\web\dispatch\property\ScalarProperty;
 use n2n\web\dispatch\property\ManagedProperty;
 use n2n\web\ui\UiComponent;
 use n2n\reflection\ArgUtils;
-use n2n\l10n\N2nLocale;
 
 /**
  * Class BoolMag
