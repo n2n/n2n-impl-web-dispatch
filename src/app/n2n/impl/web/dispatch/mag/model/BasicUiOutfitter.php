@@ -21,7 +21,7 @@ class BasicUiOutfitter implements UiOutfitter {
 		return array();
 	}
 
-	public function createElement(int $elemNature, array $attrs = null, $contents = null): UiComponent {
+	public function createElement(int $elemNature, array $attrs = null, $contents = ''): UiComponent {
 		if ($elemNature & self::EL_NATRUE_CONTROL_ADDON_SUFFIX_WRAPPER) {
 			return new HtmlElement('div', $attrs, $contents);
 		}

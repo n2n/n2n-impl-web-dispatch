@@ -27,6 +27,7 @@ use n2n\reflection\ArgUtils;
 use n2n\web\dispatch\property\ManagedProperty;
 use n2n\web\dispatch\mag\MagCollection;
 use n2n\web\dispatch\mag\UiOutfitter;
+use n2n\impl\web\ui\view\html\HtmlUtils;
 
 class MagArrayMag extends MagAdapter {
 	const PROPERTY_NAME = 'field';
@@ -124,7 +125,23 @@ class MagArrayMag extends MagAdapter {
 	 */
 	public function createUiField(\n2n\web\dispatch\map\PropertyPath $propertyPath, \n2n\impl\web\ui\view\html\HtmlView $view,
 			UiOutfitter $uiOutfitter): UiComponent {
-		return $this->decorated->createUiField($propertyPath, $view, $uiOutfitter);
+		$uiOutfitter->createMagDispatchableView($propertyPath, $view);
+		
+		$numExisting = sizeof($view->getFormHtmlBuilder()->meta()->getMapValue($propertyPath));
+		$attrs = HtmlUtils::mergeAttrs($this->getContainerAttrs($view));
+		$this->setAttrs($attrs);
+		
+		$num = $numExisting;
+		if (isset($this->max) && $this->max > $num) {
+			$num = $this->max;
+		} else {
+			$num += $this->decorated::DEFAULT_INC;
+		}
+		
+		return $view->getImport('\n2n\impl\web\dispatch\mag\view\magArrayMag.html',
+				array('propertyPath' => $propertyPath, 'uiOutfitter' => $uiOutfitter, 'numExisting' => $numExisting, 'num' => $num));
+				
+		//return $this->decorated->createUiField($propertyPath, $view, $uiOutfitter);
 	}
 
 	/**

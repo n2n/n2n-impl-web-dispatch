@@ -24,6 +24,8 @@
 	use \n2n\web\dispatch\mag\UiOutfitter;
 	use n2n\impl\web\ui\view\html\HtmlView;
 use n2n\impl\web\dispatch\mag\model\MagArrayMag;
+use n2n\web\dispatch\mag\MagCollection;
+use n2n\impl\web\ui\view\html\HtmlElement;
 	/**
 	 * @var \n2n\web\ui\view\View $view
 	 */
@@ -59,13 +61,17 @@ use n2n\impl\web\dispatch\mag\model\MagArrayMag;
 				<?php $formHtml->optionalObjectEnabledHidden() ?>
 				
 				<?php $formHtml->magOpen('div', MagArrayMag::PROPERTY_NAME)?>
-					<div class="rocket-control">
-						<?php $formHtml->magField() ?>
-						<?php $formHtml->message() ?>
+					<div <?php $view->out(HtmlElement::buildAttrsHtml($uiOutfitter->createAttrs(\n2n\web\dispatch\mag\UiOutfitter::NATURE_CONTROL_WRAPPER))) ?>>
+						<div <?php $view->out(HtmlElement::buildAttrsHtml($uiOutfitter->createAttrs(\n2n\web\dispatch\mag\UiOutfitter::NATURE_CONTROL_GROUP))) ?>>
+							<?php $formHtml->magField() ?>
+							<?php $formHtml->message() ?>
+							<span <?php $view->out(HtmlElement::buildAttrsHtml($uiOutfitter->createAttrs(\n2n\web\dispatch\mag\UiOutfitter::NATURE_CONTROL_GROUP_ADDON))) ?>>
+								<?php $html->out($uiOutfitter->createElement(UiOutfitter::EL_NATURE_CONTROL_REMOVE, 
+										array('class' => MagCollection::CONTROL_REMOVE_CLASS), '')) ?>
+							</span>
+						</div>
 					</div>
 				<?php $formHtml->magClose() ?>
-				
-				<?php $html->out($uiOutfitter->createElement(UiOutfitter::EL_NATURE_ARRAY_ITEM_CONTROL, null, null)) ?>
 			</div>
 		<?php }, $num) ?>
 	</div>

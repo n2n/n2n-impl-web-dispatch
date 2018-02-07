@@ -188,7 +188,7 @@ class MagCollectionArrayMag extends MagAdapter {
 		} else {
 			$num += self::DEFAULT_INC;
 		}
-
+    
 		return $view->getImport('\n2n\impl\web\dispatch\mag\view\magCollectionArrayMag.html',
 				array('propertyPath' => $propertyPath, 'uiOutfitter' => $uiOutfitter, 'numExisting' => $numExisting, 'num' => $num));
 	}
