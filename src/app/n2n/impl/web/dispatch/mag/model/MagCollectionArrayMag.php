@@ -176,8 +176,6 @@ class MagCollectionArrayMag extends MagAdapter {
 	 * @return UiComponent
 	 */
 	public function createUiField(PropertyPath $propertyPath, HtmlView $view, UiOutfitter $uiOutfitter): UiComponent {
-		$uiOutfitter->createMagDispatchableView($propertyPath, $view);
-
 		$numExisting = sizeof($view->getFormHtmlBuilder()->meta()->getMapValue($propertyPath));
 		$attrs = HtmlUtils::mergeAttrs($this->getContainerAttrs($view));
 		$this->setAttrs($attrs);
