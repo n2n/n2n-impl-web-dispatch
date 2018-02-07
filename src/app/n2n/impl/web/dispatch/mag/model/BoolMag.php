@@ -22,6 +22,7 @@
 namespace n2n\impl\web\dispatch\mag\model;
 
 use n2n\impl\web\ui\view\html\HtmlElement;
+use n2n\impl\web\ui\view\html\HtmlSnippet;
 use n2n\impl\web\ui\view\html\HtmlUtils;
 use n2n\l10n\Lstr;
 use n2n\web\dispatch\mag\UiOutfitter;
@@ -83,9 +84,9 @@ class BoolMag extends MagAdapter {
 	public function setupBindingDefinition(BindingDefinition $bd) {
 	}
 
-	public function getLabel(N2nLocale $n2nLocale): string {
-		return '';
-	}
+//	public function getLabel(N2nLocale $n2nLocale): string {
+//		return '';
+//	}
 	
 	/**
 	 * @param PropertyPath $propertyPath
@@ -93,21 +94,20 @@ class BoolMag extends MagAdapter {
 	 * @return UiComponent
 	 */
 	public function createUiField(PropertyPath $propertyPath, HtmlView $view, UiOutfitter $uiOutfitter): UiComponent {
-		$inputAttrs = HtmlUtils::mergeAttrs($uiOutfitter->createAttrs(UiOutfitter::NATURE_CHECK|UiOutfitter::NATURE_MAIN_CONTROL, $this->inputAttrs));
-/*
-		<div class="form-check">
-			<input name="x" value="1" checked="checked" id="id" class="form-check-input" type="checkbox">
-			<label class="form-check-label" for="id">
-				Online
-			</label>
-			<input name="property-target[]" value="xyz" type="hidden">
-		</div>
-*/
-		$label = new HtmlElement('label', $uiOutfitter->createAttrs(UiOutfitter::NATURE_CHECK_LABEL));
-		$label->appendLn($view->getFormHtmlBuilder()->getInputCheckbox($propertyPath, true, $inputAttrs));
-		$label->appendLn($this->labelLstr->t($view->getN2nLocale()));
+		$inputAttrs = HtmlUtils::mergeAttrs($uiOutfitter->createAttrs(UiOutfitter::NATURE_CHECK|UiOutfitter::NATURE_MAIN_CONTROL), $this->inputAttrs);
+		$formHtml = $view->getFormHtmlBuilder();
 
-		return $label;
+		$snippetUi = new HtmlSnippet();
+		$labelUi = $formHtml->getLabel($propertyPath, $this->labelLstr->t($view->getN2nLocale()),
+				$uiOutfitter->createAttrs(UiOutfitter::NATURE_CHECK_LABEL));
+		$snippetUi->appendLn($formHtml->getInputCheckbox($propertyPath, true, $inputAttrs));
+		$snippetUi->appendLn($labelUi);
+
+		return $uiOutfitter->createElement(UiOutfitter::EL_NATURE_CHECK_WRAPPER, null, $snippetUi);
+
+//		$label = new HtmlElement('label', $uiOutfitter->createAttrs(UiOutfitter::NATURE_CHECK_LABEL));
+//		$label->appendLn($view->getFormHtmlBuilder()->getInputCheckbox($propertyPath, true, $inputAttrs));
+//		$label->appendLn($this->labelLstr->t($view->getN2nLocale()));
 	}
 
 	/**
