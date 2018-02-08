@@ -31,16 +31,17 @@
 		for (let collectionItemElem of this.collectionItemElems) {
 			var template = document.createElement("template");
 			let removerBtn = collectionItemElem.getElementsByClassName(that.removerClassName)[0];
+			if (!!removerBtn) {
+				removerBtn.onclick = function () {
+					that.hiddenElems.push(template);
+					template.appendChild(collectionItemElem);
+					if (that.hiddenElems.length > 0) {
+						that.adderBtn.style.display = "block";
+					}
 
-			removerBtn.onclick = function () {
-				that.hiddenElems.push(template);
-				template.appendChild(collectionItemElem);
-				if (that.hiddenElems.length > 0) {
-					that.adderBtn.style.display = "block";
-				}
-
-				return false;
-			};
+					return false;
+				};	
+			}
 
 			if (showCount > 0) {
 				showCount--;
