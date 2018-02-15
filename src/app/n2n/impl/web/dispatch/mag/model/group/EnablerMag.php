@@ -31,7 +31,7 @@ use n2n\web\dispatch\mag\MagWrapper;
 use n2n\web\dispatch\mag\UiOutfitter;
 
 class EnablerMag extends BoolMag {
-	private $associatedMagWrappers;
+	private $associatedMagWrappers = array();
 	private $htmlId;
 	
 	public function __construct($labelLstr, bool $value = false, array $associatedMagWrappers = null) {
