@@ -74,34 +74,40 @@ class NumericMag extends MagAdapter {
 
 	/**
 	 * @param $mandatory
+	 * @return NumericMag
 	 */
-	public function setMandatory($mandatory) {
-		$this->mandatory = (bool) $mandatory;
+	public function setMandatory(bool $mandatory) {
+		$this->mandatory = $mandatory;
+		return $this;
 	}
 
 	/**
 	 * @param $minValue
+	 * @return NumericMag
 	 */
-	public function setMinValue($minValue) {
+	public function setMin(?int $minValue) {
 		$this->minValue = $minValue;
+		return $this;
 	}
 
 	/**
-	 * @return null
+	 * @return int
 	 */
-	public function getMinValue() {
+	public function getMin() {
 		return $this->minValue;
 	}
 
 	/**
 	 * @param $maxValue
+	 * @return NumericMag
 	 */
-	public function setMaxValue($maxValue) {
+	public function setMax(?int $maxValue) {
 		$this->maxValue = $maxValue;
+		return $this;
 	}
 
 	/**
-	 * @return null
+	 * @return int
 	 */
 	public function getMaxValue() {
 		return $this->maxValue;
@@ -109,9 +115,11 @@ class NumericMag extends MagAdapter {
 
 	/**
 	 * @param $decimalPlace
+	 * @return NumericMag
 	 */
-	public function setDecimalPlaces($decimalPlace) {
-		$this->decimalPlaces = $decimalPlace;
+	public function setDecimalPlaces(?int $decimalPlaces) {
+		$this->decimalPlaces = $decimalPlaces;
+		return $this;
 	}
 
 	/**
