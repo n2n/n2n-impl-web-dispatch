@@ -41,7 +41,7 @@ use n2n\web\dispatch\mag\UiOutfitter;
  */
 class MagCollectionArrayMag extends MagAdapter {
 
-	const DEFAULT_INC = 3;
+	const DEFAULT_INC = 10;
 
 	private $creator;
 	private $min;
