@@ -28,9 +28,10 @@
 		};
 
 		var showCount = this.filledCount;
-		for (var collectionItemElem of this.collectionItemElems) {
-			var template = document.createElement("template");
-			var removerBtn = collectionItemElem.getElementsByClassName(that.removerClassName)[0];
+		for (var i in this.collectionItemElems) {
+			var collectionItemElem = this.collectionItemElems[i],
+				template = document.createElement("template"),
+				removerBtn = collectionItemElem.getElementsByClassName(that.removerClassName)[0];
 			if (!!removerBtn) {
 				removerBtn.onclick = function () {
 					that.hiddenElems.push(template);
@@ -54,16 +55,19 @@
 	}
 
 	var init = function (elements) {
-		var collectionElements = [];
-		for (var elem of elements) {
-			var collectionElemsArr = [].slice.call(elem.getElementsByClassName("n2n-impl-web-dispatch-mag-collection"));
+		var collectionElements = [],
+			i;
+		for (i in elements) {
+			var elem = elements[i],
+				collectionElemsArr = [].slice.call(elem.getElementsByClassName("n2n-impl-web-dispatch-mag-collection"));
 			collectionElements = collectionElements.concat(collectionElemsArr);
 		}
 
-		for (var collectionElem of collectionElements) {
-			var adderClass = collectionElem.dataset.magCollectionItemAdderClass;
-			var removerClass = collectionElem.dataset.magCollectionItemRemoverClass;
-			var showCount = collectionElem.dataset.magCollectionShowCount;
+		for (i in collectionElements) {
+			var collectionElem = collectionElements[i],
+				adderClass = collectionElem.dataset.magCollectionItemAdderClass,
+				removerClass = collectionElem.dataset.magCollectionItemRemoverClass,
+				showCount = collectionElem.dataset.magCollectionShowCount;
 
 			new MagCollection(collectionElem, adderClass, removerClass, showCount);
 		};
