@@ -29,8 +29,11 @@ use n2n\impl\web\ui\view\html\HtmlUtils;
 use n2n\web\ui\UiComponent;
 use n2n\web\dispatch\mag\MagWrapper;
 use n2n\web\dispatch\mag\UiOutfitter;
+use n2n\web\dispatch\map\bind\BindingDefinition;
+use n2n\web\dispatch\map\bind\MappingDefinition;
 
 class EnablerMag extends BoolMag {
+	private $disabledIgnored = true;
 	private $associatedMagWrappers = array();
 	private $htmlId;
 	
@@ -67,6 +70,31 @@ class EnablerMag extends BoolMag {
 	 */
 	public function getAssociatedMagWrappers() {
 		return $this->associatedMagWrappers;
+	}
+	
+	public function setupMappingDefinition(MappingDefinition $md) {
+		parent::setupMappingDefinition($md);
+		
+		if (!$this->disabledIgnored || !$md->isDispatched()) return;
+		
+		$ignoredMagWrappers = array();
+		$notIgnoredMagWrapper = array();
+		
+		if ($md->getDispatchedValue($this->propertyName)) {
+			$ignoredMagWrappers = $this->associatedMagWrappers;
+//  			$notIgnoredMagWrapper = $this->offAssociatedMagWrappers;
+		} else {
+// 			$ignoredMagWrappers = $this->offAssociatedMagWrappers;
+			$notIgnoredMagWrapper = $this->associatedMagWrappers;
+		}
+		
+		foreach ($ignoredMagWrappers as $associatedMagWrapper) {
+			$associatedMagWrapper->setIgnored(true);
+		}
+		
+		foreach ($notIgnoredMagWrappers as $notIgnoredMagWrapper) {
+			$notIgnoredMagWrapper->setIgnored(false);
+		}
 	}
 	
 	public function createUiField(PropertyPath $propertyPath, HtmlView $view, UiOutfitter $uiOutfitter): UiComponent {
