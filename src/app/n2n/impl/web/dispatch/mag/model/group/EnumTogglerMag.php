@@ -32,7 +32,7 @@ use n2n\reflection\property\TypeConstraint;
 use n2n\web\dispatch\map\bind\MappingDefinition;
 use n2n\web\dispatch\mag\UiOutfitter;
 
-class EnumEnablerMag extends EnumMag {
+class EnumTogglerMag extends EnumMag {
 	private $associatedMagWrapperMap;
 	private $htmlId;
 	private $disabledIgnored = true;
@@ -42,13 +42,13 @@ class EnumEnablerMag extends EnumMag {
 		parent::__construct($labelLstr, $options, $value, $mandatory);
 		
 		$this->setAssociatedMagWrapperMap((array) $associatedMagWrapperMap);
-		$this->htmlId = HtmlUtils::buildUniqueId('n2n-impl-web-dispatch-enum-enabler-group');
+		$this->htmlId = HtmlUtils::buildUniqueId('n2n-impl-web-dispatch-enum-toggler-group');
 		$this->setInputAttrs(array());
 	}
 	
 	public function setInputAttrs(array $inputAttrs) {
-		parent::setInputAttrs(HtmlUtils::mergeAttrs( array('class' => 'n2n-impl-web-dispatch-enum-enabler',
-				'data-n2n-impl-web-dispatch-enabler-class' => $this->htmlId), $inputAttrs), $inputAttrs);
+		parent::setInputAttrs(HtmlUtils::mergeAttrs( array('class' => 'n2n-impl-web-dispatch-enum-toggler',
+				'data-n2n-impl-web-dispatch-toggler-class' => $this->htmlId), $inputAttrs), $inputAttrs);
 	}
 	
 	/**
