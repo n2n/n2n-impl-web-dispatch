@@ -1,61 +1,74 @@
 (function () {
 	var boolCallback = function () {
-		boolUpdateEnabler(this);
+		boolUpdateToggler(this);
 	};
 
-	var boolEnabler = function () {
-		var enablerElems = document.getElementsByClassName("n2n-impl-web-dispatch-enabler");
-
-		for (var i = 0, ii = enablerElems.length; i < ii; i++) {
-			enablerElems[i].removeEventListener("click", boolCallback);
-			enablerElems[i].addEventListener("click", boolCallback);
-
-			boolUpdateEnabler(enablerElems[i]);
+	var boolToggler = function () {
+		var togglerElems = document.getElementsByClassName("n2n-impl-web-dispatch-toggler");
+		
+		for (var i = 0, ii = togglerElems.length; i < ii; i++) {
+			togglerElems[i].removeEventListener("click", boolCallback);
+			togglerElems[i].addEventListener("click", boolCallback);
+			
+			boolUpdateToggler(togglerElems[i]);
 		}
 	};
 
-	function boolUpdateEnabler(elem) {
-		var displayTypeName = elem.checked ? "block" : "none";
-		var groupClassName = elem.getAttribute("data-n2n-impl-web-dispatch-enabler-class");
-
-		var groupElems = document.getElementsByClassName(groupClassName);
-		for (var i = 0, ii = groupElems.length; i < ii; i++) {
-			groupElems[i].style.display = displayTypeName;
+	function boolUpdateToggler(elem) {
+		var showGroupElems = null;
+		var hideGroupElems = null;
+		var onGroupElems = document.getElementsByClassName(elem.getAttribute("data-n2n-impl-web-dispatch-toggler-on-class"))
+		var offGroupElems = document.getElementsByClassName(elem.getAttribute("data-n2n-impl-web-dispatch-toggler-off-class"))
+		
+		if (elem.checked) {
+			showGroupElems = onGroupElems;
+			hideGroupElems = offGroupElems;
+		} else {
+			showGroupElems = offGroupElems;
+			hideGroupElems = onGroupElems;
+		}
+		
+		for (var i = 0, ii = hideGroupElems.length; i < ii; i++) {
+			hideGroupElems[i].style.display = "none";
+		}
+		
+		for (var i = 0, ii = showGroupElems.length; i < ii; i++) {
+			showGroupElems[i].style.display = "block";
 		}
 	}
 	
 	if (document.readyState === "complete" || document.readyState === "interactive") {
-		boolEnabler();
+		boolToggler();
 	} else {
-		document.addEventListener("DOMContentLoaded", boolEnabler);
+		document.addEventListener("DOMContentLoaded", boolToggler);
 	}
 	
 	if (n2n.dispatch) {
-		n2n.dispatch.registerCallback(boolEnabler);
+		n2n.dispatch.registerCallback(boolToggler);
 	}
 	
 	if (window.Jhtml) {
-		Jhtml.ready(boolEnabler);
+		Jhtml.ready(boolToggler);
 	}
 
 	var enumCallback = function () {
-		enumUpdateEnabler(this);
+		enumUpdateToggler(this);
 	};
 
-	var enumEnablerFunc = function () {
-		var enablerElems = document.getElementsByClassName("n2n-impl-web-dispatch-enum-enabler");
+	var enumTogglerFunc = function () {
+		var togglerElems = document.getElementsByClassName("n2n-impl-web-dispatch-enum-toggler");
 		
-		for (var i = 0, ii = enablerElems.length; i < ii; i++) {
-			enablerElems[i].removeEventListener("change", enumCallback);
-			enablerElems[i].addEventListener("change", enumCallback);
+		for (var i = 0, ii = togglerElems.length; i < ii; i++) {
+			togglerElems[i].removeEventListener("change", enumCallback);
+			togglerElems[i].addEventListener("change", enumCallback);
 
-			enumUpdateEnabler(enablerElems[i]);
+			enumUpdateToggler(togglerElems[i]);
 		}
 	};
 
-	function enumUpdateEnabler(elem) {
+	function enumUpdateToggler(elem) {
 		var value = elem.value;
-		var groupClassName = elem.getAttribute("data-n2n-impl-web-dispatch-enabler-class")
+		var groupClassName = elem.getAttribute("data-n2n-impl-web-dispatch-toggler-class")
 
 		var groupElems = document.getElementsByClassName(groupClassName);
 		for (var i = 0, ii = groupElems.length; i < ii; i++) {
@@ -69,16 +82,16 @@
 	}
 
 	if (document.readyState === "complete" || document.readyState === "interactive") {
-		enumEnablerFunc();
+		enumTogglerFunc();
 	} else {
-		document.addEventListener("DOMContentLoaded", enumEnablerFunc);
+		document.addEventListener("DOMContentLoaded", enumTogglerFunc);
 	}
 
 	if (n2n.dispatch) {
-		n2n.dispatch.registerCallback(enumEnablerFunc);
+		n2n.dispatch.registerCallback(enumTogglerFunc);
 	}
 
 	if (window.Jhtml) {
-		Jhtml.ready(enumEnablerFunc);
+		Jhtml.ready(enumTogglerFunc);
 	}
 })();
