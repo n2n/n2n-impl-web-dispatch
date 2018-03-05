@@ -33,6 +33,7 @@ use n2n\web\dispatch\map\bind\BindingDefinition;
 use n2n\web\dispatch\property\ManagedProperty;
 use n2n\web\ui\UiComponent;
 use n2n\web\dispatch\mag\UiOutfitter;
+use n2n\impl\web\ui\view\html\HtmlSnippet;
 
 /**
  * Class MultiSelectMag
@@ -103,16 +104,23 @@ class MultiSelectMag extends MagAdapter {
 	 * @param HtmlView $htmlView
 	 * @return UiComponent
 	 */
-	public function createUiField(PropertyPath $propertyPath, HtmlView $htmlView, UiOutfitter $uiOutfitter): UiComponent {
+	public function createUiField(PropertyPath $propertyPath, HtmlView $view, UiOutfitter $uo): UiComponent {
 		$ul = new HtmlElement('ul', array('class' => 'n2n-multiselect-option'));
 		
-		$formHtml = $htmlView->getFormHtmlBuilder();
+		$formHtml = $view->getFormHtmlBuilder();
 		foreach ($this->choicesMap as $key => $label) {
 			$ul->appendContent(new HtmlElement('li', null, 
 					$formHtml->getInputCheckbox($propertyPath->fieldExt($key), $key, null, $label)));
 		}
 		
-		return $ul;
+		$uiC = new HtmlSnippet($ul);
+		
+		if (null !== $this->helpTextLstr) {
+			$uiC->append($uo->createElement(UiOutfitter::EL_NATURE_HELP_TEXT, null,
+					$this->getHelpText($view->getN2nLocale())));
+		}
+		
+		return $uiC;
 	}
 
 	/**

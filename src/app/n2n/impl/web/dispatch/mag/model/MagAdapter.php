@@ -36,6 +36,7 @@ use n2n\web\dispatch\mag\MagCollection;
 abstract class MagAdapter implements Mag {
 	protected $propertyName;
 	protected $labelLstr;
+	protected $helpTextLstr;
 	protected $attrs = array();
 	protected $value;
 
@@ -78,6 +79,14 @@ abstract class MagAdapter implements Mag {
 	 */
 	public function setLabelLstr(Lstr $labelL10nStr) {
 		$this->labelLstr = $labelL10nStr;
+	}
+	
+	public function getHelpText(N2nLocale $n2nLocale) {
+		return $this->helpTextLstr->t($n2nLocale);
+	}
+	
+	public function setHelpTextLstr(Lstr $helpTextLstr) {
+		$this->helpTextLstr = $helpTextLstr;
 	}
 	
 	public function getContainerAttrs(HtmlView $view): array {

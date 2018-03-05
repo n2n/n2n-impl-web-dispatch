@@ -32,6 +32,7 @@ use n2n\impl\web\dispatch\property\ScalarProperty;
 use n2n\reflection\property\AccessProxy;
 use n2n\web\dispatch\property\ManagedProperty;
 use n2n\web\ui\UiComponent;
+use n2n\impl\web\ui\view\html\HtmlSnippet;
 
 /**
  * Class StringMag
@@ -144,23 +145,32 @@ class StringMag extends MagAdapter {
 	 * @param HtmlView $htmlView
 	 * @return UiComponent
 	 */
-	public function createUiField(PropertyPath $propertyPath, HtmlView $htmlView, UiOutfitter $uo): UiComponent {
+	public function createUiField(PropertyPath $propertyPath, HtmlView $view, UiOutfitter $uo): UiComponent {
 		$attrs = array();
 
 		if ($this->maxlength !== null) {
 			$attrs['maxlength'] = $this->maxlength;
 		}
+		
+		$uiC =  new HtmlSnippet();
 
 		if ($this->isMultiline()) {
 			$attrs = HtmlUtils::mergeAttrs(
 					$uo->createAttrs(UiOutfitter::NATURE_TEXT_AREA|UiOutfitter::NATURE_MAIN_CONTROL), $this->inputAttrs);
-			return $htmlView->getFormHtmlBuilder()->getTextarea($propertyPath, $attrs);
+			$uiC = $view->getFormHtmlBuilder()->getTextarea($propertyPath, $attrs);
+		} else {
+			$attrs = HtmlUtils::mergeAttrs(
+					$uo->createAttrs(UiOutfitter::NATURE_TEXT|UiOutfitter::NATURE_MAIN_CONTROL), $this->inputAttrs);
+			
+			$uiC = $uiC->appendContent($view->getFormHtmlBuilder()->getInput($propertyPath, $attrs));
+			
 		}
 
-
-		$attrs = HtmlUtils::mergeAttrs(
-				$uo->createAttrs(UiOutfitter::NATURE_TEXT|UiOutfitter::NATURE_MAIN_CONTROL), $this->inputAttrs);
-
-		return $htmlView->getFormHtmlBuilder()->getInput($propertyPath, $attrs);
+		if (null !== $this->helpTextLstr) {
+			$uiC->append($uo->createElement(UiOutfitter::EL_NATURE_HELP_TEXT, null, 
+					$this->getHelpText($view->getN2nLocale())));
+		}
+		
+		return $uiC;
 	}
 }

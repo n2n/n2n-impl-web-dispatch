@@ -30,6 +30,8 @@ use n2n\reflection\property\AccessProxy;
 use n2n\impl\web\dispatch\property\ScalarProperty;
 use n2n\web\dispatch\property\ManagedProperty;
 use n2n\web\dispatch\map\bind\BindingDefinition;
+use n2n\impl\web\ui\view\html\HtmlSnippet;
+use n2n\web\dispatch\mag\UiOutfitter;
 
 class SecretStringMag extends MagAdapter {
 	private $maxlength;
@@ -71,7 +73,14 @@ class SecretStringMag extends MagAdapter {
 		}
 	}
 	
-	public function createUiField(PropertyPath $propertyPath, HtmlView $htmlView): UiComponent {
-		return $htmlView->getFormHtmlBuilder()->getInput($propertyPath, $this->getAttrs(), null, true);
+	public function createUiField(PropertyPath $propertyPath, HtmlView $view, UiOutfitter $uo): UiComponent {
+		$uiC = new HtmlSnippet($view->getFormHtmlBuilder()->getInput($propertyPath, $this->getAttrs(), null, true));
+		
+		if (null !== $this->helpTextLstr) {
+			$uiC->append($uo->createElement(UiOutfitter::EL_NATURE_HELP_TEXT, null,
+					$this->getHelpText($view->getN2nLocale())));
+		}
+		
+		return $uiC;
 	}
 }

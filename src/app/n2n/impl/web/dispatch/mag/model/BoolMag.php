@@ -33,6 +33,7 @@ use n2n\impl\web\dispatch\property\ScalarProperty;
 use n2n\web\dispatch\property\ManagedProperty;
 use n2n\web\ui\UiComponent;
 use n2n\reflection\ArgUtils;
+use n2n\impl\web\dispatch\map\val\ValIsset;
 
 /**
  * Class BoolMag
@@ -40,6 +41,7 @@ use n2n\reflection\ArgUtils;
  */
 class BoolMag extends MagAdapter {
 	private $inputAttrs = array();
+	private $mandatory = false;
 
 	/**
 	 * BoolMag constructor.
@@ -53,6 +55,16 @@ class BoolMag extends MagAdapter {
 		$this->inputAttrs = (array) $inputAttrs;
 	}
 
+	public function setMandatory(bool $mandatory) {
+		$this->mandatory = $mandatory;
+		
+		return $this;
+	}
+	
+	public function isMandatory() {
+		return $this->mandatory;
+	}
+	
 	/**
 	 * @param array $inputAttrs
 	 */
@@ -80,6 +92,9 @@ class BoolMag extends MagAdapter {
 	 * @param BindingDefinition $bd
 	 */
 	public function setupBindingDefinition(BindingDefinition $bd) {
+		if ($this->mandatory) {
+			$bd->val($this->propertyName, new ValIsset());
+		}
 	}
 
 //	public function getLabel(N2nLocale $n2nLocale): string {

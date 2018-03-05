@@ -35,6 +35,7 @@ use n2n\impl\web\dispatch\map\val\ValNotEmpty;
 use n2n\web\dispatch\property\ManagedProperty;
 use n2n\web\ui\UiComponent;
 use n2n\web\dispatch\mag\UiOutfitter;
+use n2n\impl\web\ui\view\html\HtmlSnippet;
 
 /**
  * Class FileMag
@@ -112,7 +113,7 @@ class FileMag extends MagAdapter {
 	 * @param HtmlView $htmlView
 	 * @return UiComponent
 	 */
-	public function createUiField(PropertyPath $propertyPath, HtmlView $htmlView, UiOutfitter $uo): UiComponent {
+	public function createUiField(PropertyPath $propertyPath, HtmlView $view, UiOutfitter $uo): UiComponent {
 		$allowedExtensionString = '';
 		$counter = 0;
 		if ($this->allowedExtensions !== null) {
@@ -125,6 +126,13 @@ class FileMag extends MagAdapter {
 			}
 			$this->inputAttrs['accept'] = $allowedExtensionString;
 		}
-		return $htmlView->getFormHtmlBuilder()->getInputFileWithLabel($propertyPath, $this->inputAttrs);
+		$uiC = new HtmlSnippet($view->getFormHtmlBuilder()->getInputFileWithLabel($propertyPath, $this->inputAttrs));
+		
+		if (null !== $this->helpTextLstr) {
+			$uiC->append($uo->createElement(UiOutfitter::EL_NATURE_HELP_TEXT, null,
+					$this->getHelpText($view->getN2nLocale())));
+		}
+		
+		return $uiC;
 	}
 }
