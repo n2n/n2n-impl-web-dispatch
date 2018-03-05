@@ -31,6 +31,7 @@ use n2n\impl\web\dispatch\map\val\ValNotEmpty;
 use n2n\web\dispatch\property\ManagedProperty;
 use n2n\web\ui\UiComponent;
 use n2n\web\dispatch\mag\UiOutfitter;
+use n2n\impl\web\ui\view\html\HtmlSnippet;
 
 /**
  * Class NumericMag
@@ -134,12 +135,19 @@ class NumericMag extends MagAdapter {
 	 * @param HtmlView $view
 	 * @return UiComponent
 	 */
-	public function createUiField(PropertyPath $propertyPath, HtmlView $view, UiOutfitter $uiOutfitter): UiComponent {
+	public function createUiField(PropertyPath $propertyPath, HtmlView $view, UiOutfitter $uo): UiComponent {
 		$attrs = array_merge(array('min' => $this->minValue, 'max' => $this->maxValue),
-				$uiOutfitter->createAttrs(UiOutfitter::NATURE_MAIN_CONTROL));
+				$uo->createAttrs(UiOutfitter::NATURE_MAIN_CONTROL));
 
-		return $view->getFormHtmlBuilder()->getInput($propertyPath, $attrs,
-				($this->decimalPlaces > 0 ? null : 'number'));
+		$uiC = new HtmlSnippet($view->getFormHtmlBuilder()->getInput($propertyPath, $attrs,
+				($this->decimalPlaces > 0 ? null : 'number')));
+		
+		if (null !== $this->helpTextLstr) {
+			$uiC->append($uo->createElement(UiOutfitter::EL_NATURE_HELP_TEXT, null,
+					$this->getHelpText($view->getN2nLocale())));
+		}
+		
+		return $uiC;
 	}
 
 	/**

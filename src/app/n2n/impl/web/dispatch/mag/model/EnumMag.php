@@ -34,6 +34,7 @@ use n2n\l10n\N2nLocale;
 use n2n\l10n\Lstr;
 use n2n\web\dispatch\mag\UiOutfitter;
 use n2n\impl\web\ui\view\html\HtmlUtils;
+use n2n\impl\web\ui\view\html\HtmlSnippet;
 
 /**
  * Class EnumMag
@@ -136,8 +137,16 @@ class EnumMag extends MagAdapter {
 		$attrs = HtmlUtils::mergeAttrs(
 				$uo->createAttrs(UiOutfitter::NATURE_SELECT|UiOutfitter::NATURE_MAIN_CONTROL), $this->inputAttrs);
 		
-		return $view->getFormHtmlBuilder()->getSelect($propertyPath, $this->buildOptions($view->getN2nLocale()), 
-				$attrs);
+		$uiC = new HtmlSnippet($view->getFormHtmlBuilder()->getSelect($propertyPath, $this->buildOptions($view->getN2nLocale()), 
+				$attrs));
+		
+		
+		if (null !== $this->helpTextLstr) {
+			$uiC->append($uo->createElement(UiOutfitter::EL_NATURE_HELP_TEXT, null,
+					$this->getHelpText($view->getN2nLocale())));
+		}
+		
+		return $uiC;
 	}
 
 	/**

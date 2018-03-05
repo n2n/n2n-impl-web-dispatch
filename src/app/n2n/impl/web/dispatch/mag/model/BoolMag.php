@@ -91,18 +91,25 @@ class BoolMag extends MagAdapter {
 	 * @param HtmlView $view
 	 * @return UiComponent
 	 */
-	public function createUiField(PropertyPath $propertyPath, HtmlView $view, UiOutfitter $uiOutfitter): UiComponent {
-		$inputAttrs = HtmlUtils::mergeAttrs($uiOutfitter->createAttrs(UiOutfitter::NATURE_CHECK|UiOutfitter::NATURE_MAIN_CONTROL), $this->inputAttrs);
+	public function createUiField(PropertyPath $propertyPath, HtmlView $view, UiOutfitter $uo): UiComponent {
+		$inputAttrs = HtmlUtils::mergeAttrs($uo->createAttrs(UiOutfitter::NATURE_CHECK|UiOutfitter::NATURE_MAIN_CONTROL), $this->inputAttrs);
 		$formHtml = $view->getFormHtmlBuilder();
 
 		$snippetUi = new HtmlSnippet();
 		$labelUi = $formHtml->getLabel($propertyPath, $this->labelLstr->t($view->getN2nLocale()),
-				$uiOutfitter->createAttrs(UiOutfitter::NATURE_CHECK_LABEL));
+				$uo->createAttrs(UiOutfitter::NATURE_CHECK_LABEL));
 		$snippetUi->appendLn($formHtml->getInputCheckbox($propertyPath, true, $inputAttrs));
 		$snippetUi->appendLn($labelUi);
 
-		return $uiOutfitter->createElement(UiOutfitter::EL_NATURE_CHECK_WRAPPER, null, $snippetUi);
-
+		$uiC = new HtmlSnippet($uo->createElement(UiOutfitter::EL_NATURE_CHECK_WRAPPER, null, $snippetUi));
+		
+		if (null !== $this->helpTextLstr) {
+			$uiC->append($uo->createElement(UiOutfitter::EL_NATURE_HELP_TEXT, null,
+					$this->getHelpText($view->getN2nLocale())));
+		}
+		
+		return $uiC;
+		
 //		$label = new HtmlElement('label', $uiOutfitter->createAttrs(UiOutfitter::NATURE_CHECK_LABEL));
 //		$label->appendLn($view->getFormHtmlBuilder()->getInputCheckbox($propertyPath, true, $inputAttrs));
 //		$label->appendLn($this->labelLstr->t($view->getN2nLocale()));

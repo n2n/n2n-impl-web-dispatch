@@ -35,6 +35,7 @@ use n2n\web\dispatch\property\ManagedProperty;
 use n2n\web\ui\Raw;
 use n2n\web\ui\UiComponent;
 use n2n\web\dispatch\mag\UiOutfitter;
+use n2n\impl\web\ui\view\html\HtmlSnippet;
 
 /**
  * Class EnumArrayMag
@@ -102,7 +103,7 @@ class EnumArrayMag extends MagAdapter {
 	 * @param HtmlView $view
 	 * @return UiComponent
 	 */
-	public function createUiField(PropertyPath $propertyPath, HtmlView $view, UiOutfitter $uiOutfitter): UiComponent {
+	public function createUiField(PropertyPath $propertyPath, HtmlView $view, UiOutfitter $uo): UiComponent {
 		$dtc = new DynamicTextCollection('n2n\impl\web\dispatch', $view->getN2nLocale());
 		$formHtml = $view->getFormHtmlBuilder();
 		$values = $formHtml->meta()->getMapValue($propertyPath);
@@ -170,6 +171,14 @@ class EnumArrayMag extends MagAdapter {
 			lastLi.parentNode.removeChild(lastLi);
 		 */
 		$htmlElement->appendLn(new HtmlElement('script', null, new Raw('function createRemove(e){var t=document.createElement("span");return t.innerHTML=" "+optionArr.getAttribute("data-remove-word"),t.className="n2n-impl-web-dispatch-remove",t.style.cursor="pointer",t.onclick=function(){this.parentElement.parentElement.removeChild(this.parentElement)},t}for(var lastScript=[].slice.call(document.getElementsByTagName("script")).slice(-1)[0],optionArr=lastScript.previousSibling,lastLi=[].slice.call(optionArr.getElementsByTagName("li")).slice(-1)[0],i=0;i<optionArr.children.length;i++)optionArr.children[i].append(createRemove());var addLiElem=document.createElement("li");addLiElem.innerHTML=optionArr.getAttribute("data-add-word"),addLiElem.style.cursor="pointer",addLiElem.className="n2n-impl-web-dispatch-add",addLiElem.onclick=function(){var e=lastLi.getElementsByTagName("select")[0],t=document.createElement("select");t.innerHTML=e.innerHTML,t.setAttribute("name",e.getAttribute("name"));var i=document.createElement("li");i.append(t),i.appendChild(createRemove());for(var r=0;r<lastLi.attributes.length;r++){var a=lastLi.attributes.item(r);i.setAttribute(a.nodeName,a.nodeValue)}i.attributes.name=lastLi.firstChild.getAttribute("name").replace("[]","[2]"),optionArr.insertBefore(i,this)},optionArr.append(addLiElem),lastLi.parentNode.removeChild(lastLi);')));
-		return $htmlElement;
+		
+		$uiC = new HtmlSnippet($htmlElement);
+		
+		if (null !== $this->helpTextLstr) {
+			$uiC->append($uo->createElement(UiOutfitter::EL_NATURE_HELP_TEXT, null,
+					$this->getHelpText($view->getN2nLocale())));
+		}
+		
+		return $uiC;
 	}
 }

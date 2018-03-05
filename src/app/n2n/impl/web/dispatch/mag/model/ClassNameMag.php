@@ -32,6 +32,7 @@ use n2n\impl\web\dispatch\property\ScalarProperty;
 use n2n\web\dispatch\property\ManagedProperty;
 use n2n\web\ui\UiComponent;
 use n2n\web\dispatch\mag\UiOutfitter;
+use n2n\impl\web\ui\view\html\HtmlSnippet;
 
 /**
  * It is !!!VERY DANGEROUS!!! to use this Mag 
@@ -84,7 +85,14 @@ class ClassNameMag extends MagAdapter {
 		$bd->val($this->propertyName, new ValReflectionClass($this->isAClass));
 	}
 	
-	public function createUiField(PropertyPath $propertyPath, HtmlView $htmlView, UiOutfitter $uiOutfitter): UiComponent {
-		return $htmlView->getFormHtmlBuilder()->getInput($propertyPath, $this->inputAttrs);
+	public function createUiField(PropertyPath $propertyPath, HtmlView $view, UiOutfitter $uo): UiComponent {
+		$uiC = new HtmlSnippet($view->getFormHtmlBuilder()->getInput($propertyPath, $this->inputAttrs));
+		
+		if (null !== $this->helpTextLstr) {
+			$uiC->append($uo->createElement(UiOutfitter::EL_NATURE_HELP_TEXT, null,
+					$this->getHelpText($view->getN2nLocale())));
+		}
+		
+		return $uiC;
 	}
 }
