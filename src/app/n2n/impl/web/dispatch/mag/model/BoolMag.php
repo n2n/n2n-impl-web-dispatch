@@ -33,6 +33,7 @@ use n2n\impl\web\dispatch\property\ScalarProperty;
 use n2n\web\dispatch\property\ManagedProperty;
 use n2n\web\ui\UiComponent;
 use n2n\reflection\ArgUtils;
+use n2n\impl\web\dispatch\map\val\ValIsset;
 
 /**
  * Class BoolMag
@@ -40,6 +41,7 @@ use n2n\reflection\ArgUtils;
  */
 class BoolMag extends MagAdapter {
 	private $inputAttrs = array();
+	private $mandatory = false;
 
 	/**
 	 * BoolMag constructor.
@@ -53,6 +55,16 @@ class BoolMag extends MagAdapter {
 		$this->inputAttrs = (array) $inputAttrs;
 	}
 
+	public function setMandatory(bool $mandatory) {
+		$this->mandatory = $mandatory;
+		
+		return $this;
+	}
+	
+	public function isMandatory() {
+		return $this->mandatory;
+	}
+	
 	/**
 	 * @param array $inputAttrs
 	 */
@@ -80,6 +92,9 @@ class BoolMag extends MagAdapter {
 	 * @param BindingDefinition $bd
 	 */
 	public function setupBindingDefinition(BindingDefinition $bd) {
+		if ($this->mandatory) {
+			$bd->val($this->propertyName, new ValIsset());
+		}
 	}
 
 //	public function getLabel(N2nLocale $n2nLocale): string {
@@ -91,25 +106,18 @@ class BoolMag extends MagAdapter {
 	 * @param HtmlView $view
 	 * @return UiComponent
 	 */
-	public function createUiField(PropertyPath $propertyPath, HtmlView $view, UiOutfitter $uo): UiComponent {
-		$inputAttrs = HtmlUtils::mergeAttrs($uo->createAttrs(UiOutfitter::NATURE_CHECK|UiOutfitter::NATURE_MAIN_CONTROL), $this->inputAttrs);
+	public function createUiField(PropertyPath $propertyPath, HtmlView $view, UiOutfitter $uiOutfitter): UiComponent {
+		$inputAttrs = HtmlUtils::mergeAttrs($uiOutfitter->createAttrs(UiOutfitter::NATURE_CHECK|UiOutfitter::NATURE_MAIN_CONTROL), $this->inputAttrs);
 		$formHtml = $view->getFormHtmlBuilder();
 
 		$snippetUi = new HtmlSnippet();
 		$labelUi = $formHtml->getLabel($propertyPath, $this->labelLstr->t($view->getN2nLocale()),
-				$uo->createAttrs(UiOutfitter::NATURE_CHECK_LABEL));
+				$uiOutfitter->createAttrs(UiOutfitter::NATURE_CHECK_LABEL));
 		$snippetUi->appendLn($formHtml->getInputCheckbox($propertyPath, true, $inputAttrs));
 		$snippetUi->appendLn($labelUi);
 
-		$uiC = new HtmlSnippet($uo->createElement(UiOutfitter::EL_NATURE_CHECK_WRAPPER, null, $snippetUi));
-		
-		if (null !== $this->helpTextLstr) {
-			$uiC->append($uo->createElement(UiOutfitter::EL_NATURE_HELP_TEXT, null,
-					$this->getHelpText($view->getN2nLocale())));
-		}
-		
-		return $uiC;
-		
+		return $uiOutfitter->createElement(UiOutfitter::EL_NATURE_CHECK_WRAPPER, null, $snippetUi);
+
 //		$label = new HtmlElement('label', $uiOutfitter->createAttrs(UiOutfitter::NATURE_CHECK_LABEL));
 //		$label->appendLn($view->getFormHtmlBuilder()->getInputCheckbox($propertyPath, true, $inputAttrs));
 //		$label->appendLn($this->labelLstr->t($view->getN2nLocale()));
