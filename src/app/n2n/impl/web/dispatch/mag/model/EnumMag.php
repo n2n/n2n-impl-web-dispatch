@@ -35,7 +35,6 @@ use n2n\l10n\Lstr;
 use n2n\web\dispatch\mag\UiOutfitter;
 use n2n\impl\web\ui\view\html\HtmlUtils;
 use n2n\impl\web\ui\view\html\HtmlSnippet;
-use n2n\impl\web\ui\view\html\HtmlElement;
 
 /**
  * Class EnumMag
@@ -106,6 +105,8 @@ class EnumMag extends MagAdapter {
 		} else {
 			$this->options = $options;
 		}
+		
+		return $this;
 	}
 
 	/**
@@ -129,6 +130,8 @@ class EnumMag extends MagAdapter {
 	
 	public function setInputAttrs(array $inputAttrs) {
 		$this->inputAttrs = $inputAttrs;
+		
+		return $this;
 	}
 
 	/**
@@ -140,6 +143,8 @@ class EnumMag extends MagAdapter {
 			return;
 		}
 		$this->value = $formValue;
+		
+		return $this;
 	}
 
 	/**
