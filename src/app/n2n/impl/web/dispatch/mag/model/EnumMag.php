@@ -35,6 +35,7 @@ use n2n\l10n\Lstr;
 use n2n\web\dispatch\mag\UiOutfitter;
 use n2n\impl\web\ui\view\html\HtmlUtils;
 use n2n\impl\web\ui\view\html\HtmlSnippet;
+use n2n\impl\web\ui\view\html\HtmlElement;
 
 /**
  * Class EnumMag
@@ -44,6 +45,7 @@ class EnumMag extends MagAdapter {
 	private $mandatory;
 	private $options;
 	private $inputAttrs;
+	private $useRadios = false;
 
 	/**
 	 * EnumMag constructor.
@@ -72,8 +74,20 @@ class EnumMag extends MagAdapter {
 	/**
 	 * @param $mandatory
 	 */
-	public function setMandatory($mandatory) {
-		$this->mandatory = (bool) $mandatory;
+	public function setMandatory(bool $mandatory) {
+		$this->mandatory = $mandatory;
+		
+		return $this;
+	}
+	
+	public function isUseRadios() {
+		return $this->useRadios;
+	}
+	
+	public function setUseRadios(bool $useRadios) {
+		$this->useRadios = $useRadios;
+		
+		return $this;
 	}
 
 	/**
@@ -134,11 +148,27 @@ class EnumMag extends MagAdapter {
 	 * @return UiComponent
 	 */
 	public function createUiField(PropertyPath $propertyPath, HtmlView $view, UiOutfitter $uo): UiComponent {
-		$attrs = HtmlUtils::mergeAttrs(
-				$uo->createAttrs(UiOutfitter::NATURE_SELECT|UiOutfitter::NATURE_MAIN_CONTROL), $this->inputAttrs);
-		
-		$uiC = new HtmlSnippet($view->getFormHtmlBuilder()->getSelect($propertyPath, $this->buildOptions($view->getN2nLocale()), 
-				$attrs));
+		$uiC = new HtmlSnippet();
+		$formHtml = $view->getFormHtmlBuilder();
+		if ($this->useRadios) {
+			$inputAttrs = HtmlUtils::mergeAttrs(
+					$uo->createAttrs(UiOutfitter::NATURE_CHECK|UiOutfitter::NATURE_MAIN_CONTROL), $this->inputAttrs);
+			
+			$snippetUi = new HtmlSnippet();
+			$labelUi = $formHtml->getLabel($propertyPath, $this->getLabel($view->getN2nLocale()),
+					$uo->createAttrs(UiOutfitter::NATURE_CHECK_LABEL));
+			$snippetUi->appendLn($formHtml->getInputCheckbox($propertyPath, true, $inputAttrs));
+			$snippetUi->appendLn($labelUi);
+			
+			$uiC->append($uo->createElement(UiOutfitter::EL_NATURE_CHECK_WRAPPER, $snippetUi));
+			
+		} else {
+			$attrs = HtmlUtils::mergeAttrs(
+					$uo->createAttrs(UiOutfitter::NATURE_SELECT|UiOutfitter::NATURE_MAIN_CONTROL), $this->inputAttrs);
+			
+			$uiC = $uiC->append($formHtml->getSelect($propertyPath, 
+					$this->buildOptions($view->getN2nLocale()), $attrs));
+		}
 		
 		
 		if (null !== $this->helpTextLstr) {
