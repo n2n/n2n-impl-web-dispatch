@@ -165,7 +165,7 @@ class EnumMag extends MagAdapter {
 			$snippetUi->appendLn($formHtml->getInputCheckbox($propertyPath, true, $inputAttrs));
 			$snippetUi->appendLn($labelUi);
 			
-			$uiC->append($uo->createElement(UiOutfitter::EL_NATURE_CHECK_WRAPPER, $snippetUi));
+			$uiC->append($uo->createElement(UiOutfitter::EL_NATURE_CHECK_WRAPPER, null, $snippetUi));
 			
 		} else {
 			$attrs = HtmlUtils::mergeAttrs(
