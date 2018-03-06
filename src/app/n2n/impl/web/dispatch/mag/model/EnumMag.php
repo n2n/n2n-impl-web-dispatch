@@ -171,7 +171,7 @@ class EnumMag extends MagAdapter {
 			$attrs = HtmlUtils::mergeAttrs(
 					$uo->createAttrs(UiOutfitter::NATURE_SELECT|UiOutfitter::NATURE_MAIN_CONTROL), $this->inputAttrs);
 			
-			$uiC = $uiC->append($formHtml->getSelect($propertyPath, 
+			$uiC->append($formHtml->getSelect($propertyPath, 
 					$this->buildOptions($view->getN2nLocale()), $attrs));
 		}
 		
