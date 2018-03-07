@@ -24,6 +24,7 @@ namespace n2n\impl\web\dispatch\mag\model;
 use n2n\impl\web\dispatch\map\val\ValIsset;
 use n2n\web\dispatch\map\PropertyPath;
 use n2n\impl\web\ui\view\html\HtmlView;
+use n2n\impl\web\ui\view\html\HtmlElement;
 use n2n\impl\web\dispatch\map\val\ValEnum;
 use n2n\impl\web\dispatch\map\val\ValArraySize;
 use n2n\impl\web\dispatch\property\ScalarProperty;
@@ -111,9 +112,10 @@ class MultiSelectMag extends MagAdapter {
 			$inputAttrs = $uo->createAttrs(UiOutfitter::NATURE_CHECK|UiOutfitter::NATURE_MAIN_CONTROL);
 			
 			$snippetUi = new HtmlSnippet();
-			$labelUi = $formHtml->getLabel($propertyPath, $this->labelLstr->t($view->getN2nLocale()),
+			$cbxPropertyPath = $propertyPath->fieldExt($key);
+			$labelUi = $formHtml->getLabel($cbxPropertyPath, $this->labelLstr->t($view->getN2nLocale()),
 					$uo->createAttrs(UiOutfitter::NATURE_CHECK_LABEL));
-			$snippetUi->appendLn($formHtml->getInputCheckbox($propertyPath->fieldExt($key), $key, $inputAttrs));
+			$snippetUi->appendLn($formHtml->getInputCheckbox($cbxPropertyPath, $key, $inputAttrs));
 			$snippetUi->appendLn($labelUi);
 			
 			$uiControls->append($uo->createElement(UiOutfitter::EL_NATURE_CONTROL_LIST_ITEM, null, 
