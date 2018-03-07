@@ -155,24 +155,26 @@ class EnumMag extends MagAdapter {
 	public function createUiField(PropertyPath $propertyPath, HtmlView $view, UiOutfitter $uo): UiComponent {
 		$uiC = new HtmlSnippet();
 		$formHtml = $view->getFormHtmlBuilder();
+		$options = $this->buildOptions($view->getN2nLocale());
+		
 		if ($this->useRadios) {
-			$inputAttrs = HtmlUtils::mergeAttrs(
-					$uo->createAttrs(UiOutfitter::NATURE_CHECK|UiOutfitter::NATURE_MAIN_CONTROL), $this->inputAttrs);
-			
-			$snippetUi = new HtmlSnippet();
-			$labelUi = $formHtml->getLabel($propertyPath, $this->getLabel($view->getN2nLocale()),
-					$uo->createAttrs(UiOutfitter::NATURE_CHECK_LABEL));
-			$snippetUi->appendLn($formHtml->getInputCheckbox($propertyPath, true, $inputAttrs));
-			$snippetUi->appendLn($labelUi);
-			
-			$uiC->append($uo->createElement(UiOutfitter::EL_NATURE_CHECK_WRAPPER, null, $snippetUi));
-			
+			foreach ($options as $value => $label) {
+				$inputAttrs = HtmlUtils::mergeAttrs(
+						$uo->createAttrs(UiOutfitter::NATURE_CHECK|UiOutfitter::NATURE_MAIN_CONTROL), $this->inputAttrs);
+				
+				$snippetUi = new HtmlSnippet();
+				$labelUi = $formHtml->getLabel($propertyPath, $label,
+						$uo->createAttrs(UiOutfitter::NATURE_CHECK_LABEL));
+				$snippetUi->appendLn($formHtml->getInputRadio($propertyPath, $value, $inputAttrs));
+				$snippetUi->appendLn($labelUi);
+				
+				$uiC->append($uo->createElement(UiOutfitter::EL_NATURE_CHECK_WRAPPER, null, $snippetUi));
+			}
 		} else {
 			$attrs = HtmlUtils::mergeAttrs(
 					$uo->createAttrs(UiOutfitter::NATURE_SELECT|UiOutfitter::NATURE_MAIN_CONTROL), $this->inputAttrs);
 			
-			$uiC->append($formHtml->getSelect($propertyPath, 
-					$this->buildOptions($view->getN2nLocale()), $attrs));
+			$uiC->append($formHtml->getSelect($propertyPath, $options, $attrs));
 		}
 		
 		
