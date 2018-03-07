@@ -43,6 +43,14 @@ class BasicUiOutfitter implements UiOutfitter {
 
 			return $container;
 		}
+		
+		if ($elemNature & self::EL_NATURE_CONTROL_LIST) {
+			return new HtmlElement('div', $attrs, $contents);
+		}
+		
+		if ($elemNature & self::EL_NATURE_CONTROL_LIST_ITEM) {
+			return new HtmlElement('div', $attrs, $contents);
+		}
 
 		return new HtmlSnippet($contents);
 	}

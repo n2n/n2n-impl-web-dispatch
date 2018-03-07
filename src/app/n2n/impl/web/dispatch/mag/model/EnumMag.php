@@ -158,6 +158,7 @@ class EnumMag extends MagAdapter {
 		$options = $this->buildOptions($view->getN2nLocale());
 		
 		if ($this->useRadios) {
+			$uiControls = new HtmlSnippet();
 			foreach ($options as $value => $label) {
 				$inputAttrs = HtmlUtils::mergeAttrs(
 						$uo->createAttrs(UiOutfitter::NATURE_CHECK|UiOutfitter::NATURE_MAIN_CONTROL), $this->inputAttrs);
@@ -168,8 +169,10 @@ class EnumMag extends MagAdapter {
 				$snippetUi->appendLn($formHtml->getInputRadio($propertyPath, $value, $inputAttrs));
 				$snippetUi->appendLn($labelUi);
 				
-				$uiC->append($uo->createElement(UiOutfitter::EL_NATURE_CHECK_WRAPPER, null, $snippetUi));
+				$uiControls->append($uo->createElement(UiOutfitter::EL_NATURE_CONTROL_LIST_ITEM, null, 
+						$uo->createElement(UiOutfitter::EL_NATURE_CHECK_WRAPPER, null, $snippetUi)));
 			}
+			$uiC->append($uo->createElement(UiOutfitter::EL_NATURE_CONTROL_LIST, null, $uiControls));
 		} else {
 			$attrs = HtmlUtils::mergeAttrs(
 					$uo->createAttrs(UiOutfitter::NATURE_SELECT|UiOutfitter::NATURE_MAIN_CONTROL), $this->inputAttrs);
