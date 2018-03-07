@@ -32,6 +32,8 @@ use n2n\web\dispatch\map\PropertyTypeMissmatchException;
 use n2n\web\ui\view\ViewErrorException;
 use n2n\reflection\magic\CanNotFillParameterException;
 use n2n\web\dispatch\map\InvalidPropertyExpressionException;
+use n2n\web\dispatch\DispatchContext;
+use n2n\reflection\CastUtils;
 
 class FormHtmlBuilderMeta {
 	private $view;
@@ -315,5 +317,25 @@ class FormHtmlBuilderMeta {
 		
 		return $dispatchable->getMagCollection()->getMagWrapperByPropertyName(
 				$propertyPath->getLast()->getPropertyName());		
+	}
+	
+	
+	/**
+	 * @return bool
+	 */
+	public function isDispatched(string $methodName = null, bool $exclusive = false) {
+		$form = $this->getForm();
+		
+		$dispatchContext = $this->view->lookup(DispatchContext::class);
+		CastUtils::assertTrue($dispatchContext instanceof DispatchContext);
+		
+		if (!$dispatchContext->hasDispatchJob()) return false;
+		
+		$dispatchJob = $dispatchContext->getDispatchJob();
+		if (!$exclusive) {
+			$methodName = $dispatchJob->getMethodName();
+		}
+		
+		return $dispatchJob->matches($form->getMappingPathResolver()->getBaseMappingResult()->getObject(), $methodName);
 	}
 }
