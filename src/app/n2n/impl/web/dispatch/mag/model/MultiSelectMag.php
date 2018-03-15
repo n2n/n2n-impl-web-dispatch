@@ -105,15 +105,24 @@ class MultiSelectMag extends MagAdapter {
 	 * @return UiComponent
 	 */
 	public function createUiField(PropertyPath $propertyPath, HtmlView $view, UiOutfitter $uo): UiComponent {
-		$ul = new HtmlElement('ul', array('class' => 'n2n-multiselect-option'));
+		$uiControls = new HtmlSnippet();
 		
 		$formHtml = $view->getFormHtmlBuilder();
 		foreach ($this->choicesMap as $key => $label) {
-			$ul->appendContent(new HtmlElement('li', null, 
-					$formHtml->getInputCheckbox($propertyPath->fieldExt($key), $key, null, $label)));
+			$inputAttrs = $uo->createAttrs(UiOutfitter::NATURE_CHECK|UiOutfitter::NATURE_MAIN_CONTROL);
+			
+			$snippetUi = new HtmlSnippet();
+			$cbxPropertyPath = $propertyPath->fieldExt($key);
+			$labelUi = $formHtml->getLabel($cbxPropertyPath, $this->labelLstr->t($view->getN2nLocale()),
+					$uo->createAttrs(UiOutfitter::NATURE_CHECK_LABEL));
+			$snippetUi->appendLn($formHtml->getInputCheckbox($cbxPropertyPath, $key, $inputAttrs));
+			$snippetUi->appendLn($labelUi);
+			
+			$uiControls->append($uo->createElement(UiOutfitter::EL_NATURE_CONTROL_LIST_ITEM, null, 
+					$uo->createElement(UiOutfitter::EL_NATURE_CHECK_WRAPPER, null, $snippetUi)));
 		}
 		
-		$uiC = new HtmlSnippet($ul);
+		$uiC = new HtmlSnippet($uo->createElement(UiOutfitter::EL_NATURE_CONTROL_LIST, array('class' => 'n2n-multiselect-option'), $uiControls));
 		
 		if (null !== $this->helpTextLstr) {
 			$uiC->append($uo->createElement(UiOutfitter::EL_NATURE_HELP_TEXT, null,
