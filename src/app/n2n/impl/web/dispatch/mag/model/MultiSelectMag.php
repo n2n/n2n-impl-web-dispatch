@@ -113,7 +113,7 @@ class MultiSelectMag extends MagAdapter {
 			
 			$snippetUi = new HtmlSnippet();
 			$cbxPropertyPath = $propertyPath->fieldExt($key);
-			$labelUi = $formHtml->getLabel($cbxPropertyPath, $this->labelLstr->t($view->getN2nLocale()),
+			$labelUi = $formHtml->getLabel($cbxPropertyPath, $label,
 					$uo->createAttrs(UiOutfitter::NATURE_CHECK_LABEL));
 			$snippetUi->appendLn($formHtml->getInputCheckbox($cbxPropertyPath, $key, $inputAttrs));
 			$snippetUi->appendLn($labelUi);
