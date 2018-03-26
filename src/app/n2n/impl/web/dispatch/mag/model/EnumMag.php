@@ -35,6 +35,7 @@ use n2n\l10n\Lstr;
 use n2n\web\dispatch\mag\UiOutfitter;
 use n2n\impl\web\ui\view\html\HtmlUtils;
 use n2n\impl\web\ui\view\html\HtmlSnippet;
+use n2n\impl\web\dispatch\map\val\ValNotEmpty;
 
 /**
  * Class EnumMag
@@ -201,6 +202,10 @@ class EnumMag extends MagAdapter {
 	 * @param BindingDefinition $bd
 	 */
 	public function setupBindingDefinition(BindingDefinition $bd) {
+		if ($this->isMandatory()) {
+			$bd->val($this->getPropertyName(), new ValNotEmpty());
+		}
+		
 		$bd->val($this->getPropertyName(), new ValEnum(array_keys($this->options),
 				new MessageCode(ValEnum::DEFAULT_ERROR_TEXT_CODE, array('field' => $this->labelLstr), 
 						'n2n\impl\web\dispatch')));

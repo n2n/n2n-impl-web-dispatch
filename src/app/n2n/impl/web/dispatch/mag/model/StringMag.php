@@ -131,12 +131,12 @@ class StringMag extends MagAdapter {
 	 * @param BindingDefinition $bd
 	 */
 	public function setupBindingDefinition(BindingDefinition $bd) {
-		if ($this->mandatory) {
-			$bd->val($this->propertyName, new ValNotEmpty());
+		if ($this->isMandatory()) {
+			$bd->val($this->getPropertyName(), new ValNotEmpty());
 		}
 		
-		if ($this->maxlength !== null) {
-			$bd->val($this->propertyName, new ValMaxLength((int) $this->maxlength));
+		if ($this->getMaxlength() !== null) {
+			$bd->val($this->getPropertyName(), new ValMaxLength((int) $this->maxlength));
 		}
 	}
 
