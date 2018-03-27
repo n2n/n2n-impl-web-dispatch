@@ -32,15 +32,19 @@ use n2n\web\dispatch\property\ManagedProperty;
 use n2n\web\dispatch\map\bind\BindingDefinition;
 use n2n\impl\web\ui\view\html\HtmlSnippet;
 use n2n\web\dispatch\mag\UiOutfitter;
+use n2n\impl\web\ui\view\html\HtmlUtils;
 
 class SecretStringMag extends MagAdapter {
 	private $maxlength;
 	private $required;
+	private $inputAttrs;
 	
-	public function __construct($properyName, $labelStr, $value = null, bool $required = false, $maxlength = null, array $attrs = null) {
-		parent::__construct($properyName, $labelStr, $value, $attrs);
+	public function __construct($labelStr, $value = null, bool $required = false, $maxlength = null, 
+			array $attrs = null, array $inputAttrs = null) {
+		parent::__construct($labelStr, $value, $attrs);
 		$this->maxlength = $maxlength;
 		$this->required = $required;
+		$this->inputAttrs = $inputAttrs;
 	}
 	
 	public function setMaxlength($maxlength) {
@@ -74,7 +78,14 @@ class SecretStringMag extends MagAdapter {
 	}
 	
 	public function createUiField(PropertyPath $propertyPath, HtmlView $view, UiOutfitter $uo): UiComponent {
-		$uiC = new HtmlSnippet($view->getFormHtmlBuilder()->getInput($propertyPath, $this->getAttrs(), null, true));
+		$uiC =  new HtmlSnippet();
+		
+		
+		$attrs = HtmlUtils::mergeAttrs(
+				$uo->createAttrs(UiOutfitter::NATURE_TEXT|UiOutfitter::NATURE_MAIN_CONTROL), $this->inputAttrs);
+		
+		$uiC->append($view->getFormHtmlBuilder()->getInput($propertyPath, $attrs));
+			
 		
 		if (null !== $this->helpTextLstr) {
 			$uiC->append($uo->createElement(UiOutfitter::EL_NATURE_HELP_TEXT, null,
