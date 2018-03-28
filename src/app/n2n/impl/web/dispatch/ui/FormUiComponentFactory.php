@@ -91,20 +91,20 @@ class FormUiComponentFactory {
 	 */
 	public function createInput(PropertyPath $propertyPath, array $attrs = null, string $type = null,
 			$secret = false, $fixedValue = null, $tagName = 'input', $elementContents = null) {
-				$result = $this->analyzeSimpleProperty($propertyPath, false);
-				
-				$inputValue = null;
-				if (!$secret) {
-					$inputValue = $this->buildInputValue($fixedValue, $result);
-				}
-				
-				if ($type === null) $type = 'text';
-				
-				$elemAttrs = $this->form->enhanceElementAttrs(array('type' => $type,
-						'name' => $this->dte->buildValueParamName($propertyPath, true),
-						'value' => $inputValue), $propertyPath);
-				
-				return new HtmlElement($tagName, HtmlUtils::mergeAttrs($elemAttrs, (array) $attrs), $elementContents);
+		$result = $this->analyzeSimpleProperty($propertyPath, false);
+		
+		$inputValue = null;
+		if (!$secret) {
+			$inputValue = $this->buildInputValue($fixedValue, $result);
+		}
+		
+		if ($type === null) $type = 'text';
+		
+		$elemAttrs = $this->form->enhanceElementAttrs(array('type' => $type,
+				'name' => $this->dte->buildValueParamName($propertyPath, true),
+				'value' => $inputValue), $propertyPath);
+		
+		return new HtmlElement($tagName, HtmlUtils::mergeAttrs($elemAttrs, (array) $attrs), $elementContents);
 	}
 	
 	/**
