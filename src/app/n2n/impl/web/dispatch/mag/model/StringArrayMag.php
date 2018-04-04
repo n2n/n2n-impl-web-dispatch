@@ -22,7 +22,6 @@
 namespace n2n\impl\web\dispatch\mag\model;
 
 use n2n\impl\web\dispatch\map\val\ValNotEmpty;
-use n2n\impl\web\ui\view\html\HtmlElement;
 use n2n\web\dispatch\map\PropertyPath;
 use n2n\impl\web\ui\view\html\HtmlView;
 use n2n\reflection\property\AccessProxy;
@@ -32,6 +31,7 @@ use n2n\web\ui\UiComponent;
 use n2n\web\dispatch\property\ManagedProperty;
 use n2n\web\dispatch\mag\UiOutfitter;
 use n2n\impl\web\ui\view\html\HtmlSnippet;
+use n2n\impl\web\ui\view\html\HtmlUtils;
 
 /**
  * Class StringArrayMag
@@ -51,10 +51,10 @@ class StringArrayMag extends MagAdapter {
 	 * @param array|null $containerAttrs
 	 */
 	public function __construct($label, array $values = array(),
-			$mandatory = false, array $inputAttrs = null, array $containerAttrs = null) {
+			bool $mandatory = false, array $inputAttrs = null, array $containerAttrs = null) {
 		parent::__construct($label, $values, $containerAttrs);
 		$this->mandatory = (bool) $mandatory;
-		$this->inputAttrs = $inputAttrs;
+		$this->inputAttrs = (array) $inputAttrs;
 	}
 
 	/**
@@ -79,20 +79,25 @@ class StringArrayMag extends MagAdapter {
 	public function createUiField(PropertyPath $propertyPath, HtmlView $view, UiOutfitter $uo): UiComponent {
 		$formHtml = $view->getFormHtmlBuilder();
 		$stringMags = $formHtml->meta()->getMapValue($propertyPath);
-		$uiC = new HtmlElement('ul', array('class' => 'n2n-option-array', 'data-num-existing' => count($stringMags)));
 		
+		$uiC = new HtmlSnippet();
+		$cAttrs = $uo->createAttrs(UiOutfitter::NATURE_TEXT|UiOutfitter::NATURE_MAIN_CONTROL);
 		foreach ($stringMags as $key => $value) {
 			if (!isset($value)) continue;
-			$uiC->appendContent(new HtmlElement('li', null, 
-					$formHtml->getInput($propertyPath->createArrayFieldExtendedPath($key))));
+			
+			$uiC->append($uo->createElement(UiOutfitter::EL_NATURE_CONTROL_LIST_ITEM, null,
+					$view->getFormHtmlBuilder()->getInput($propertyPath->createArrayFieldExtendedPath($key), $cAttrs)));
 		}
 		
 		for ($i = 0; $i < self::DEFAULT_NUM_ADDITIONS; $i++) {
-			$uiC->appendContent(new HtmlElement('li', null,
-					$formHtml->getInput($propertyPath->createArrayFieldExtendedPath(null))));
+			$uiC->append($uo->createElement(UiOutfitter::EL_NATURE_CONTROL_LIST_ITEM, null,
+					$view->getFormHtmlBuilder()->getInput($propertyPath->createArrayFieldExtendedPath(null), $cAttrs)));
 		}
 		
-		$uiC = new HtmlSnippet(new HtmlElement('div', array('class' => 'n2n-array-option'), $uiC));
+		
+		$uiC = new HtmlSnippet($uo->createElement(UiOutfitter::EL_NATURE_CONTROL_LIST, HtmlUtils::mergeAttrs($this->inputAttrs, 
+				array('data-num-existing' => count($stringMags))), $uiC));
+		//$uiC = new HtmlSnippet(new HtmlElement('div', array('class' => 'n2n-array-option'), $uiC));
 		
 		if (null !== $this->helpTextLstr) {
 			$uiC->append($uo->createElement(UiOutfitter::EL_NATURE_HELP_TEXT, null,
