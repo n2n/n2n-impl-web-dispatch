@@ -34,6 +34,7 @@ use n2n\web\dispatch\property\ManagedProperty;
 use n2n\web\ui\UiComponent;
 use n2n\reflection\ArgUtils;
 use n2n\impl\web\dispatch\map\val\ValIsset;
+use n2n\l10n\N2nLocale;
 
 /**
  * Class BoolMag
@@ -97,9 +98,9 @@ class BoolMag extends MagAdapter {
 		}
 	}
 
-//	public function getLabel(N2nLocale $n2nLocale): string {
-//		return '';
-//	}
+	public function getLabel(N2nLocale $n2nLocale): string {
+		return '';
+	}
 	
 	/**
 	 * @param PropertyPath $propertyPath
@@ -128,9 +129,5 @@ class BoolMag extends MagAdapter {
 	 */
 	public function setFormValue($formValue) {
 		$this->value = (bool) $formValue;
-	}
-
-	public function getNature(): int {
-		return self::NATURE_LABELLESS;
 	}
 }
