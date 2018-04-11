@@ -30,6 +30,7 @@ use n2n\web\dispatch\mag\UiOutfitter;
 use n2n\web\dispatch\map\PropertyPath;
 use n2n\web\dispatch\map\bind\MappingDefinition;
 use n2n\web\ui\UiComponent;
+use n2n\reflection\CastUtils;
 
 class TogglerMag extends BoolMag {
 	private $disabledIgnored = true;
@@ -105,6 +106,14 @@ class TogglerMag extends BoolMag {
  			$ignoredMagWrappers = $this->offAssociatedMagWrappers;
 			$notIgnoredMagWrapper = $this->onAssociatedMagWrappers;
 		}
+		
+		foreach ($ignoredMagWrappers as $magWrapper)  {
+			$magWrapper->setIgnored(true);
+		}
+		
+		foreach ($notIgnoredMagWrapper as $magWrapper)  {
+			$magWrapper->setIgnored(false);
+		} 
 	}
 	
 	public function createUiField(PropertyPath $propertyPath, HtmlView $view, UiOutfitter $uiOutfitter): UiComponent {
