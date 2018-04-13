@@ -118,6 +118,7 @@ function enumUpdateEnabler(elem) {
 	if (window.Jhtml) {
 		Jhtml.ready(function (elements) {
 			enumEnablerFunc(elements);
+			console.log("ready");
 		});
 	} else if (document.readyState === "complete" || document.readyState === "interactive") {
 		enumEnablerFunc([document.documentElement]);
