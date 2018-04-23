@@ -24,6 +24,8 @@ namespace n2n\impl\web\dispatch\map\val;
 use n2n\web\dispatch\map\val\SimplePropertyValidator;
 use n2n\reflection\ArgUtils;
 use n2n\web\dispatch\map\val\ValidationUtils;
+use n2n\reflection\CastUtils;
+use n2n\impl\web\dispatch\property\DateTimeProperty;
 
 class ValDateTime extends SimplePropertyValidator {
 	const DEFAULT_MIN_ERROR_TEXT_CODE = 'n2n.dispatch.val.ValDateTime.min';
@@ -54,12 +56,19 @@ class ValDateTime extends SimplePropertyValidator {
 		ArgUtils::assertTrue($value instanceof \DateTime);
 		
 		if ($this->min !== null && $value < $this->min) {
-			$this->failed($this->minErrorMessage, self::DEFAULT_MIN_ERROR_TEXT_CODE, array(), 'n2n\impl\web\dispatch');
+			$managedProperty = $this->getManagedProperty();
+			CastUtils::assertTrue($managedProperty instanceof DateTimeProperty);
+			
+			$this->failed($this->minErrorMessage, self::DEFAULT_MIN_ERROR_TEXT_CODE,
+					array('date' => $managedProperty->formatDateTime($this->min, $this->getN2nContext()->getN2nLocale())), 
+					'n2n\impl\web\dispatch');
 			return;
 		}
 	
 		if ($this->max !== null && $value > $this->max) {
-			$this->failed($this->maxErrorMessage, self::DEFAULT_MAX_ERROR_TEXT_CODE, array(), 'n2n\impl\web\dispatch');
+			$this->failed($this->maxErrorMessage, self::DEFAULT_MAX_ERROR_TEXT_CODE, 
+					array('date' => $managedProperty->formatDateTime($this->max, $this->getN2nContext()->getN2nLocale())), 
+					'n2n\impl\web\dispatch');
 			return;
 		}
 	}
