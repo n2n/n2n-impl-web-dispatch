@@ -134,7 +134,7 @@ class DateTimeProperty extends ManagedPropertyAdapter implements SimpleProperty 
 		}
 	}
 	
-	private function formatDateTime(\DateTime $dateTime, $n2nLocale) {
+	public function formatDateTime(\DateTime $dateTime, $n2nLocale) {
 		if ($this->icuPattern !== null) {
 			return L10nUtils::formatDateTimeWithIcuPattern($dateTime, $n2nLocale, $this->icuPattern);
 		}
