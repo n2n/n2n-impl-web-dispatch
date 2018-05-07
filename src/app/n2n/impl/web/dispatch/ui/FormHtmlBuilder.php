@@ -371,13 +371,13 @@ class FormHtmlBuilder {
 		$this->view->out($this->getMagOpen($tagName, $propertyExpression, $attrs, $uiOutfitter));
 	}
 
-	public function getMagOpen($tagName, $propertyExpression = null, array $attrs = null, UiOutfitter $uiOutfitter = null) {
+	public function getMagOpen(string $tagName, $propertyExpression = null, array $attrs = null, UiOutfitter $uiOutfitter = null) {
 		$propertyPath = $this->meta->createPropertyPath($propertyExpression);
 		$magWrapper = $this->meta->lookupMagWrapper($propertyPath);
 		$this->magStack[] = array('tagName' => $tagName, 'propertyPath' => $propertyPath, 'magWrapper' => $magWrapper,
 				'outfitter' => $uiOutfitter ?? new BasicUiOutfitter());
 
-		return new Raw('<' . htmlspecialchars((string) $tagName) . HtmlElement::buildAttrsHtml(
+		return new Raw('<' . htmlspecialchars($tagName, ENT_SUBSTITUTE) . HtmlElement::buildAttrsHtml(
 				HtmlUtils::mergeAttrs($magWrapper->getContainerAttrs($this->view), (array) $attrs)) . '>');
 	}
 	
@@ -423,6 +423,6 @@ class FormHtmlBuilder {
 	public function getMagClose() {
 		$optionInfo = $this->peakMagInfo();
 		array_pop($this->magStack);
-		return new Raw('</' . htmlspecialchars((string) $optionInfo['tagName']) . '>');
+		return new Raw('</' . htmlspecialchars($optionInfo['tagName'], ENT_SUBSTITUTE) . '>');
 	}
 }
