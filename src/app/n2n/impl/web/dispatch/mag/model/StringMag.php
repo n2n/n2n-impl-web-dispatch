@@ -146,10 +146,8 @@ class StringMag extends MagAdapter {
 	 * @return UiComponent
 	 */
 	public function createUiField(PropertyPath $propertyPath, HtmlView $view, UiOutfitter $uo): UiComponent {
-		$attrs = array();
-
 		if ($this->maxlength !== null) {
-			$attrs['maxlength'] = $this->maxlength;
+			$this->inputAttrs['maxlength'] = $this->maxlength;
 		}
 		
 		$uiC =  new HtmlSnippet();
