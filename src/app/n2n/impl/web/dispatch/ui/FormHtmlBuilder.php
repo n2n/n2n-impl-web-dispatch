@@ -377,7 +377,7 @@ class FormHtmlBuilder {
 		$this->magStack[] = array('tagName' => $tagName, 'propertyPath' => $propertyPath, 'magWrapper' => $magWrapper,
 				'outfitter' => $uiOutfitter ?? new BasicUiOutfitter());
 
-		return new Raw('<' . htmlspecialchars($tagName, ENT_SUBSTITUTE) . HtmlElement::buildAttrsHtml(
+		return new Raw('<' . htmlspecialchars($tagName) . HtmlElement::buildAttrsHtml(
 				HtmlUtils::mergeAttrs($magWrapper->getContainerAttrs($this->view), (array) $attrs)) . '>');
 	}
 	
@@ -423,6 +423,6 @@ class FormHtmlBuilder {
 	public function getMagClose() {
 		$optionInfo = $this->peakMagInfo();
 		array_pop($this->magStack);
-		return new Raw('</' . htmlspecialchars($optionInfo['tagName'], ENT_SUBSTITUTE) . '>');
+		return new Raw('</' . htmlspecialchars($optionInfo['tagName']) . '>');
 	}
 }
