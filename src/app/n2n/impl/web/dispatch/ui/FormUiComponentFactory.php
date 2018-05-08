@@ -264,9 +264,9 @@ class FormUiComponentFactory {
 		$htmlId = $attrs['id'];
 		$raw = new HtmlSnippet();
 		$raw->append(new Raw('<span' . HtmlElement::buildAttrsHtml($attrs) . '>'));
-		$raw->append(new Raw('<span>' . htmlspecialchars($mapValue->getOriginalName()) . ' (' . round($mapValue->getFileSource()->getSize() / 1024) . ' KB)</span> '));
-		$raw->append(new Raw('<input type="hidden" name="' . htmlspecialchars($keepFileOptionName) . '" value="1" />'));
-		$raw->append(new Raw('<a href="#" onclick="(function() { var elem = document.getElementById(\'' . htmlspecialchars(addslashes($htmlId))
+		$raw->append(new Raw('<span>' . HtmlUtils::hsc($mapValue->getOriginalName()) . ' (' . round($mapValue->getFileSource()->getSize() / 1024) . ' KB)</span> '));
+		$raw->append(new Raw('<input type="hidden" name="' . HtmlUtils::hsc($keepFileOptionName) . '" value="1" />'));
+		$raw->append(new Raw('<a href="#" onclick="(function() { var elem = document.getElementById(\'' . HtmlUtils::hsc(addslashes($htmlId))
 				. '\'); elem.parentNode.removeChild(elem); })(); return false;">'));
 		$raw->append($deleteLinkLabel);
 		$raw->append(new Raw('</a>'));
