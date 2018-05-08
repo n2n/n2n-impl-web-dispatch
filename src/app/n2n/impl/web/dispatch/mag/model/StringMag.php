@@ -161,7 +161,6 @@ class StringMag extends MagAdapter {
 					$uo->createAttrs(UiOutfitter::NATURE_TEXT|UiOutfitter::NATURE_MAIN_CONTROL), $this->inputAttrs);
 			
 			$uiC->append($view->getFormHtmlBuilder()->getInput($propertyPath, $attrs));
-			
 		}
 
 		if (null !== $this->helpTextLstr) {
