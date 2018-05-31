@@ -1,56 +1,76 @@
 (function () {
-	function MagCollection(elem, adderClassName, removerClassName, filledCount) {
-		this.containerElem = elem;
-		this.collectionItemContainer = elem.getElementsByClassName("n2n-impl-web-dispatch-mag-collection-items")[0];
-		this.collectionItemElems = [].slice.call(this.collectionItemContainer.getElementsByClassName("n2n-impl-web-dispatch-mag-collection-item"));
+	function MagCollection(elem, adderClassName, removerClassName, showCount = 0) {
+		this.shownElems = [];
 		this.hiddenElems = [];
-		this.adderClassName = adderClassName;
+		this.showCount = showCount;
 		this.removerClassName = removerClassName;
-		this.filledCount = filledCount;
-		this.adderBtn = this.containerElem.getElementsByClassName(this.adderClassName)[0];
+		this.adderBtn = elem.getElementsByClassName(adderClassName)[0];
+		this.hiddenElemTemplate = document.createElement("template");
+		this.collectionItemContainer = elem.getElementsByClassName("n2n-impl-web-dispatch-mag-collection-items")[0];
 
 		this.init();
 	}
 
+	MagCollection.prototype.createRemoveBtnClosure = function(item) {
+		var that = this;
+		return function(e) {
+			that.hiddenElems.push(item);
+			that.update();
+			e.stopPropagation();
+			return false;
+		};
+	}
+
 	MagCollection.prototype.init = function() {
 		var that = this;
-
 		this.adderBtn.onclick = function (e) {
 			var elem = that.hiddenElems.pop();
-			that.collectionItemContainer.appendChild(elem.children[0]);
-
-			if (that.hiddenElems.length === 0) {
-				that.adderBtn.style.display = "none";
-			}
-
+			that.shownElems.push(elem);
+			that.update();
 			e.stopPropagation();
 			return false;
 		};
 
-		var showCount = this.filledCount;
-		for (var i in this.collectionItemElems) {
-			var collectionItemElem = this.collectionItemElems[i],
-				template = document.createElement("template"),
-				removerBtn = collectionItemElem.getElementsByClassName(that.removerClassName)[0];
-			if (!!removerBtn) {
-				removerBtn.onclick = function () {
-					that.hiddenElems.push(template);
-					template.appendChild(collectionItemElem);
-					if (that.hiddenElems.length > 0) {
-						that.adderBtn.style.display = "block";
-					}
 
-					return false;
-				};	
+		var collectionItemElems = [].slice.call(this.collectionItemContainer
+			.getElementsByClassName("n2n-impl-web-dispatch-mag-collection-item"));
+
+		for (var i in collectionItemElems) {
+			var item = collectionItemElems[i];
+			var removerBtn = item.getElementsByClassName(this.removerClassName)[0];
+			removerBtn.onclick = this.createRemoveBtnClosure(item);
+
+			if (this.showCount === 0) {
+				this.hiddenElems.push(item);
+			} else {
+				this.showCount--;
+				this.shownElems.push(item);
 			}
+		}
 
-			if (showCount > 0) {
-				showCount--;
-				continue;
+		this.update();
+	}
+
+	MagCollection.prototype.update = function() {
+		if (this.hiddenElems.length === 0) {
+			this.adderBtn.style.display = "none";
+		}
+
+		if (this.hiddenElems.length > 0) {
+			this.adderBtn.style.display = "block";
+		}
+
+		for (var i in this.shownElems) {
+			var item = this.shownElems[i];
+			if (-1 < [].slice.call(this.collectionItemContainer.children).indexOf(item)) continue;
+			this.collectionItemContainer.append(item);
+		}
+
+		for (var i in this.hiddenElems) {
+			var item = this.hiddenElems[i];
+			if (-1 < [].slice.call(this.collectionItemContainer.children).indexOf(item)) {
+				this.hiddenElemTemplate.append(item);
 			}
-
-			this.hiddenElems.push(template);
-			template.appendChild(collectionItemElem);
 		}
 	}
 
@@ -73,9 +93,7 @@
 		};
 	}
 
-	// To make sure this script is executed after other javascript files have been loaded,
-	// javascript files that could potentially set events on the to-be removed objects,
-	// setTimeout is used. setTimeout() requeues the execution queue and the init function is placed at the end.
+	// setTimeout is used to make sure the function is placed at the end of the javascript execution queue.
 	if (window.Jhtml) {
 		Jhtml.ready(function (elements) {
 			setTimeout(function () { init(elements); });
@@ -125,17 +143,3 @@ function enumUpdateEnabler(elem) {
 		document.addEventListener("DOMContentLoaded", enumEnablerFunc([document.documentElement]));
 	}
 })();
-/*
-if (document.readyState === "complete" || document.readyState === "interactive") {
-	enumEnablerFunc();
-} else {
-	document.addEventListener("DOMContentLoaded", enumEnablerFunc);
-}
-
-if (n2n.dispatch) {
-	n2n.dispatch.registerCallback(enumEnablerFunc);
-}
-
-if (window.Jhtml) {
-	Jhtml.ready(enumEnablerFunc);
-}*/
