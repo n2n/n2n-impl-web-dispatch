@@ -46,6 +46,8 @@
 				this.showCount--;
 				this.shownElems.push(item);
 			}
+
+			this.hiddenElems.push(item);
 		}
 
 		this.update();
