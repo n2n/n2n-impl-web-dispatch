@@ -36,8 +36,6 @@
 
 		for (var i in collectionItemElems) {
 			var item = collectionItemElems[i];
-			console.log(item);
-			console.log(showCount);
 			var removerBtn = item.getElementsByClassName(this.removerClassName)[0];
 			removerBtn.onclick = this.createRemoveBtnClosure(item);
 
