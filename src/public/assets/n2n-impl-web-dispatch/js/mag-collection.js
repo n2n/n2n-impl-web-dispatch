@@ -2,13 +2,12 @@
 	function MagCollection(elem, adderClassName, removerClassName, showCount = 0) {
 		this.shownElems = [];
 		this.hiddenElems = [];
-		this.showCount = showCount;
 		this.removerClassName = removerClassName;
 		this.adderBtn = elem.getElementsByClassName(adderClassName)[0];
 		this.hiddenElemTemplate = document.createElement("template");
 		this.collectionItemContainer = elem.getElementsByClassName("n2n-impl-web-dispatch-mag-collection-items")[0];
 
-		this.init();
+		this.init(showCount);
 	}
 
 	MagCollection.prototype.createRemoveBtnClosure = function(item) {
@@ -21,7 +20,7 @@
 		};
 	}
 
-	MagCollection.prototype.init = function() {
+	MagCollection.prototype.init = function(showCount) {
 		var that = this;
 		this.adderBtn.onclick = function (e) {
 			var elem = that.hiddenElems.pop();
@@ -40,10 +39,10 @@
 			var removerBtn = item.getElementsByClassName(this.removerClassName)[0];
 			removerBtn.onclick = this.createRemoveBtnClosure(item);
 
-			if (this.showCount === 0) {
+			if (showCount <= 0) {
 				this.hiddenElems.push(item);
 			} else {
-				this.showCount--;
+				showCount--;
 				this.shownElems.push(item);
 			}
 		}
