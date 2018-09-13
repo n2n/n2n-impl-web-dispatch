@@ -30,7 +30,6 @@ use n2n\web\dispatch\mag\UiOutfitter;
 use n2n\web\dispatch\map\PropertyPath;
 use n2n\web\dispatch\map\bind\MappingDefinition;
 use n2n\web\ui\UiComponent;
-use n2n\reflection\CastUtils;
 
 class TogglerMag extends BoolMag {
 	private $disabledIgnored = true;
