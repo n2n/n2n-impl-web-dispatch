@@ -24,7 +24,6 @@ namespace n2n\impl\web\dispatch\mag\model;
 use n2n\impl\web\dispatch\map\val\ValIsset;
 use n2n\web\dispatch\map\PropertyPath;
 use n2n\impl\web\ui\view\html\HtmlView;
-use n2n\impl\web\ui\view\html\HtmlElement;
 use n2n\impl\web\dispatch\map\val\ValEnum;
 use n2n\impl\web\dispatch\map\val\ValArraySize;
 use n2n\impl\web\dispatch\property\ScalarProperty;
