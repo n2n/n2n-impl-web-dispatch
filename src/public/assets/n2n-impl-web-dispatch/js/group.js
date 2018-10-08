@@ -33,7 +33,7 @@
 		}
 		
 		for (var i = 0, ii = showGroupElems.length; i < ii; i++) {
-			showGroupElems[i].style.display = "block";
+			showGroupElems[i].style.display = null;
 		}
 	}
 	
@@ -77,7 +77,7 @@
 
 		var groupElems = document.getElementsByClassName(groupClassName + "-" + elem.value);
 		for (var i = 0, ii = groupElems.length; i < ii; i++) {
-			groupElems[i].style.display = "block"
+			groupElems[i].style.display = null
 		}
 	}
 
