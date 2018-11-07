@@ -21,18 +21,8 @@
  */
 namespace n2n\impl\web\dispatch\mag\model;
 
-use n2n\impl\web\dispatch\map\val\ValNotEmpty;
-use n2n\impl\web\dispatch\map\val\ValMaxLength;
-use n2n\impl\web\ui\view\html\HtmlView;
-use n2n\web\dispatch\map\PropertyPath;
 use n2n\impl\web\dispatch\map\val\ValReflectionClass;
 use n2n\web\dispatch\map\bind\BindingDefinition;
-use n2n\reflection\property\AccessProxy;
-use n2n\impl\web\dispatch\property\ScalarProperty;
-use n2n\web\dispatch\property\ManagedProperty;
-use n2n\web\ui\UiComponent;
-use n2n\web\dispatch\mag\UiOutfitter;
-use n2n\impl\web\ui\view\html\HtmlSnippet;
 
 /**
  * It is !!!VERY DANGEROUS!!! to use this Mag 
@@ -41,58 +31,19 @@ use n2n\impl\web\ui\view\html\HtmlSnippet;
  * @author thomas
  *
  */
-class ClassNameMag extends MagAdapter {
-	private $mandatory;
-	private $maxlength;
-	private $inputAttrs;
+class ClassNameMag extends StringMag {
 	private $isAClass;
 		
 	public function __construct($label, \ReflectionClass $isAClass, string $value = null, 
-			$mandatory = false, $maxlength = null, array $inputAttrs = null) {
-		parent::__construct($label, $value);
+			$mandatory = false, $maxlength = null, array $attrs = null,  array $inputAttrs = null) {
+		parent::__construct($label, $value, $mandatory, $maxlength, false, $attrs, $inputAttrs);
 		
-		$this->mandatory = $mandatory;
-		$this->maxlength = $maxlength;
-		$this->inputAttrs = $inputAttrs;
 		$this->isAClass = $isAClass;
 	}
 	
-	public function setMaxlength($maxlength) {
-		$this->maxlength = $maxlength;
-	}
-	
-	public function getMaxlength() {
-		return $this->maxlength;
-	}
-	
-	public function createManagedProperty(AccessProxy $accessProxy): ManagedProperty {
-		return new ScalarProperty($accessProxy, false);
-	}
-	
-	public function setValue($value = null) {
-		parent::setValue($value);
-	}
-	
 	public function setupBindingDefinition(BindingDefinition $bd) {
-		if ($this->mandatory) {
-			$bd->val($this->propertyName, new ValNotEmpty());
-		}
-
-		if ($this->maxlength !== null) {
-			$bd->val($this->propertyName, new ValMaxLength((int) $this->maxlength));
-		}
+		parent::setupBindingDefinition($bd);
 
 		$bd->val($this->propertyName, new ValReflectionClass($this->isAClass));
-	}
-	
-	public function createUiField(PropertyPath $propertyPath, HtmlView $view, UiOutfitter $uo): UiComponent {
-		$uiC = new HtmlSnippet($view->getFormHtmlBuilder()->getInput($propertyPath, $this->inputAttrs));
-		
-		if (null !== $this->helpTextLstr) {
-			$uiC->append($uo->createElement(UiOutfitter::EL_NATURE_HELP_TEXT, null,
-					$this->getHelpText($view->getN2nLocale())));
-		}
-		
-		return $uiC;
 	}
 }
