@@ -45,7 +45,7 @@ class ValImageFile extends SimplePropertyValidator {
 	protected function validateValue($mapValue) {
 		if (!($mapValue instanceof File)) return;
 		
-		if (!in_array($mapValue->getOriginalExtension(), ImageSourceFactory::getSupportedExtensions())) {
+		if (!in_array(mb_strtolower($mapValue->getOriginalExtension()), ImageSourceFactory::getSupportedExtensions())) {
 			if ($this->strict) {
 				$this->failed($this->notSupportedErrorMessage, self::DEFAULT_NOT_SUPPORTED_ERROR_TEXT_CODE, null, 'n2n\impl\web\dispatch');
 			}
