@@ -142,7 +142,7 @@ class FormHtmlBuilder {
 	}
 	
 	public function getMessageList($propertyExpression = null, array $attrs = null, bool $recursive = true) {
-		return new MessageList($this->meta->getMessages($propertyExpression, $recursive), $attrs);
+		return new MessageList($this->view->getDynamicTextCollection(), $this->meta->getMessages($propertyExpression, $recursive), $attrs);
 	}
 	
 	public function message($propertyExpression = null, string $containerTagName = 'div', array $containerAttrs = null,
@@ -156,7 +156,7 @@ class FormHtmlBuilder {
 		$messages = $this->meta->getMessages($propertyExpression, $recursive, true, 1, $markAsProcessed, $unprocessedOnly);
 		if (empty($messages)) return null;
 		
-		return new HtmlElement($containerTagName, $containerAttrs, current($messages));
+		return new HtmlElement($containerTagName, $containerAttrs, current($messages)->tByDtc($this->view->getDynamicTextCollection()));
 	}
 	
 	public function outOnError($propertyExpression = null, $contents = null) {

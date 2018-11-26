@@ -24,7 +24,6 @@ namespace n2n\impl\web\dispatch\ui;
 use n2n\web\dispatch\map\PropertyPath;
 use n2n\web\dispatch\map\PropertyPathPart;
 use n2n\impl\web\ui\view\html\HtmlView;
-use n2n\l10n\MessageTranslator;
 use n2n\reflection\magic\MagicMethodInvoker;
 use n2n\web\dispatch\mag\MagDispatchable;
 use n2n\web\dispatch\map\PropertyTypeMissmatchException;
@@ -135,7 +134,7 @@ class FormHtmlBuilderMeta {
 		return $result->getMappingResult()->testErrors($result->getLastPathPart(), $recursive);
 	}
 	
-	public function getMessages($propertyExpression = null, bool $recursive = true, bool $translate = true, 
+	public function getMessages($propertyExpression = null, bool $recursive = true, 
 			int $max = null, bool $markAsProcessed = true, bool $unprocessedOnly = true) {
 		$propertyPath = $this->createPropertyPath($propertyExpression, true);
 		
@@ -164,12 +163,7 @@ class FormHtmlBuilderMeta {
 			}
 		}
 		
-		if (!$translate) return $messages;
-		
-		$n2nContext = $this->view->getN2nContext();
-		$messageTranslator = new MessageTranslator($this->view->getModuleNamespace(),
-				$n2nContext->getN2nLocale());
-		return $messageTranslator->translateAll($messages);
+		return $messages;
 	}
 	
 	/**
