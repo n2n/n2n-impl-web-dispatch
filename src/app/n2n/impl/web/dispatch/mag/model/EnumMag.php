@@ -207,7 +207,7 @@ class EnumMag extends MagAdapter {
 		}
 		
 		$bd->val($this->getPropertyName(), new ValEnum(array_keys($this->options),
-				Message::createCodeArg(ValEnum::DEFAULT_ERROR_TEXT_CODE, array('field' => $this->labelLstr), 
+				Message::createCodeArg(ValEnum::DEFAULT_ERROR_TEXT_CODE, array('field' => $this->labelLstr), null, 
 						'n2n\impl\web\dispatch')));
 	}
 }
