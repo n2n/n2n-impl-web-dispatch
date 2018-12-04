@@ -25,7 +25,7 @@ use n2n\impl\web\dispatch\map\val\ValEnum;
 use n2n\web\dispatch\map\PropertyPath;
 use n2n\impl\web\ui\view\html\HtmlView;
 use n2n\impl\web\dispatch\property\ScalarProperty;
-use n2n\l10n\MessageCode;
+use n2n\l10n\Message;
 use n2n\reflection\property\AccessProxy;
 use n2n\web\dispatch\map\bind\BindingDefinition;
 use n2n\web\ui\UiComponent;
@@ -207,7 +207,7 @@ class EnumMag extends MagAdapter {
 		}
 		
 		$bd->val($this->getPropertyName(), new ValEnum(array_keys($this->options),
-				new MessageCode(ValEnum::DEFAULT_ERROR_TEXT_CODE, array('field' => $this->labelLstr), 
+				Message::createCodeArg(ValEnum::DEFAULT_ERROR_TEXT_CODE, array('field' => $this->labelLstr), null, 
 						'n2n\impl\web\dispatch')));
 	}
 }

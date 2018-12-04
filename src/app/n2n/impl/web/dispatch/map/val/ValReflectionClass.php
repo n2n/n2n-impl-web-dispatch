@@ -24,7 +24,7 @@ namespace n2n\impl\web\dispatch\map\val;
 use n2n\reflection\ReflectionUtils;
 use n2n\core\TypeNotFoundException;
 use n2n\web\dispatch\map\val\SimplePropertyValidator;
-use n2n\l10n\MessageCode;
+use n2n\l10n\Message;
 
 class ValReflectionClass extends SimplePropertyValidator {
 	const DEFAULT_ERROR_TEXT_CODE = 'n2n.dispatch.val.ValReflectionClass';
@@ -47,13 +47,13 @@ class ValReflectionClass extends SimplePropertyValidator {
 				if (ReflectionUtils::isClassA(new \ReflectionClass($class), $isAClass) 
 						|| $isAClass->isInterface() && $class->implementsInterface($isAClass)) return;
 				
-				$errMsg = new MessageCode('n2n_error_dispatch_reflection_class_incorrect_type',
+				$errMsg = Message::createCodeArg('n2n_error_dispatch_reflection_class_incorrect_type',
 						array('expected_type' => $isAClass->getName(), 'given_type' => $class->getName()));
 			}
 		} catch (TypeNotFoundException $e) {}
 		
 		if (null === $errMsg) {
-			$errMsg = new MessageCode('n2n_error_dispatch_reflection_class_invalid',
+			$errMsg = Message::createCodeArg('n2n_error_dispatch_reflection_class_invalid',
 					array('type' => $value));
 		}
 		

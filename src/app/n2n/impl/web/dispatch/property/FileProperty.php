@@ -28,7 +28,7 @@ use n2n\io\managed\impl\TmpFileManager;
 use n2n\reflection\ArgUtils;
 use n2n\web\dispatch\map\PropertyPathPart;
 use n2n\web\http\UploadDefinition;
-use n2n\l10n\MessageCode;
+use n2n\l10n\Message;
 use n2n\io\managed\impl\FileFactory;
 use n2n\web\dispatch\map\MappingResult;
 use n2n\web\dispatch\target\build\ParamInvestigator;
@@ -125,14 +125,14 @@ class FileProperty extends ManagedPropertyAdapter {
 			return FileFactory::createFromUploadDefinition($uploadDefinition);
 		} catch (UploadedFileExceedsMaxSizeException $e) {
 			$mappingResult->getBindingErrors()->addError($pathPart, 
-					new MessageCode(self::MAX_SIZE_ERROR_CODE, array('maxSize' => $e->getMaxSize(), 
+					Message::createCodeArg(self::MAX_SIZE_ERROR_CODE, array('maxSize' => $e->getMaxSize(), 
 									'field' => $mappingResult->getLabel($pathPart),
 									'file_name' => $uploadDefinition->getName(), 
 									'size' => $uploadDefinition->getSize()), 
 							null, 'n2n\impl\web\dispatch'));
 		} catch (IncompleteFileUploadException $e) {
 			$mappingResult->getBindingErrors()->addError($pathPart, 
-					new MessageCode(self::INCOMPLETE_ERROR_CODE, array( 
+					Message::createCodeArg(self::INCOMPLETE_ERROR_CODE, array( 
 									'field' => $mappingResult->getLabel($pathPart),
 									'file_name' => $uploadDefinition->getName()), 
 							null, 'n2n\impl\web\dispatch'));

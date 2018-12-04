@@ -27,10 +27,9 @@ use n2n\l10n\L10nUtils;
 use n2n\l10n\ParseException;
 use n2n\web\dispatch\map\bind\BindingDefinition;
 use n2n\web\dispatch\map\CorruptedDispatchException;
-use n2n\l10n\MessageCode;
+use n2n\l10n\Message;
 use n2n\web\dispatch\map\PropertyPathPart;
 use n2n\web\dispatch\map\MappingResult;
-use n2n\l10n\Message;
 use n2n\web\dispatch\target\ObjectItem;
 use n2n\web\dispatch\target\build\ParamInvestigator;
 
@@ -126,7 +125,7 @@ class DateTimeProperty extends ManagedPropertyAdapter implements SimpleProperty 
 		} catch (ParseException $e) {
 			$bindingErrors = $mappingResult->getBindingErrors();
 			$bindingErrors->setInvalidRawValue($pathPart, $expression);
-			$bindingErrors->addError($pathPart, new MessageCode(self::PARSE_ERROR_CODE, 
+			$bindingErrors->addError($pathPart, Message::createCodeArg(self::PARSE_ERROR_CODE, 
 					array('field' => $mappingResult->getLabel($pathPart), 
 							'example' => $this->formatDateTime(new \DateTime(), $n2nLocale)),
 					Message::SEVERITY_ERROR, 'n2n\impl\web\dispatch'));
