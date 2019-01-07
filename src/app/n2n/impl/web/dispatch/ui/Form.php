@@ -21,7 +21,6 @@
  */
 namespace n2n\impl\web\dispatch\ui;
 
-use n2n\reflection\ReflectionUtils;
 use n2n\web\dispatch\map\PropertyPath;
 use n2n\web\ui\Raw;
 use n2n\web\dispatch\target\DispatchTarget;
@@ -29,7 +28,7 @@ use n2n\web\dispatch\Dispatchable;
 use n2n\impl\web\ui\view\html\HtmlElement;
 use n2n\impl\web\ui\view\html\HtmlUtils;
 use n2n\util\ex\IllegalStateException;
-use n2n\reflection\ArgUtils;
+use n2n\util\type\ArgUtils;
 use n2n\io\ob\OutputBuffer;
 use n2n\web\http\Method;
 use n2n\web\dispatch\map\MappingPathResolver;
@@ -37,6 +36,7 @@ use n2n\impl\web\ui\view\html\HtmlView;
 use n2n\web\dispatch\map\MappingResult;
 use n2n\web\dispatch\target\build\DispatchTargetEncoder;
 use n2n\web\dispatch\DispatchContext;
+use n2n\util\type\TypeUtils;
 
 class Form {
 	const ENCTYPE_MULTIPART = 'multipart/form-data';
@@ -175,7 +175,7 @@ class Form {
 	public function buildId(PropertyPath $propertyPath, string $suffix = null) {
 		$propertyPath = $this->dispatchTargetEncoder->buildRealPropertyPath($propertyPath);
 		
-		$idPrefix = ReflectionUtils::encodeNamespace($this->view->getModuleNamespace()) 
+		$idPrefix = TypeUtils::encodeNamespace($this->view->getModuleNamespace()) 
 				. self::ID_PART_SEPARATOR . self::ID_FORM_MARK_PART;
 		
 		$idSuffix = '';

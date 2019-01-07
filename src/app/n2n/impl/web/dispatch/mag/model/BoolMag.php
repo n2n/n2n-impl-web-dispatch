@@ -32,7 +32,7 @@ use n2n\web\dispatch\map\bind\BindingDefinition;
 use n2n\impl\web\dispatch\property\ScalarProperty;
 use n2n\web\dispatch\property\ManagedProperty;
 use n2n\web\ui\UiComponent;
-use n2n\reflection\ArgUtils;
+use n2n\util\type\ArgUtils;
 use n2n\impl\web\dispatch\map\val\ValIsset;
 use n2n\l10n\N2nLocale;
 

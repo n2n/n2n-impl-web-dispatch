@@ -1,7 +1,7 @@
 <?php
 namespace n2n\impl\web\dispatch;
 
-use n2n\reflection\ArgUtils;
+use n2n\util\type\ArgUtils;
 use n2n\web\dispatch\Dispatchable;
 use n2n\web\dispatch\DynamicDispatchable;
 use n2n\web\dispatch\model\DispatchModel;

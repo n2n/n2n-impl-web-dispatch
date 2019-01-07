@@ -22,7 +22,7 @@
 namespace n2n\impl\web\dispatch\mag\model;
 
 use n2n\web\dispatch\map\bind\BindingDefinition;
-use n2n\reflection\ArgUtils;
+use n2n\util\type\ArgUtils;
 use n2n\util\uri\Url;
 use n2n\impl\web\dispatch\map\val\ValUrl;
 use n2n\util\ex\UnsupportedOperationException;

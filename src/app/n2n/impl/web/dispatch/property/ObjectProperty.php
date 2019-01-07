@@ -30,7 +30,7 @@ use n2n\reflection\magic\MagicMethodInvoker;
 use n2n\web\dispatch\Dispatchable;
 use n2n\web\dispatch\map\MappingResult;
 use n2n\util\col\ArrayUtils;
-use n2n\reflection\ArgUtils;
+use n2n\util\type\ArgUtils;
 use n2n\reflection\property\TypeConstraint;
 use n2n\web\dispatch\map\bind\ObjectMapper;
 use n2n\web\dispatch\map\PropertyPathPart;

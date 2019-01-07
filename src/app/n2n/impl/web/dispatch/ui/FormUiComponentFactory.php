@@ -30,7 +30,7 @@ use n2n\impl\web\ui\view\html\HtmlUtils;
 use n2n\web\dispatch\property\SimpleProperty;
 use n2n\web\dispatch\target\TargetItem;
 use n2n\web\dispatch\map\InvalidPropertyExpressionException;
-use n2n\reflection\ArgUtils;
+use n2n\util\type\ArgUtils;
 use n2n\util\col\ArrayUtils;
 use n2n\io\managed\File;
 use n2n\impl\web\dispatch\property\FileProperty;
