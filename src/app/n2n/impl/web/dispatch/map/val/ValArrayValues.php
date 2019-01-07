@@ -26,7 +26,7 @@ use n2n\web\dispatch\map\val\ValidationUtils;
 use n2n\web\dispatch\map\PropertyPathPart;
 use n2n\web\dispatch\map\MappingResult;
 use n2n\web\dispatch\property\ManagedProperty;
-use n2n\reflection\ArgUtils;
+use n2n\util\type\ArgUtils;
 
 class ValArrayValues extends SinglePropertyValidator {
 	const DEFAULT_ERROR_TEXT_CODE = 'n2n.dispatch.val.ValArrayKeys'; 

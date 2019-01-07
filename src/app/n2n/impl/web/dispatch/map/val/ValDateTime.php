@@ -22,9 +22,9 @@
 namespace n2n\impl\web\dispatch\map\val;
 
 use n2n\web\dispatch\map\val\SimplePropertyValidator;
-use n2n\reflection\ArgUtils;
+use n2n\util\type\ArgUtils;
 use n2n\web\dispatch\map\val\ValidationUtils;
-use n2n\reflection\CastUtils;
+use n2n\util\type\CastUtils;
 use n2n\impl\web\dispatch\property\DateTimeProperty;
 
 class ValDateTime extends SimplePropertyValidator {

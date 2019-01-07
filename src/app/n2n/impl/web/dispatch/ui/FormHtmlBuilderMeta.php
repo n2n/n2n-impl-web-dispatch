@@ -31,7 +31,7 @@ use n2n\web\ui\view\ViewErrorException;
 use n2n\reflection\magic\CanNotFillParameterException;
 use n2n\web\dispatch\map\InvalidPropertyExpressionException;
 use n2n\web\dispatch\DispatchContext;
-use n2n\reflection\CastUtils;
+use n2n\util\type\CastUtils;
 
 class FormHtmlBuilderMeta {
 	private $view;

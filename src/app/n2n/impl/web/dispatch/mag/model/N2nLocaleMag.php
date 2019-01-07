@@ -23,7 +23,7 @@ namespace n2n\impl\web\dispatch\mag\model;
 
 use n2n\core\N2N;
 use n2n\l10n\N2nLocale;
-use n2n\reflection\ArgUtils;
+use n2n\util\type\ArgUtils;
 
 class N2nLocaleMag extends EnumMag {
 	private $displayN2nLocale;

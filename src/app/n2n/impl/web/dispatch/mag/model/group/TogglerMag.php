@@ -24,7 +24,7 @@ namespace n2n\impl\web\dispatch\mag\model\group;
 use n2n\impl\web\dispatch\mag\model\BoolMag;
 use n2n\impl\web\ui\view\html\HtmlUtils;
 use n2n\impl\web\ui\view\html\HtmlView;
-use n2n\reflection\ArgUtils;
+use n2n\util\type\ArgUtils;
 use n2n\web\dispatch\mag\MagWrapper;
 use n2n\web\dispatch\mag\UiOutfitter;
 use n2n\web\dispatch\map\PropertyPath;

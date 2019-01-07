@@ -23,7 +23,7 @@ namespace n2n\impl\web\dispatch\mag\model;
 
 use n2n\web\dispatch\mag\Mag;
 use n2n\web\ui\UiComponent;
-use n2n\reflection\ArgUtils;
+use n2n\util\type\ArgUtils;
 use n2n\web\dispatch\property\ManagedProperty;
 use n2n\web\dispatch\mag\MagCollection;
 use n2n\web\dispatch\mag\UiOutfitter;
