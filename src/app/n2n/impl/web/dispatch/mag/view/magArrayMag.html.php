@@ -56,7 +56,7 @@ use n2n\impl\web\ui\view\html\HtmlElement;
 
 	<div class="n2n-impl-web-dispatch-mag-collection-items">
 		<?php $formHtml->meta()->arrayProps($propertyPath, function() 
-		    	use ($formHtml, $view, $uiOutfitter, $html, $attrsNature, $propertyPath) { ?>
+				use ($formHtml, $view, $uiOutfitter, $html, $attrsNature, $propertyPath) { ?>
 			<div class="n2n-impl-web-dispatch-mag-collection-item">
 				<?php $formHtml->optionalObjectEnabledHidden() ?>
 				

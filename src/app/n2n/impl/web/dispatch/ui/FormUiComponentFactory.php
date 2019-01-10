@@ -241,7 +241,7 @@ class FormUiComponentFactory {
 		
 		if (!($mapValue instanceof File) || !$mapValue->isValid()) return null;
 		
-		$dispatchTarget = $this->form->getDispatchTarget();
+// 		$dispatchTarget = $this->form->getDispatchTarget();
 		
 		$view = $this->form->getView();
 		$tmpFileManager = $view->lookup(TmpFileManager::getClass());
