@@ -39,8 +39,8 @@ use n2n\reflection\magic\CanNotFillParameterException;
 use n2n\web\dispatch\DispatchErrorException;
 use n2n\web\dispatch\target\build\ParamInvestigator;
 use n2n\web\dispatch\target\DispatchTargetException;
-use n2n\reflection\ReflectionUtils;
 use n2n\web\dispatch\DispatchContext;
+use n2n\util\type\TypeUtils;
 
 class ObjectProperty extends ManagedPropertyAdapter {
 	const CREATOR_KEY_PARAM = 'key';
@@ -272,7 +272,7 @@ class ObjectProperty extends ManagedPropertyAdapter {
 			$dispatchable = $invoker->invoke(null, new \ReflectionFunction($this->creator));
 		} catch (CanNotFillParameterException $e) {
 			$func = new \ReflectionFunction($this->creator);
-			throw new DispatchErrorException('Failed to call closure: ' . ReflectionUtils::prettyReflMethName($func),
+			throw new DispatchErrorException('Failed to call closure: ' . TypeUtils::prettyReflMethName($func),
 					$func->getFileName(), $func->getStartLine(), null, null, $e);
 		}
 		
