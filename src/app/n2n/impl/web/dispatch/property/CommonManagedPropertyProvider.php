@@ -27,7 +27,7 @@ use n2n\reflection\property\PropertiesAnalyzer;
 use n2n\reflection\property\InvalidPropertyAccessMethodException;
 use n2n\reflection\ReflectionException;
 use n2n\reflection\property\AccessProxy;
-use n2n\reflection\property\TypeConstraint;
+use n2n\util\type\TypeConstraint;
 use n2n\reflection\property\ConstraintsConflictException;
 use n2n\web\dispatch\annotation\AnnoDispDateTime;
 use n2n\web\dispatch\annotation\AnnoDispDateTimeArray;

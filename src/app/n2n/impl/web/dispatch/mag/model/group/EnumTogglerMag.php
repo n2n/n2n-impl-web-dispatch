@@ -28,7 +28,7 @@ use n2n\impl\web\ui\view\html\HtmlUtils;
 use n2n\web\ui\UiComponent;
 use n2n\web\dispatch\mag\MagWrapper;
 use n2n\impl\web\dispatch\mag\model\EnumMag;
-use n2n\reflection\property\TypeConstraint;
+use n2n\util\type\TypeConstraint;
 use n2n\web\dispatch\map\bind\MappingDefinition;
 use n2n\web\dispatch\mag\UiOutfitter;
 
