@@ -21,7 +21,7 @@
  */
 namespace n2n\impl\web\dispatch\mag\model;
 
-// use n2n\config\Attributes;
+// use n2n\util\type\attrs\Attributes;
 // use n2n\web\dispatch\map\BindingConstraints;
 // use n2n\impl\web\ui\view\html\HtmlView;
 // use n2n\web\dispatch\map\PropertyPath;
