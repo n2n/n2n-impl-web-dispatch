@@ -41,6 +41,7 @@ use n2n\impl\web\dispatch\property\ObjectProperty;
 use n2n\web\ui\UiComponent;
 use n2n\impl\web\ui\view\html\HtmlSnippet;
 use n2n\impl\web\ui\view\html\AttributeNameIsReservedException;
+use n2n\util\type\TypeUtils;
 
 class FormUiComponentFactory {
 	const HTML_ID_PREFIX = 'n2n-';
