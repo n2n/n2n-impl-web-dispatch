@@ -38,10 +38,10 @@ use n2n\core\N2N;
 use n2n\io\managed\impl\TmpFileManager;
 use n2n\web\dispatch\map\PropertyTypeMissmatchException;
 use n2n\impl\web\dispatch\property\ObjectProperty;
-use n2n\reflection\ReflectionUtils;
 use n2n\web\ui\UiComponent;
 use n2n\impl\web\ui\view\html\HtmlSnippet;
 use n2n\impl\web\ui\view\html\AttributeNameIsReservedException;
+use n2n\util\type\TypeUtils;
 
 class FormUiComponentFactory {
 	const HTML_ID_PREFIX = 'n2n-';
@@ -241,7 +241,7 @@ class FormUiComponentFactory {
 		
 		if (!($mapValue instanceof File) || !$mapValue->isValid()) return null;
 		
-		$dispatchTarget = $this->form->getDispatchTarget();
+// 		$dispatchTarget = $this->form->getDispatchTarget();
 		
 		$view = $this->form->getView();
 		$tmpFileManager = $view->lookup(TmpFileManager::getClass());
@@ -409,7 +409,7 @@ class FormUiComponentFactory {
 			$objectProperty = $result->getManagedProperty();
 			
 			throw new PropertyTypeMissmatchException('ObjectProperty '
-					. ReflectionUtils::prettyPropName(get_class($result->getMappingResult()->getObject()),
+					. TypeUtils::prettyPropName(get_class($result->getMappingResult()->getObject()),
 							$objectProperty->getName()) . ' not ' . ($objectProperty->isArray() ? 'dynamic' : 'optional')
 					. '. PropertyPath: ' . $propertyPath);
 		}
@@ -430,7 +430,7 @@ class FormUiComponentFactory {
 	// 			$objectProperty = $result->getManagedProperty();
 	
 	// 			throw new PropertyTypeMissmatchException('ObjectProperty '
-	// 					. ReflectionUtils::prettyPropName(get_class($result->getMappingResult()->getObject()),
+	// 					. TypeUtils::prettyPropName(get_class($result->getMappingResult()->getObject()),
 	// 							$objectProperty->getName()) . ' not ' . ($objectProperty->isArray() ? 'dynamic' : 'optional')
 	// 					. '. PropertyPath: ' . $propertyPath);
 	// 		}
