@@ -21,8 +21,8 @@
  */
 namespace n2n\impl\web\dispatch\property;
 
-class ScalarProperty extends SimplePropertyAdapter  {
+class StringProperty extends SimplePropertyAdapter {
 	public function __construct($accessProxy, $arrayLike, $useArrayObject = null) {
-		parent::__construct('scalar', $accessProxy, $arrayLike, $useArrayObject);
+		parent::__construct('string', $accessProxy, $arrayLike, $useArrayObject);
 	}
 }

@@ -250,6 +250,10 @@ class CommonManagedPropertyProvider implements ManagedPropertyProvider {
 					$setupProcess->provideManagedProperty(new ScalarProperty($propertyAccessProxy, 
 							true, true));
 					return;
+				case 'string':
+					$setupProcess->provideManagedProperty(new StringProperty($propertyAccessProxy,
+							false, false));
+					return;
 				default:					
 					if (is_subclass_of($constraint->getTypeName(), 'n2n\web\dispatch\Dispatchable')) {
 						$setupProcess->provideManagedProperty(
@@ -270,19 +274,19 @@ class CommonManagedPropertyProvider implements ManagedPropertyProvider {
 			$allowsNull = $baseConstraints->allowsNull();
 		}
 		
-		$typeConstraints = null;
+		$typeConstraint = null;
 		if (!$array) {
-			$typeConstraints = TypeConstraint::createSimple($type, $allowsNull);
+			$typeConstraint = TypeConstraint::createSimple($type, $allowsNull);
 			$useArrayObject = null;
 		} else {
 			if ($useArrayObject === null) {
 				$useArrayObject = $accessProxy->getConstraint()->getTypeName() == 'ArrayObject';
 			}
-			$typeConstraints = TypeConstraint::createArrayLike($useArrayObject ? 'ArrayObject' : 'array',
+			$typeConstraint = TypeConstraint::createArrayLike($useArrayObject ? 'ArrayObject' : 'array',
 					$allowsNull, TypeConstraint::createSimple($type));
 		}
 
-		$accessProxy->setConstraint($typeConstraints);
+		$accessProxy->setConstraint($typeConstraint);
 		$accessProxy->setNullReturnAllowed(true);
 	}
 			
