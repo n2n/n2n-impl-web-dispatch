@@ -81,7 +81,9 @@ class StringArrayMag extends MagAdapter {
 		$stringMags = $formHtml->meta()->getMapValue($propertyPath);
 		
 		$uiC = new HtmlSnippet();
-		$cAttrs = $uo->createAttrs(UiOutfitter::NATURE_TEXT|UiOutfitter::NATURE_MAIN_CONTROL);
+		$cAttrs = HtmlUtils::mergeAttrs($uo->createAttrs(
+						UiOutfitter::NATURE_TEXT|UiOutfitter::NATURE_MAIN_CONTROL),
+				$this->inputAttrs);
 		foreach ($stringMags as $key => $value) {
 			if (!isset($value)) continue;
 			
@@ -95,8 +97,7 @@ class StringArrayMag extends MagAdapter {
 		}
 		
 		
-		$uiC = new HtmlSnippet($uo->createElement(UiOutfitter::EL_NATURE_CONTROL_LIST, HtmlUtils::mergeAttrs($this->inputAttrs, 
-				array('data-num-existing' => count($stringMags))), $uiC));
+		$uiC = new HtmlSnippet($uo->createElement(UiOutfitter::EL_NATURE_CONTROL_LIST, array('data-num-existing' => count($stringMags)), $uiC));
 		//$uiC = new HtmlSnippet(new HtmlElement('div', array('class' => 'n2n-array-option'), $uiC));
 		
 		if (null !== $this->helpTextLstr) {
