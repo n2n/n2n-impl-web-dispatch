@@ -39,6 +39,8 @@ abstract class SimplePropertyAdapter extends ManagedPropertyAdapter implements S
 	public function convertMapValueToScalar($mapValue, N2nContext $n2nContext) {
 		return $mapValue;
 	}
+	
+	protected abstract function convertRawToMapValue($rawValue);
 
 	public function dispatch(ObjectItem $objectItem, BindingDefinition $bindingDefinition, 
 			ParamInvestigator $paramInvestigator, N2nContext $n2nContext) {
@@ -64,7 +66,7 @@ abstract class SimplePropertyAdapter extends ManagedPropertyAdapter implements S
 			$mapValue = null;
 			if ($rawValue !== null && strlen($rawValue) > 0) {
 				CorruptedDispatchException::assertTrue(is_scalar($rawValue));
-				$mapValue = $rawValue;
+				$mapValue = $this->convertRawToMapValue($rawValue);
 			}
 			$bindingDefinition->getMappingResult()->__set($this->getName(), $mapValue);
 			return;
@@ -75,7 +77,7 @@ abstract class SimplePropertyAdapter extends ManagedPropertyAdapter implements S
 		foreach ($rawValue as $key => $rawFieldValue) {
 			CorruptedDispatchException::assertTrue(is_scalar($rawFieldValue));
 			if (strlen($rawFieldValue) > 0) {
-				$mapValue[$key] = $rawFieldValue;
+				$mapValue[$key] = $this->convertRawToMapValue($rawFieldValue);
 			}
 		}
 		$bindingDefinition->getMappingResult()->__set($this->getName(), $mapValue);

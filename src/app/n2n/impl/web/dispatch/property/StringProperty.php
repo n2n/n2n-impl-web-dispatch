@@ -25,4 +25,8 @@ class StringProperty extends SimplePropertyAdapter {
 	public function __construct($accessProxy, $arrayLike, $useArrayObject = null) {
 		parent::__construct('string', $accessProxy, $arrayLike, $useArrayObject);
 	}
+	
+	protected function convertRawToMapValue($rawValue) {
+		return (string) $rawValue;
+	}
 }

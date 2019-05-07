@@ -254,6 +254,10 @@ class CommonManagedPropertyProvider implements ManagedPropertyProvider {
 					$setupProcess->provideManagedProperty(new StringProperty($propertyAccessProxy,
 							false, false));
 					return;
+				case 'int':
+					$setupProcess->provideManagedProperty(new IntProperty($propertyAccessProxy,
+							false, false));
+					return;
 				default:					
 					if (is_subclass_of($constraint->getTypeName(), 'n2n\web\dispatch\Dispatchable')) {
 						$setupProcess->provideManagedProperty(
