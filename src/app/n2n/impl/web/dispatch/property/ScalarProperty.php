@@ -25,4 +25,8 @@ class ScalarProperty extends SimplePropertyAdapter  {
 	public function __construct($accessProxy, $arrayLike, $useArrayObject = null) {
 		parent::__construct('scalar', $accessProxy, $arrayLike, $useArrayObject);
 	}
+	
+	protected function convertRawToMapValue($rawValue) {
+		return $rawValue;
+	}
 }
