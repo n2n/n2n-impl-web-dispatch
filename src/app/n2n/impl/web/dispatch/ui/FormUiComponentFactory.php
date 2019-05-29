@@ -514,7 +514,7 @@ class SelectOptionFactory {
 		return $selectedScalarValue;
 	}
 	
-	public function applyChoicesMap(array $choicesMap, HtmlElement $contextElement, $multiple) {
+	public function applyChoicesMap(array $choicesMap, HtmlElement $contextElement) {
 		foreach ($choicesMap as $key => $value) {
 			if ($value instanceof SelectChoice) {
 				$contextElement->appendLn(new HtmlElement('option', $this->completeOptionAttrs(
@@ -523,14 +523,15 @@ class SelectOptionFactory {
 			}
 			
 			if ($value instanceof SelectChoiceGroup) {
-				$element = new HtmlElement('optiongroup', $value->getAttrs());
-				$value->applyOptions($value->getOptions(), $element);
+				$element = new HtmlElement('optgroup', 
+						HtmlUtils::mergeAttrs(['label' => $value->getLabel()], $value->getAttrs()));
+				$this->applyChoicesMap($value->getOptions(), $element);
 				$contextElement->appendLn($element);
 				continue;
 			}
 			
 			if (is_array($value)) {
-				$element = new HtmlElement('optiongroup', array('label' => $key));
+				$element = new HtmlElement('optgroup', array('label' => $key));
 				$this->applyChoicesMap($value, $element);
 				$contextElement->appendLn($element);
 				continue;
