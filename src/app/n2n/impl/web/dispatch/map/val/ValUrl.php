@@ -72,7 +72,8 @@ class ValUrl extends SimplePropertyValidator {
 		}
 		
 		if ($schemeRequired) {
-			if (false !== filter_var($url, FILTER_VALIDATE_URL, FILTER_FLAG_SCHEME_REQUIRED)) {
+			// quick deprecated fix and makes schemeRequired redundant for now
+			if (false !== filter_var($url, FILTER_VALIDATE_URL/*, FILTER_FLAG_SCHEME_REQUIRED*/)) {
 				return true;
 			}
 		} else {
