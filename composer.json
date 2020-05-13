@@ -19,11 +19,11 @@
     "require": {
         "php": ">=7.0",
         "n2n/n2n-composer-module-installer": "~7.1.2",
-        "n2n/n2n-web": "^7.2.23",
-        "n2n/n2n-io": "^7.2.23",
-        "n2n/n2n-l10n": "^7.2.23",
-        "n2n/n2n-reflection": "^7.2.23",
-        "n2n/n2n-util": "^7.2.23"
+        "n2n/n2n-web": "^7.2.24",
+        "n2n/n2n-io": "^7.2.24",
+        "n2n/n2n-l10n": "^7.2.24",
+        "n2n/n2n-reflection": "^7.2.24",
+        "n2n/n2n-util": "^7.2.24"
     },
     "autoload": {
         "psr-4": {
