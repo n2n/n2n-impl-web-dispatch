@@ -163,7 +163,7 @@ class CommonManagedPropertyProvider implements ManagedPropertyProvider {
 					$annotation);
 		}
 		
-		$annotations = $annotationSet->getMethodAnnotationsByName(
+		$annotations = $annotationSet->getPropertyAnnotationsByName(
 				'n2n\web\dispatch\annotation\AnnoDispFileArray');
 		foreach ($annotations as $propertyName => $annotation) {
 			$setupProcess->provideManagedProperty(new FileProperty(
