@@ -106,12 +106,12 @@ class AriaFormHtmlBuilder {
 		return $this->formHtml->getInputRadio($propertyExpression, $value, $attrs, $label, $labelAttrs);
 	}
 
-	public function select($propertyExpression = null, array $options, bool $required = false, array $attrs = null, 
+	public function select($propertyExpression, array $options, bool $required = false, array $attrs = null, 
 			bool $multiple = false) {
 		$this->view->out($this->getSelect($propertyExpression, $options, $required, $attrs, $multiple));
 	}
 
-	public function getSelect($propertyExpression = null, array $options, bool $required = false, array $attrs = null, 
+	public function getSelect($propertyExpression, array $options, bool $required = false, array $attrs = null, 
 			bool $multiple = false) {
 		$attrs = $this->ariafyAttrs($propertyExpression, $attrs, $required);
 		return $this->formHtml->getSelect($propertyExpression, $options, $attrs, $multiple);
