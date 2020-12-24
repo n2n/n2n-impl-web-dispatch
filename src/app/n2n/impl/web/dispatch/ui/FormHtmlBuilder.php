@@ -262,7 +262,7 @@ class FormHtmlBuilder {
 		$this->view->out($this->getSelect($propertyExpression, $options, $attrs, $multiple));
 	}
 
-	public function getSelect($propertyExpression = null, array $options, array $attrs = null, $multiple = false) {
+	public function getSelect($propertyExpression, array $options, array $attrs = null, $multiple = false) {
 		return $this->getFactory()->createSelect($this->meta->createPropertyPath($propertyExpression), $options, 
 				$attrs, $multiple);
 	}
