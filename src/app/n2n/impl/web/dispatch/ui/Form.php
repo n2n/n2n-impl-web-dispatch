@@ -29,7 +29,7 @@ use n2n\impl\web\ui\view\html\HtmlElement;
 use n2n\impl\web\ui\view\html\HtmlUtils;
 use n2n\util\ex\IllegalStateException;
 use n2n\util\type\ArgUtils;
-use n2n\io\ob\OutputBuffer;
+use n2n\util\io\ob\OutputBuffer;
 use n2n\web\http\Method;
 use n2n\web\dispatch\map\MappingPathResolver;
 use n2n\impl\web\ui\view\html\HtmlView;
