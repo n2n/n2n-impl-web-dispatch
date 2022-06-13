@@ -137,12 +137,15 @@ class FormHtmlBuilder {
 		$this->formCreated = false;
 	}
 	
-	public function messageList($propertyExpression = null, array $attrs = null, bool $recursive = true) {
-		$this->view->out($this->getMessageList($propertyExpression, $attrs, $recursive));
+	public function messageList($propertyExpression = null, array $attrs = null, bool $recursive = true, 
+			bool $markAsProcessed = true, bool $unprocessedOnly = true) {
+		$this->view->out($this->getMessageList($propertyExpression, $attrs, $recursive, $markAsProcessed, $unprocessedOnly));
 	}
 	
-	public function getMessageList($propertyExpression = null, array $attrs = null, bool $recursive = true) {
-		return new MessageList($this->view->getDynamicTextCollection(), $this->meta->getMessages($propertyExpression, $recursive), $attrs);
+	public function getMessageList($propertyExpression = null, array $attrs = null, bool $recursive = true, 
+			bool $markAsProcessed = true, bool $unprocessedOnly = true) {
+		return new MessageList($this->view->getDynamicTextCollection(), 
+				$this->meta->getMessages($propertyExpression, $recursive, $markAsProcessed, $unprocessedOnly), $attrs);
 	}
 	
 	public function message($propertyExpression = null, string $containerTagName = 'div', array $containerAttrs = null,
@@ -153,7 +156,7 @@ class FormHtmlBuilder {
 	
 	public function getMessage($propertyExpression = null, string $containerTagName = 'div', array $containerAttrs = null,
 			bool $recursive = true, bool $markAsProcessed = true, bool $unprocessedOnly = true) {
-		$messages = $this->meta->getMessages($propertyExpression, $recursive, true, 1, $markAsProcessed, $unprocessedOnly);
+		$messages = $this->meta->getMessages($propertyExpression, $recursive, 1, $markAsProcessed, $unprocessedOnly);
 		if (empty($messages)) return null;
 		
 		return new HtmlElement($containerTagName, $containerAttrs, current($messages)->tByDtc($this->view->getDynamicTextCollection()));
