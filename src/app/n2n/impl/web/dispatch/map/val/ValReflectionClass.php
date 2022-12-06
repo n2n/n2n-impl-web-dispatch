@@ -50,7 +50,7 @@ class ValReflectionClass extends SimplePropertyValidator {
 				$errMsg = Message::createCodeArg('n2n_error_dispatch_reflection_class_incorrect_type',
 						array('expected_type' => $isAClass->getName(), 'given_type' => $class->getName()));
 			}
-		} catch (TypeNotFoundException $e) {}
+		} catch (\ReflectionException $e) {}
 		
 		if (null === $errMsg) {
 			$errMsg = Message::createCodeArg('n2n_error_dispatch_reflection_class_invalid',
