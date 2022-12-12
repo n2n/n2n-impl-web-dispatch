@@ -25,7 +25,7 @@
 	},
 	"require" : {
 		"php" : ">=7.0",
-		"n2n/n2n-composer-module-installer": "^^7.1.5",
+		"n2n/n2n-composer-module-installer": "^7.1.5",
 		"n2n/n2n-web": "~7.2.40",
 		"n2n/n2n-io" : "~7.2.39",
 		"n2n/n2n-l10n": "~7.2.37",
