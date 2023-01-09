@@ -45,6 +45,10 @@ class ValMaxLength extends SimplePropertyValidator {
 	}
 	
 	protected function validateValue($mapValue) {
+		if ($mapValue === null) {
+			return;
+		}
+
 		$currentLength = mb_strlen($mapValue);
 		if ($this->maxLength >= $currentLength) return;
 		
