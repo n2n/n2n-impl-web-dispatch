@@ -45,6 +45,10 @@ class ValMinLength extends SimplePropertyValidator {
 	}
 	
 	protected function validateValue($mapValue) {
+		if ($mapValue === null) {
+			return;
+		}
+
 		$currentLength = mb_strlen($mapValue);
 		
 		if ($this->minLength <= $currentLength) return;
