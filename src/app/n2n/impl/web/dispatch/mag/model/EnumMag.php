@@ -76,17 +76,17 @@ class EnumMag extends MagAdapter {
 	 */
 	public function setMandatory(bool $mandatory) {
 		$this->mandatory = $mandatory;
-		
+
 		return $this;
 	}
-	
+
 	public function isUseRadios() {
 		return $this->useRadios;
 	}
-	
+
 	public function setUseRadios(bool $useRadios) {
 		$this->useRadios = $useRadios;
-		
+
 		return $this;
 	}
 
@@ -106,7 +106,7 @@ class EnumMag extends MagAdapter {
 		} else {
 			$this->options = $options;
 		}
-		
+
 		return $this;
 	}
 
@@ -128,10 +128,10 @@ class EnumMag extends MagAdapter {
 	public function getInputAttrs() {
 		return $this->inputAttrs;
 	}
-	
+
 	public function setInputAttrs(array $inputAttrs) {
 		$this->inputAttrs = $inputAttrs;
-		
+
 		return $this;
 	}
 
@@ -139,12 +139,12 @@ class EnumMag extends MagAdapter {
 	 * @param mixed $formValue
 	 */
 	public function setFormValue($formValue) {
-		if (!strlen($formValue)) {
+		if ($formValue === null || !strlen($formValue)) {
 			$this->value = null;
 			return;
 		}
 		$this->value = $formValue;
-		
+
 		return $this;
 	}
 
@@ -157,36 +157,36 @@ class EnumMag extends MagAdapter {
 		$uiC = new HtmlSnippet();
 		$formHtml = $view->getFormHtmlBuilder();
 		$options = $this->buildOptions($view->getN2nLocale());
-		
+
 		if ($this->useRadios) {
 			$uiControls = new HtmlSnippet();
 			foreach ($options as $value => $label) {
 				$inputAttrs = HtmlUtils::mergeAttrs(
 						$uo->createAttrs(UiOutfitter::NATURE_CHECK|UiOutfitter::NATURE_MAIN_CONTROL), $this->inputAttrs);
-				
+
 				$snippetUi = new HtmlSnippet();
 				$labelUi = $formHtml->getLabel($propertyPath, $label,
 						$uo->createAttrs(UiOutfitter::NATURE_CHECK_LABEL));
 				$snippetUi->appendLn($formHtml->getInputRadio($propertyPath, $value, $inputAttrs));
 				$snippetUi->appendLn($labelUi);
-				
-				$uiControls->append($uo->createElement(UiOutfitter::EL_NATURE_CONTROL_LIST_ITEM, null, 
+
+				$uiControls->append($uo->createElement(UiOutfitter::EL_NATURE_CONTROL_LIST_ITEM, null,
 						$uo->createElement(UiOutfitter::EL_NATURE_CHECK_WRAPPER, null, $snippetUi)));
 			}
 			$uiC->append($uo->createElement(UiOutfitter::EL_NATURE_CONTROL_LIST, null, $uiControls));
 		} else {
 			$attrs = HtmlUtils::mergeAttrs(
 					$uo->createAttrs(UiOutfitter::NATURE_SELECT|UiOutfitter::NATURE_MAIN_CONTROL), $this->inputAttrs);
-			
+
 			$uiC->append($formHtml->getSelect($propertyPath, $options, $attrs));
 		}
-		
-		
+
+
 		if (null !== $this->helpTextLstr) {
 			$uiC->append($uo->createElement(UiOutfitter::EL_NATURE_HELP_TEXT, null,
 					$this->getHelpText($view->getN2nLocale())));
 		}
-		
+
 		return $uiC;
 	}
 
@@ -205,9 +205,9 @@ class EnumMag extends MagAdapter {
 		if ($this->isMandatory()) {
 			$bd->val($this->getPropertyName(), new ValNotEmpty());
 		}
-		
+
 		$bd->val($this->getPropertyName(), new ValEnum(array_keys($this->options),
-				Message::createCodeArg(ValEnum::DEFAULT_ERROR_TEXT_CODE, array('field' => $this->labelLstr), null, 
+				Message::createCodeArg(ValEnum::DEFAULT_ERROR_TEXT_CODE, array('field' => $this->labelLstr), null,
 						'n2n\impl\web\dispatch')));
 	}
 }
