@@ -139,7 +139,7 @@ class EnumMag extends MagAdapter {
 	 * @param mixed $formValue
 	 */
 	public function setFormValue($formValue) {
-		if (!strlen($formValue)) {
+		if ($formValue === null || !strlen($formValue)) {
 			$this->value = null;
 			return;
 		}
