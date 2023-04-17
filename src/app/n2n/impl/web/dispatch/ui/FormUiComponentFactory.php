@@ -42,6 +42,9 @@ use n2n\web\ui\UiComponent;
 use n2n\impl\web\ui\view\html\HtmlSnippet;
 use n2n\impl\web\ui\view\html\AttributeNameIsReservedException;
 use n2n\util\type\TypeUtils;
+use n2n\web\http\csp\PolicySource;
+use n2n\web\http\csp\PolicyDirective;
+use n2n\web\http\csp\PolicySourceKeyword;
 
 class FormUiComponentFactory {
 	const HTML_ID_PREFIX = 'n2n-';
@@ -262,16 +265,22 @@ class FormUiComponentFactory {
 		$keepFileOptionName = $this->dte->buildAttrParamName($propertyPath, FileProperty::OPTION_KEEP_FILE);
 		
 		$htmlId = $attrs['id'];
+		$onClickDeleteJsCode = '(function() { var elem = document.getElementById(\'' . HtmlUtils::hsc(addslashes($htmlId))
+				. '\'); elem.parentNode.removeChild(elem); })(); return false;';
+		
 		$raw = new HtmlSnippet();
 		$raw->append(new Raw('<span' . HtmlElement::buildAttrsHtml($attrs) . '>'));
 		$raw->append(new Raw('<span>' . HtmlUtils::hsc($mapValue->getOriginalName()) . ' (' . round($mapValue->getFileSource()->getSize() / 1024) . ' KB)</span> '));
 		$raw->append(new Raw('<input type="hidden" name="' . HtmlUtils::hsc($keepFileOptionName) . '" value="1" />'));
-		$raw->append(new Raw('<a href="#" onclick="(function() { var elem = document.getElementById(\'' . HtmlUtils::hsc(addslashes($htmlId))
-				. '\'); elem.parentNode.removeChild(elem); })(); return false;">'));
+		$raw->append(new Raw('<a href="#" onclick="' . $onClickDeleteJsCode . '">'));
 		$raw->append($deleteLinkLabel);
 		$raw->append(new Raw('</a>'));
 		$raw->append(new Raw('</span>'));
 		$raw->append($this->buildTargetItemHidden($propertyItem));
+		$this->form->getView()->getHtmlBuilder()->meta()
+				->extCsp(PolicyDirective::SCRIPT_SRC_ATTR, PolicySourceKeyword::UNSAFE_HASHES)
+				->extCsp(PolicyDirective::SCRIPT_SRC_ATTR, PolicySource::createHash($onClickDeleteJsCode));
+		
 		return $raw;
 	}
 	
