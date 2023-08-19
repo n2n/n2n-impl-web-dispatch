@@ -25,13 +25,14 @@ use n2n\web\dispatch\property\ManagedPropertyProvider;
 use n2n\web\dispatch\model\SetupProcess;
 use n2n\reflection\property\PropertiesAnalyzer;
 use n2n\reflection\property\InvalidPropertyAccessMethodException;
-use n2n\reflection\ReflectionException;
 use n2n\reflection\property\AccessProxy;
 use n2n\util\type\TypeConstraint;
 use n2n\reflection\property\ConstraintsConflictException;
 use n2n\web\dispatch\annotation\AnnoDispDateTime;
 use n2n\web\dispatch\annotation\AnnoDispDateTimeArray;
 use n2n\web\dispatch\annotation\AnnoIcuFormat;
+use n2n\reflection\property\InaccessiblePropertyException;
+use n2n\reflection\property\UnknownPropertyException;
 
 class CommonManagedPropertyProvider implements ManagedPropertyProvider {
 	
@@ -49,11 +50,17 @@ class CommonManagedPropertyProvider implements ManagedPropertyProvider {
  			$setupProcess->failedE($e, $e->getMethod(), $annotation);
 		} catch (ConstraintsConflictException $e) {
 			$setupProcess->failedE($e, $e->getCausingMethod(), $annotation);
-		} catch (ReflectionException $e) {
+		} catch (\ReflectionException $e) {
 			$setupProcess->failedE($e, null, $annotation);
 		}
 	}
 
+	/**
+	 * @throws InaccessiblePropertyException
+	 * @throws InvalidPropertyAccessMethodException
+	 * @throws UnknownPropertyException
+	 * @throws \ReflectionException
+	 */
 	private function provideScalarProperties(SetupProcess $setupProcess, &$annotation) {
 		$propertyAnalyzer = $setupProcess->getPropertiesAnalyzer();
 		$annotationSet = $setupProcess->getAnnotationSet();
@@ -88,13 +95,19 @@ class CommonManagedPropertyProvider implements ManagedPropertyProvider {
 		foreach ($annotations as $methodName => $annotation) {
 			$setupProcess->provideManagedProperty(new ScalarProperty(
 							$propertyAnalyzer->analyzeProperty(
-									PropertiesAnalyzer::parsePropertyName($methodName)), 
+									PropertiesAnalyzer::parsePropertyName($methodName)),
 							true),
 					$annotation);
 		}
 	}
 
-	private function provideDateTimeProperties(SetupProcess $setupProcess, &$annotation) {
+	/**
+	 * @throws InaccessiblePropertyException
+	 * @throws InvalidPropertyAccessMethodException
+	 * @throws \ReflectionException
+	 * @throws UnknownPropertyException
+	 */
+	private function provideDateTimeProperties(SetupProcess $setupProcess, &$annotation): void {
 		$propertyAnalyzer = $setupProcess->getPropertiesAnalyzer();
 		$annotationSet = $setupProcess->getAnnotationSet();
 
@@ -140,8 +153,14 @@ class CommonManagedPropertyProvider implements ManagedPropertyProvider {
 					$annotation);
 		}
 	}
-	
-	private function provideFileProperties(SetupProcess $setupProcess, &$annotation) {
+
+	/**
+	 * @throws InaccessiblePropertyException
+	 * @throws InvalidPropertyAccessMethodException
+	 * @throws \ReflectionException
+	 * @throws UnknownPropertyException
+	 */
+	private function provideFileProperties(SetupProcess $setupProcess, &$annotation): void {
 		$propertyAnalyzer = $setupProcess->getPropertiesAnalyzer();
 		$annotationSet = $setupProcess->getAnnotationSet();
 		
@@ -182,7 +201,13 @@ class CommonManagedPropertyProvider implements ManagedPropertyProvider {
 					$annotation);
 		}
 	}
-	
+
+	/**
+	 * @throws InaccessiblePropertyException
+	 * @throws InvalidPropertyAccessMethodException
+	 * @throws UnknownPropertyException
+	 * @throws \ReflectionException
+	 */
 	private function provideObjectProperties(SetupProcess $setupProcess, &$annotation) {
 		$propertyAnalyzer = $setupProcess->getPropertiesAnalyzer();
 		$annotationSet = $setupProcess->getAnnotationSet();
