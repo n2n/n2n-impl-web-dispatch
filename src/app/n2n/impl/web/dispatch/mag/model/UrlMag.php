@@ -130,7 +130,7 @@ class UrlMag extends StringMag {
 		if ($this->autoScheme === null || !$md->isDispatched() || $this->relativeAllowed) return;
 		
 		$urlStr = $md->getDispatchedValue($this->propertyName);
-		if (!strlen($urlStr)) return;
+		if ($urlStr === null || !strlen($urlStr)) return;
 		
 		$url = Url::create($urlStr, true);
 		if (!$url->hasScheme() && $url->getAuthority()->isEmpty()) {
