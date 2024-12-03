@@ -40,7 +40,7 @@ class ValMaxLength extends SimplePropertyValidator {
 		return $this->errorMessage;
 	}
 	
-	public function setErrorMessage(Message $errorMessage = null) {
+	public function setErrorMessage(?Message $errorMessage = null) {
 		$this->errorMessage = $errorMessage;
 	}
 	

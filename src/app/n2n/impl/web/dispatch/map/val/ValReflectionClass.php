@@ -32,7 +32,7 @@ class ValReflectionClass extends SimplePropertyValidator {
 	private $isAClass;
 	private $required;
 	
-	public function __construct(\ReflectionClass $isAClass = null, $required = false) {
+	public function __construct(?\ReflectionClass $isAClass = null, $required = false) {
 		$this->isAClass = $isAClass;
 		$this->required = $required;
 	}

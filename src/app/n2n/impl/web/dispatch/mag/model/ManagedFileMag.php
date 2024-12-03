@@ -42,7 +42,7 @@ class ManagedFileMag extends FileMag {
 	 * @param array|null $inputAttrs
 	 */
 	public function __construct(string $label, FileManager $fileManager, array $allowedExtensions = array(),
-			$checkImageResourceMemory = false, string $value = null, bool $mandatory = false, array $inputAttrs = null) {
+			$checkImageResourceMemory = false, ?string $value = null, bool $mandatory = false, ?array $inputAttrs = null) {
 		$this->fileManager = $fileManager;
 		parent::__construct($label, $allowedExtensions, $checkImageResourceMemory, null, $mandatory, $inputAttrs);
 		$this->value = $value;

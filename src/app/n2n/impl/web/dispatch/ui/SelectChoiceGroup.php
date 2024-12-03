@@ -30,7 +30,7 @@ class SelectChoiceGroup {
 	 * @param array $options
 	 * @param array $attrs
 	 */
-	public function __construct($label, array $options, array $attrs = null) {
+	public function __construct($label, array $options, ?array $attrs = null) {
 		$this->label = $label;
 		$this->options = $options;
 		$this->attrs = (array) $attrs;

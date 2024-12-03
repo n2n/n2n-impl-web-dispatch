@@ -55,7 +55,7 @@ class MagCollectionArrayMag extends MagAdapter {
 	 * @param array|null $containerAttrs
 	 */
 	public function __construct($label, \Closure $creator,
-			$mandatory = false, array $containerAttrs = null) {
+			$mandatory = false, ?array $containerAttrs = null) {
 		parent::__construct($label, array(), $containerAttrs);
 		$this->creator = $creator;
 

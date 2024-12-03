@@ -46,7 +46,7 @@ abstract class MagAdapter implements Mag {
 	 * @param null $value
 	 * @param array|null $attrs
 	 */
-	public function __construct($labelLstr, $value = null, array $attrs = null) {
+	public function __construct($labelLstr, $value = null, ?array $attrs = null) {
 		$this->labelLstr = Lstr::create($labelLstr);
 		$this->setAttrs((array) $attrs);
 		$this->value = $value;

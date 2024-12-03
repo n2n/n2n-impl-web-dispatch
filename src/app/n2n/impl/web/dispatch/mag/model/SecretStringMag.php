@@ -40,7 +40,7 @@ class SecretStringMag extends MagAdapter {
 	private $inputAttrs;
 	
 	public function __construct($labelStr, $value = null, bool $required = false, $maxlength = null, 
-			array $attrs = null, array $inputAttrs = null) {
+			?array $attrs = null, ?array $inputAttrs = null) {
 		parent::__construct($labelStr, $value, $attrs);
 		$this->maxlength = $maxlength;
 		$this->required = $required;

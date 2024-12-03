@@ -41,7 +41,7 @@ class MagArrayMag extends MagAdapter {
 	 * @param bool $required
 	 * @param array|null $containerAttrs
 	 */
-	public function __construct($label, \Closure $magCreator, bool $required = false, array $containerAttrs = null) {
+	public function __construct($label, \Closure $magCreator, bool $required = false, ?array $containerAttrs = null) {
 		$this->decorated = new MagCollectionArrayMag($label, function () use ($magCreator) {
 			$mag = $magCreator();
 			ArgUtils::valTypeReturn($mag, Mag::class, null, $magCreator);

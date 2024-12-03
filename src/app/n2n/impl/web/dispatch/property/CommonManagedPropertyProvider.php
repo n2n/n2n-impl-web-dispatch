@@ -320,7 +320,7 @@ class CommonManagedPropertyProvider implements ManagedPropertyProvider {
 	}
 			
 	private static function createDateTimeProperty(AccessProxy $accessProxy, 
-			AnnoDispDateTime $dtAnno, AnnoIcuFormat $icufAnno = null) {
+			AnnoDispDateTime $dtAnno, ?AnnoIcuFormat $icufAnno = null) {
 		$dateTimeProperty = new DateTimeProperty($accessProxy, false);
 		if ($dtAnno !== null) {
 			$dateTimeProperty->setDateStyle($dtAnno->getDateStyle());
@@ -333,7 +333,7 @@ class CommonManagedPropertyProvider implements ManagedPropertyProvider {
 	}
 	
 	private static function createDateTimeArrayProperty(AccessProxy $accessProxy, 
-			AnnoDispDateTimeArray $dtaAnno, AnnoIcuFormat $icufAnno = null) {
+			AnnoDispDateTimeArray $dtaAnno, ?AnnoIcuFormat $icufAnno = null) {
 		
 		$dateTimeProperty = null;
 		if ($dtaAnno === null) {

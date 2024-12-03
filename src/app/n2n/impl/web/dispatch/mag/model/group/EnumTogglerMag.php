@@ -38,7 +38,7 @@ class EnumTogglerMag extends EnumMag {
 	private $disabledIgnored = true;
 	
 	public function __construct($labelLstr, array $options, $value = null, bool $mandatory = false, 
-			array $associatedMagWrapperMap = null) {
+			?array $associatedMagWrapperMap = null) {
 		parent::__construct($labelLstr, $options, $value, $mandatory);
 		
 		$this->setAssociatedMagWrapperMap((array) $associatedMagWrapperMap);

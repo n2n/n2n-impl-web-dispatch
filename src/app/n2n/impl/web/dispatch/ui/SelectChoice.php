@@ -26,7 +26,7 @@ class SelectChoice {
 	private $label;
 	private $attrs;
 	
-	public function __construct($value, $label, array $attrs = null) {
+	public function __construct($value, $label, ?array $attrs = null) {
 		$this->value = $value;
 		$this->label = $label;
 		$this->attrs = (array) $attrs;

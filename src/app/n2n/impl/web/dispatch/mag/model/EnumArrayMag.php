@@ -56,8 +56,8 @@ class EnumArrayMag extends MagAdapter {
 	 * @param bool $mandatory
 	 * @param array|null $inputAttrs
 	 */
-	public function __construct($label, array $options = null, array $value = null,
-			bool $mandatory = false, array $inputAttrs = null) {
+	public function __construct($label, ?array $options = null, ?array $value = null,
+			bool $mandatory = false, ?array $inputAttrs = null) {
 		parent::__construct($label, $value);
 
 		$this->mandatory = $mandatory;

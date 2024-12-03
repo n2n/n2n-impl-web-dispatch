@@ -55,8 +55,8 @@ class DateTimeMag extends MagAdapter {
 	 * @param bool $mandatory
 	 * @param array|null $inputAttrs
 	 */
-	public function __construct($label, string $dateStyle = null, string $timeStyle = null,
-			string $icuPattern = null, \DateTime $value = null, bool $mandatory = false, array $inputAttrs = null) {
+	public function __construct($label, ?string $dateStyle = null, ?string $timeStyle = null,
+			?string $icuPattern = null, ?\DateTime $value = null, bool $mandatory = false, ?array $inputAttrs = null) {
 		parent::__construct($label, $value);
 		$this->mandatory = $mandatory;
 		$this->dateStyle = $dateStyle;

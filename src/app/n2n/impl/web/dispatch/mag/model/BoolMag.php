@@ -51,7 +51,7 @@ class BoolMag extends MagAdapter {
 	 * @param array|null $attrs
 	 * @param array|null $inputAttrs
 	 */
-	public function __construct($labelLstr, bool $value = false, array $attrs = null, array $inputAttrs = null) {
+	public function __construct($labelLstr, bool $value = false, ?array $attrs = null, ?array $inputAttrs = null) {
 		parent::__construct($labelLstr, $value, $attrs);
 		$this->inputAttrs = (array) $inputAttrs;
 	}

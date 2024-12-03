@@ -56,7 +56,7 @@ class NumericMag extends MagAdapter {
 	 * @param array|null $inputAttrs
 	 */
 	public function __construct($label, $value = null, $mandatory = false,
-			$minValue = null, $maxValue = null, $decimalPlaces = 0, array $containerAttrs = null, array $inputAttrs = null) {
+			$minValue = null, $maxValue = null, $decimalPlaces = 0, ?array $containerAttrs = null, ?array $inputAttrs = null) {
 		parent::__construct($label, $value, $containerAttrs);
 		$this->mandatory = (bool) $mandatory;
 		$this->value = $value;

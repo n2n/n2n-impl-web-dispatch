@@ -47,7 +47,7 @@ class MagCollectionMag extends MagAdapter {
 	 * @param array|null $containerAttrs
 	 */
 	public function __construct($label, MagCollection $magCollection,
-			array $containerAttrs = null) {
+			?array $containerAttrs = null) {
 		parent::__construct($label,
 				HtmlUtils::mergeAttrs(array('class' => 'n2n-option-collection-option'), (array) $containerAttrs));
 		$this->magCollection = $magCollection;

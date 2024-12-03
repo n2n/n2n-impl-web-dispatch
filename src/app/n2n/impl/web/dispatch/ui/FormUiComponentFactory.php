@@ -92,7 +92,7 @@ class FormUiComponentFactory {
 	 * @param string $elementContents
 	 * @return \n2n\web\ui\Raw
 	 */
-	public function createInput(PropertyPath $propertyPath, array $attrs = null, string $type = null,
+	public function createInput(PropertyPath $propertyPath, ?array $attrs = null, ?string $type = null,
 			$secret = false, $fixedValue = null, $tagName = 'input', $elementContents = null) {
 		$result = $this->analyzeSimpleProperty($propertyPath, false);
 		
@@ -140,7 +140,7 @@ class FormUiComponentFactory {
 		return $value;
 	}
 	
-	public function createTextarea(PropertyPath $propertyPath, array $attrs = null) {
+	public function createTextarea(PropertyPath $propertyPath, ?array $attrs = null) {
 		$result = $this->analyzeSimpleProperty($propertyPath, false);
 		
 		$elemAttrs = $this->form->enhanceElementAttrs(
@@ -150,7 +150,7 @@ class FormUiComponentFactory {
 				(string) $this->buildInputValue(null, $result));
 	}
 	
-	public function createInputCheckbox(PropertyPath $propertyPath, $value, array $attrs = null, UiComponent $label = null) {
+	public function createInputCheckbox(PropertyPath $propertyPath, $value, ?array $attrs = null, ?UiComponent $label = null) {
 		$snippet = new HtmlSnippet($this->createTestElement('checkbox', $propertyPath, $value, $attrs), $label);
 		
 		$targetItem = null;
@@ -164,7 +164,7 @@ class FormUiComponentFactory {
 		return $snippet;
 	}
 	
-	public function createInputRadio(PropertyPath $propertyPath, $value, array $attrs = null, bool $enhanceAttrs = true) {
+	public function createInputRadio(PropertyPath $propertyPath, $value, ?array $attrs = null, bool $enhanceAttrs = true) {
 		if ($propertyPath->getLast()->isArray() && null === $propertyPath->getLast()->getArrayKey()) {
 			throw new InvalidPropertyExpressionException('Property path with empty brakets are '
 					. 'disallowed for radio buttons: ' . $propertyPath->__toString());
@@ -173,7 +173,7 @@ class FormUiComponentFactory {
 		return $this->createTestElement('radio', $propertyPath, $value, $attrs, $enhanceAttrs);
 	}
 	
-	private function createTestElement($type, PropertyPath $propertyPath, $value, array $attrs = null, bool $enhanceAttrs = true) {
+	private function createTestElement($type, PropertyPath $propertyPath, $value, ?array $attrs = null, bool $enhanceAttrs = true) {
 		$result = $this->analyzeSimpleProperty($propertyPath, false);
 		
 		$lastPathPart = $propertyPath->getLast();
@@ -193,7 +193,7 @@ class FormUiComponentFactory {
 	}
 	
 	
-	public function createSelect(PropertyPath $propertyPath, array $choicesMap, array $attrs = null, $multiple = false) {
+	public function createSelect(PropertyPath $propertyPath, array $choicesMap, ?array $attrs = null, $multiple = false) {
 		$result = $this->analyzeSimpleProperty($propertyPath, $multiple);
 		
 		$bvPropertyPath = $propertyPath;
@@ -219,7 +219,7 @@ class FormUiComponentFactory {
 	 * @param array $attrs
 	 * @throws UiException
 	 */
-	public function createInputFile(PropertyPath $propertyPath, array $attrs = null) {
+	public function createInputFile(PropertyPath $propertyPath, ?array $attrs = null) {
 		$result = $this->resolver->analyze($propertyPath, array('n2n\impl\web\dispatch\property\FileProperty'), false);
 		$propertyItem = $this->form->getDispatchTarget()->registerProperty($propertyPath);
 		
@@ -236,7 +236,7 @@ class FormUiComponentFactory {
 	 * @param string $deleteLinkLabel
 	 * @return n2n\web\ui\Raw
 	 */
-	public function createInputFileLabel(PropertyPath $propertyPath, array $attrs = null, $deleteLinkLabel = null) {
+	public function createInputFileLabel(PropertyPath $propertyPath, ?array $attrs = null, $deleteLinkLabel = null) {
 		$result = $this->resolver->analyze($propertyPath, array('n2n\impl\web\dispatch\property\FileProperty'), false);
 		$propertyItem = $this->form->getDispatchTarget()->registerProperty($propertyPath);
 		
@@ -284,7 +284,7 @@ class FormUiComponentFactory {
 		return $raw;
 	}
 	
-	public function createInputSubmit($methodName, $value = null, array $attrs = null) {
+	public function createInputSubmit($methodName, $value = null, ?array $attrs = null) {
 		$elemAttrs = array('type' => 'submit');
 		
 		if ($value !== null) {
@@ -299,7 +299,7 @@ class FormUiComponentFactory {
 		return new HtmlElement('input', HtmlUtils::mergeAttrs($elemAttrs, (array) $attrs));
 	}
 	
-	public function createButtonSubmit($methodName, $label, array $attrs = null) {
+	public function createButtonSubmit($methodName, $label, ?array $attrs = null) {
 		$elemAttrs = array('type' => 'submit', 'value' => 1);
 		
 		$dispatchModel = $this->form->getMappingPathResolver()->getBaseMappingResult()->getDispatchModel();
@@ -312,7 +312,7 @@ class FormUiComponentFactory {
 		return new HtmlElement('button', HtmlUtils::mergeAttrs($elemAttrs, (array) $attrs), $label);
 	}
 	
-	public function createHiddenSubmit($methodName, array $attrs = null) {
+	public function createHiddenSubmit($methodName, ?array $attrs = null) {
 		$elemAttrs = array('type' => 'hidden', 'value' => 1);
 		
 		$dispatchModel = $this->form->getMappingPathResolver()->getBaseMappingResult()->getDispatchModel();
@@ -342,8 +342,8 @@ class FormUiComponentFactory {
 	// 		return $this->buildTargetItemHidden($targetItem);
 	// 	}
 	
-	public function createOptionalObjectCheckbox(PropertyPath $propertyPath, array $attrs = null,
-			$label = null, array $labelAttrs = null) {
+	public function createOptionalObjectCheckbox(PropertyPath $propertyPath, ?array $attrs = null,
+			$label = null, ?array $labelAttrs = null) {
 				// 		$this->valOptionalObjectItem($propertyPath);
 				
 				$objectItem = null;
@@ -483,7 +483,7 @@ class FormUiComponentFactory {
 	 * @return \n2n\impl\web\ui\view\html\HtmlElement
 	 * @throws AttributeNameIsReservedException
 	 */
-	public function createLabel(PropertyPath $propertyPath, $label, array $attrs = null) {
+	public function createLabel(PropertyPath $propertyPath, $label, ?array $attrs = null) {
 		$result = $this->resolver->analyze($propertyPath);
 		
 		if ($label === null) {

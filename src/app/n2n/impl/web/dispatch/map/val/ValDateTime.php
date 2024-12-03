@@ -36,8 +36,8 @@ class ValDateTime extends SimplePropertyValidator {
 	private $max;
 	private $maxErrorMessage;
 	
-	public function __construct(\DateTime $min = null, $minErrorMessage = null, 
-			\DateTime $max = null, $maxErrorMessage = null) {
+	public function __construct(?\DateTime $min = null, $minErrorMessage = null,
+			?\DateTime $max = null, $maxErrorMessage = null) {
 		$this->min = $min;
 		$this->minErrorMessage = ValidationUtils::createMessage($minErrorMessage);
 		$this->max = $max;
@@ -46,7 +46,7 @@ class ValDateTime extends SimplePropertyValidator {
 		$this->restrictType(array('n2n\impl\web\dispatch\property\DateTimeProperty'));
 	}
 	
-	public static function minMax(\DateTime $min = null, \DateTime $max = null) {
+	public static function minMax(?\DateTime $min = null, ?\DateTime $max = null) {
 		return new ValDateTime($min, $max);
 	}
 

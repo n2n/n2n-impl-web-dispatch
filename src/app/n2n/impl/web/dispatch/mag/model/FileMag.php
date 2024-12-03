@@ -57,8 +57,8 @@ class FileMag extends MagAdapter {
 	 * @param array $inputAttrs
 	 * @param array $containerAttrs
 	 */
-	public function __construct($label, array $allowedExtensions = null, $checkImageResourceMemory = false,
-			File $value = null, bool $mandatory = false, array $inputAttrs = null, array $containerAttrs = null) {
+	public function __construct($label, ?array $allowedExtensions = null, $checkImageResourceMemory = false,
+			?File $value = null, bool $mandatory = false, ?array $inputAttrs = null, ?array $containerAttrs = null) {
 		parent::__construct($label, $value, $containerAttrs);
 		$this->inputAttrs = $inputAttrs;
 		$this->allowedExtensions = $allowedExtensions;

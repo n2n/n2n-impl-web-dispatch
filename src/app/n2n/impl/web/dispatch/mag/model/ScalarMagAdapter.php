@@ -34,7 +34,7 @@ abstract class ScalarMagAdapter extends MagAdapter {
 	 * @param null $value
 	 * @param array|null $containerAttrs
 	 */
-	public function __construct($labelLstr, $value = null, array $containerAttrs = null) {
+	public function __construct($labelLstr, $value = null, ?array $containerAttrs = null) {
 		parent::__construct($labelLstr, $value, $containerAttrs);
 	}
 

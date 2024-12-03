@@ -38,8 +38,8 @@ class TogglerMag extends BoolMag {
 	private $onHtmlId;
 	private $offHtmlId;
 	
-	public function __construct($labelLstr, bool $value = false, array $onAssociatedMagWrappers = null, 
-			array $offAssociatedMagWrappers = null) {
+	public function __construct($labelLstr, bool $value = false, ?array $onAssociatedMagWrappers = null,
+			?array $offAssociatedMagWrappers = null) {
 		
 		parent::__construct($labelLstr, $value);
 		$this->setOnAssociatedMagWrappers((array) $onAssociatedMagWrappers);

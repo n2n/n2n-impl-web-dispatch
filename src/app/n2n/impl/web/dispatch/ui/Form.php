@@ -137,7 +137,7 @@ class Form {
 	 * 
 	 * @return Raw
 	 */
-	public function printOpenTag(OutputBuffer $outputBuffer, $action, array $attrs = null) {
+	public function printOpenTag(OutputBuffer $outputBuffer, $action, ?array $attrs = null) {
 		$this->openBreakPointKey = $outputBuffer->breakPoint();
 		$this->openOutputBuffer = $outputBuffer;
 		$this->action = $action;
@@ -172,7 +172,7 @@ class Form {
 		return $this->labeledIds[$propertyPath->__toString()];
 	}
 	
-	public function buildId(PropertyPath $propertyPath, string $suffix = null) {
+	public function buildId(PropertyPath $propertyPath, ?string $suffix = null) {
 		$propertyPath = $this->dispatchTargetEncoder->buildRealPropertyPath($propertyPath);
 		
 		$idPrefix = TypeUtils::encodeNamespace($this->view->getModuleNamespace()) 

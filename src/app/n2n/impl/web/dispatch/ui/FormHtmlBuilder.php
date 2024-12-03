@@ -65,8 +65,8 @@ class FormHtmlBuilder {
 		return $this->meta;
 	}
 	
-	public function open(Dispatchable $dispatchable, string $enctype = null, $method = null, 
-			array $attrs = null, $action = null) {
+	public function open(Dispatchable $dispatchable, ?string $enctype = null, $method = null,
+			?array $attrs = null, $action = null) {
 		$form = $this->view->getHtmlProperties()->getForm();
 		if ($form !== null) {
 			throw new IllegalFormStateException('Form already open.');
@@ -137,24 +137,24 @@ class FormHtmlBuilder {
 		$this->formCreated = false;
 	}
 	
-	public function messageList($propertyExpression = null, array $attrs = null, bool $recursive = true, 
+	public function messageList($propertyExpression = null, ?array $attrs = null, bool $recursive = true,
 			bool $markAsProcessed = true, bool $unprocessedOnly = true) {
 		$this->view->out($this->getMessageList($propertyExpression, $attrs, $recursive, $markAsProcessed, $unprocessedOnly));
 	}
 	
-	public function getMessageList($propertyExpression = null, array $attrs = null, bool $recursive = true, 
+	public function getMessageList($propertyExpression = null, ?array $attrs = null, bool $recursive = true,
 			bool $markAsProcessed = true, bool $unprocessedOnly = true) {
 		return new MessageList($this->view->getDynamicTextCollection(), 
 				$this->meta->getMessages($propertyExpression, $recursive, $markAsProcessed, $unprocessedOnly), $attrs);
 	}
 	
-	public function message($propertyExpression = null, string $containerTagName = 'div', array $containerAttrs = null,
+	public function message($propertyExpression = null, string $containerTagName = 'div', ?array $containerAttrs = null,
 			bool $recursive = true, bool $markAsProcessed = true, bool $unprocessedOnly = true) {
 		$this->view->out($this->getMessage($propertyExpression, $containerTagName, $containerAttrs, 
 				$recursive, $markAsProcessed, $unprocessedOnly));
 	}
 	
-	public function getMessage($propertyExpression = null, string $containerTagName = 'div', array $containerAttrs = null,
+	public function getMessage($propertyExpression = null, string $containerTagName = 'div', ?array $containerAttrs = null,
 			bool $recursive = true, bool $markAsProcessed = true, bool $unprocessedOnly = true) {
 		$messages = $this->meta->getMessages($propertyExpression, $recursive, 1, $markAsProcessed, $unprocessedOnly);
 		if (empty($messages)) return null;
@@ -185,43 +185,43 @@ class FormHtmlBuilder {
 		return $this->factory;
 	}
 	
-	public function label($forPropertyExpression = null, $label = null, array $attrs = null) {
+	public function label($forPropertyExpression = null, $label = null, ?array $attrs = null) {
 		$this->view->out($this->getLabel($forPropertyExpression, $label, $attrs));
 	}
 	
-	public function getLabel($forPropertyExpression = null, $label = null, array $attrs = null) {
+	public function getLabel($forPropertyExpression = null, $label = null, ?array $attrs = null) {
 		return $this->getFactory()->createLabel($this->meta->createPropertyPath($forPropertyExpression), 
 				$label, $attrs);
 	}
 	
-	public function input($propertyExpression = null, array $attrs = null, string $type = null, 
+	public function input($propertyExpression = null, ?array $attrs = null, ?string $type = null,
 			$secret = false, $fixedValue = null, $tagName = 'input', $elementContents = null) {
 		$this->view->out($this->getInput($propertyExpression, $attrs, $type, $secret, 
 				$fixedValue, $tagName, $elementContents));
 	}
 
-	public function getInput($propertyExpression = null, array $attrs = null, string $type = null, 
+	public function getInput($propertyExpression = null, ?array $attrs = null, ?string $type = null,
 			$secret = false, $fixedValue = null, $tagName = 'input', $elementContents = null) {
 		
 		return $this->getFactory()->createInput($this->meta->createPropertyPath($propertyExpression), 
 				$attrs, $type, $secret, $fixedValue, $tagName, $elementContents);
 	}
 	
-	public function textarea($propertyExpression = null, array $attrs = null) {
+	public function textarea($propertyExpression = null, ?array $attrs = null) {
 		$this->view->out($this->getTextarea($propertyExpression, $attrs));
 	}
 	
-	public function getTextarea($propertyExpression = null, array $attrs = null) {
+	public function getTextarea($propertyExpression = null, ?array $attrs = null) {
 		return $this->getFactory()->createTextarea($this->meta->createPropertyPath($propertyExpression), $attrs);
 	}
 	
-	public function inputCheckbox($propertyExpression = null, $value = true, array $attrs = null, 
-			$label = null, array $labelAttrs = null) {
+	public function inputCheckbox($propertyExpression = null, $value = true, ?array $attrs = null,
+			$label = null, ?array $labelAttrs = null) {
 		$this->view->out($this->getInputCheckbox($propertyExpression, $value, $attrs, $label, $labelAttrs));
 	}
 	
 	public function getInputCheckbox($propertyExpression = null, $value = true, 
-			array $attrs = null, $label = null, array $labelAttrs = null) {
+			?array $attrs = null, $label = null, ?array $labelAttrs = null) {
 		if ($label === null) {
 			return $this->getFactory()->createInputCheckbox($this->meta->createPropertyPath($propertyExpression), 
 					$value, $attrs);
@@ -237,13 +237,13 @@ class FormHtmlBuilder {
 						$value, $attrs, new HtmlElement('label', $labelAttrs, $label));
 	}
 	
-	public function inputRadio($propertyExpression = null, $value = true, array $attrs = null, 
-			$label = null, array $labelAttrs = null) {
+	public function inputRadio($propertyExpression = null, $value = true, ?array $attrs = null,
+			$label = null, ?array $labelAttrs = null) {
 		$this->view->out($this->getInputRadio($propertyExpression, $value, $attrs, $label, $labelAttrs));
 	}
 	
-	public function getInputRadio($propertyExpression = null, $value = true, array $attrs = null, $label = null, 
-			array $labelAttrs = null) {
+	public function getInputRadio($propertyExpression = null, $value = true, ?array $attrs = null, $label = null,
+			?array $labelAttrs = null) {
 		if ($label === null) {
 			return $this->getFactory()->createInputRadio($this->meta->createPropertyPath($propertyExpression), 
 					$value, $attrs, true);
@@ -261,66 +261,66 @@ class FormHtmlBuilder {
 		return $raw;
 	}
 	
-	public function select($propertyExpression, array $options, array $attrs = null, $multiple = false) {
+	public function select($propertyExpression, array $options, ?array $attrs = null, $multiple = false) {
 		$this->view->out($this->getSelect($propertyExpression, $options, $attrs, $multiple));
 	}
 
-	public function getSelect($propertyExpression, array $options, array $attrs = null, $multiple = false) {
+	public function getSelect($propertyExpression, array $options, ?array $attrs = null, $multiple = false) {
 		return $this->getFactory()->createSelect($this->meta->createPropertyPath($propertyExpression), $options, 
 				$attrs, $multiple);
 	}
 	
-	public function inputFileWithLabel($propertyExpression = null, array $attrs = null, array $labelAttrs = null) {
+	public function inputFileWithLabel($propertyExpression = null, ?array $attrs = null, ?array $labelAttrs = null) {
 		$this->inputFile($propertyExpression, $attrs);
 		$this->inputFileLabel($propertyExpression, $labelAttrs);
 	}
 	
-	public function getInputFileWithLabel($propertyExpression = null, array $attrs = null, array $labelAttrs = null) {
+	public function getInputFileWithLabel($propertyExpression = null, ?array $attrs = null, ?array $labelAttrs = null) {
 		$raw = new Raw($this->getInputFile($propertyExpression, $attrs));
 		$raw->append($this->getInputFileLabel($propertyExpression, $labelAttrs));
 		return $raw;
 	}
 	
-	public function inputFile($propertyExpression = null, array $attrs = null) {
+	public function inputFile($propertyExpression = null, ?array $attrs = null) {
 		$this->view->out($this->getInputFile($propertyExpression, $attrs));
 	}
 	
-	public function getInputFile($propertyExpression = null, array $attrs = null) {
+	public function getInputFile($propertyExpression = null, ?array $attrs = null) {
 		return $this->getFactory()->createInputFile($this->meta->createPropertyPath($propertyExpression), $attrs);
 			
 	}
 	
-	public function inputFileLabel($propertyExpression = null, array $attrs = null, $deleteLinkLabel = null) {
+	public function inputFileLabel($propertyExpression = null, ?array $attrs = null, $deleteLinkLabel = null) {
 		$this->view->out($this->getInputFileLabel($propertyExpression, $attrs, $deleteLinkLabel));
 	}
 	
-	public function getInputFileLabel($propertyExpression = null, array $attrs = null, 
+	public function getInputFileLabel($propertyExpression = null, ?array $attrs = null,
 			$deleteLinkLabel = null) {
 		return $this->getFactory()->createInputFileLabel($this->meta->createPropertyPath($propertyExpression), 
 				$attrs, $deleteLinkLabel);
 	}
 	
-	public function inputSubmit($methodName, $value = null, array $attrs = null) {
+	public function inputSubmit($methodName, $value = null, ?array $attrs = null) {
 		$this->view->out($this->getInputSubmit($methodName, $value, $attrs));
 	}
 
-	public function getInputSubmit($methodName, $value = null, array $attrs = null) {
+	public function getInputSubmit($methodName, $value = null, ?array $attrs = null) {
 		return $this->getFactory()->createInputSubmit($methodName, $value, $attrs);
 	}
 
-	public function buttonSubmit($methodName, $label, array $attrs = null) {
+	public function buttonSubmit($methodName, $label, ?array $attrs = null) {
 		$this->view->out($this->getButtonSubmit($methodName, $label, $attrs));
 	}
 
-	public function getButtonSubmit($methodName, $label, array $attrs = null) {	
+	public function getButtonSubmit($methodName, $label, ?array $attrs = null) {
 		return $this->getFactory()->createButtonSubmit($methodName, $label, $attrs);
 	}
 
-	public function submitLink($methodName, array $attrs = null) {
+	public function submitLink($methodName, ?array $attrs = null) {
 		$this->view->out($this->getSubmitLink($methodName, $attrs));
 	}
 
-	public function getSubmitLink($methodName, array $attrs = null) {
+	public function getSubmitLink($methodName, ?array $attrs = null) {
 		throw new NotYetImplementedException('Submit link is not yet implemented.');
 // 		try {
 // 			return new SubmitLink($this->meta->getForm(), $method, $attrs);
@@ -339,8 +339,8 @@ class FormHtmlBuilder {
 // 				$this->meta->createPropertyPath($propertyExpression, $emptyAllowed));
 // 	}
 	
-	public function optionalObjectCheckbox($propertyExpression = null, array $attrs = null, 
-			$label = null, array $labelAttrs = null) {
+	public function optionalObjectCheckbox($propertyExpression = null, ?array $attrs = null,
+			$label = null, ?array $labelAttrs = null) {
 		$this->view->out($this->getOptionalObjectCheckbox($propertyExpression, $attrs, 
 				$label, $labelAttrs));
 	}
@@ -352,8 +352,8 @@ class FormHtmlBuilder {
 	 * @param array $labelAttrs
 	 * @return \n2n\web\ui\UiComponent
 	 */
-	public function getOptionalObjectCheckbox($propertyExpression = null, array $attrs = null, 
-			$label = null, array $labelAttrs = null) {
+	public function getOptionalObjectCheckbox($propertyExpression = null, ?array $attrs = null,
+			$label = null, ?array $labelAttrs = null) {
 		
 		$emptyAllowed = null !== $this->meta()->getForm()->getDispatchTargetEncoder()->getPseudoBasePropertyPath();
 		return $this->getFactory()->createOptionalObjectCheckbox(
@@ -370,11 +370,11 @@ class FormHtmlBuilder {
 				null !== $this->meta()->getForm()->getDispatchTargetEncoder()->getPseudoBasePropertyPath()));
 	}
 	
-	public function magOpen($tagName, $propertyExpression = null, array $attrs = null, UiOutfitter $uiOutfitter = null) {
+	public function magOpen($tagName, $propertyExpression = null, ?array $attrs = null, ?UiOutfitter $uiOutfitter = null) {
 		$this->view->out($this->getMagOpen($tagName, $propertyExpression, $attrs, $uiOutfitter));
 	}
 
-	public function getMagOpen(string $tagName, $propertyExpression = null, array $attrs = null, UiOutfitter $uiOutfitter = null) {
+	public function getMagOpen(string $tagName, $propertyExpression = null, ?array $attrs = null, ?UiOutfitter $uiOutfitter = null) {
 		$propertyPath = $this->meta->createPropertyPath($propertyExpression);
 		$magWrapper = $this->meta->lookupMagWrapper($propertyPath);
 		$this->magStack[] = array('tagName' => $tagName, 'propertyPath' => $propertyPath, 'magWrapper' => $magWrapper,
@@ -392,11 +392,11 @@ class FormHtmlBuilder {
 		return end($this->magStack);
 	}
 	
-	public function magLabel(array $attrs = null, $label = null) {
+	public function magLabel(?array $attrs = null, $label = null) {
 		$this->view->out($this->getMagLabel($attrs, $label));
 	}
 	
-	public function getMagLabel(array $attrs = null, $label = null) {
+	public function getMagLabel(?array $attrs = null, $label = null) {
 		$magInfo = $this->peakMagInfo();
 
 		if ($attrs === null) {

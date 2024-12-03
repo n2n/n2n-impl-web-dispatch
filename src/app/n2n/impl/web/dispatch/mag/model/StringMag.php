@@ -55,7 +55,7 @@ class StringMag extends MagAdapter {
 	 * @param array|null $inputAttrs
 	 */
 	public function __construct($label, $value = null, bool $mandatory = false,
-			int $maxlength = null, bool $multiline = false, array $attrs = null, array $inputAttrs = null) {
+			?int $maxlength = null, bool $multiline = false, ?array $attrs = null, ?array $inputAttrs = null) {
 		parent::__construct($label, $value, $attrs);
 		$this->mandatory = $mandatory;
 		$this->maxlength = $maxlength;
@@ -80,7 +80,7 @@ class StringMag extends MagAdapter {
 	/**
 	 * @param int|null $maxlength
 	 */
-	public function setMaxlength(int $maxlength = null) {
+	public function setMaxlength(?int $maxlength = null) {
 		$this->maxlength = $maxlength;
 	}
 
