@@ -60,7 +60,7 @@ class BasicUiOutfitter implements UiOutfitter {
 	 * @param HtmlView $contextView
 	 * @return UiComponent
 	 */
-	public function createMagDispatchableView(?PropertyPath $propertyPath = null, HtmlView $contextView): UiComponent {
+	public function createMagDispatchableView(?PropertyPath $propertyPath, HtmlView $contextView): UiComponent {
 		return $contextView->getImport('\n2n\impl\web\dispatch\mag\view\magForm.html', array('propertyPath' => null));
 	}
 }
