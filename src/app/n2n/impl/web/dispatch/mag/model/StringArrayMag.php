@@ -51,7 +51,7 @@ class StringArrayMag extends MagAdapter {
 	 * @param array|null $containerAttrs
 	 */
 	public function __construct($label, array $values = array(),
-			bool $mandatory = false, array $inputAttrs = null, array $containerAttrs = null) {
+			bool $mandatory = false, ?array $inputAttrs = null, ?array $containerAttrs = null) {
 		parent::__construct($label, $values, $containerAttrs);
 		$this->mandatory = (bool) $mandatory;
 		$this->inputAttrs = (array) $inputAttrs;

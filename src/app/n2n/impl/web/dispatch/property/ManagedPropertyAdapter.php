@@ -137,6 +137,6 @@ abstract class ManagedPropertyAdapter implements ManagedProperty {
 	/* (non-PHPdoc)
 	 * @see \n2n\web\dispatch\property\ManagedProperty::prepareForm()
 	 */
-	public function prepareForm(Form $form, AnalyzerResult $analyzerResult = null) {
+	public function prepareForm(Form $form, ?AnalyzerResult $analyzerResult = null) {
 	}
 }

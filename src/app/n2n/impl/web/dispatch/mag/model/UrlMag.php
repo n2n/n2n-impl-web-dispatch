@@ -42,8 +42,8 @@ class UrlMag extends StringMag {
 	 * @param array|null $containerAttrs
 	 * @param array|null $inputAttrs
 	 */
-	public function __construct($labelLstr, Url $value = null, bool $mandatory = false,
-			int $maxlength = null, array $containerAttrs = null, array $inputAttrs = null) {
+	public function __construct($labelLstr, ?Url $value = null, bool $mandatory = false,
+			?int $maxlength = null, ?array $containerAttrs = null, ?array $inputAttrs = null) {
 		parent::__construct($labelLstr, $value, $mandatory, $maxlength, false, $containerAttrs,
 				$inputAttrs);
 	}
@@ -58,7 +58,7 @@ class UrlMag extends StringMag {
 	/**
 	 * @param array|null $allowedSchemes
 	 */
-	public function setAllowedSchemes(array $allowedSchemes = null) {
+	public function setAllowedSchemes(?array $allowedSchemes = null) {
 		$this->allowedSchemes = $allowedSchemes;
 	}
 
@@ -86,7 +86,7 @@ class UrlMag extends StringMag {
 	/**
 	 * @param string|null $autoScheme
 	 */
-	public function setAutoScheme(string $autoScheme = null) {
+	public function setAutoScheme(?string $autoScheme = null) {
 		$this->autoScheme = $autoScheme;
 	}
 
@@ -130,7 +130,7 @@ class UrlMag extends StringMag {
 		if ($this->autoScheme === null || !$md->isDispatched() || $this->relativeAllowed) return;
 		
 		$urlStr = $md->getDispatchedValue($this->propertyName);
-		if (!strlen($urlStr)) return;
+		if ($urlStr === null || !strlen($urlStr)) return;
 		
 		$url = Url::create($urlStr, true);
 		if (!$url->hasScheme() && $url->getAuthority()->isEmpty()) {

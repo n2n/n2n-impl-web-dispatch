@@ -34,8 +34,8 @@ use n2n\web\dispatch\map\bind\BindingDefinition;
 class ClassNameMag extends StringMag {
 	private $isAClass;
 		
-	public function __construct($label, \ReflectionClass $isAClass, string $value = null, 
-			$mandatory = false, $maxlength = null, array $attrs = null,  array $inputAttrs = null) {
+	public function __construct($label, \ReflectionClass $isAClass, ?string $value = null,
+			$mandatory = false, $maxlength = null, ?array $attrs = null,  ?array $inputAttrs = null) {
 		parent::__construct($label, $value, $mandatory, $maxlength, false, $attrs, $inputAttrs);
 		
 		$this->isAClass = $isAClass;

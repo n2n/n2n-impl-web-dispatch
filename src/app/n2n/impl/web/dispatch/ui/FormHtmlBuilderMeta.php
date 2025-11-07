@@ -135,7 +135,7 @@ class FormHtmlBuilderMeta {
 	}
 	
 	public function getMessages($propertyExpression = null, bool $recursive = true, 
-			int $max = null, bool $markAsProcessed = true, bool $unprocessedOnly = true) {
+			?int $max = null, bool $markAsProcessed = true, bool $unprocessedOnly = true) {
 		$propertyPath = $this->createPropertyPath($propertyExpression, true);
 		
 		$resolver = $this->getForm()->getMappingPathResolver();
@@ -316,7 +316,7 @@ class FormHtmlBuilderMeta {
 	/**
 	 * @return bool
 	 */
-	public function isDispatched(string $methodName = null, bool $exclusive = false) {
+	public function isDispatched(?string $methodName = null, bool $exclusive = false) {
 		$form = $this->getForm();
 		
 		$dispatchContext = $this->view->lookup(DispatchContext::class);

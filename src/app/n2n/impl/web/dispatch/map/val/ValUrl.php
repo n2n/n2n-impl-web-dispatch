@@ -33,7 +33,7 @@ class ValUrl extends SimplePropertyValidator {
 	private $errorMessage;
 	private $relativeAllowed;
 	
-	public function __construct(array $allowedSchemes = null, $errorMessage = null, bool $relativeAllowed = false) {
+	public function __construct(?array $allowedSchemes = null, $errorMessage = null, bool $relativeAllowed = false) {
 		$this->allowedSchemes = $allowedSchemes;
 		$this->errorMessage = ValidationUtils::createMessage($errorMessage);
 		$this->relativeAllowed = $relativeAllowed;

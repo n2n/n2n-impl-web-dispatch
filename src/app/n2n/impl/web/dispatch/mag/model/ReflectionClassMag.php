@@ -47,7 +47,7 @@ class ReflectionClassMag extends MagAdapter {
 	private $isAClass;
 		
 	public function __construct($label, \ReflectionClass $isAClass, $value = null, 
-			$mandatory = false, $maxlength = null, array $inputAttrs = null) {
+			$mandatory = false, $maxlength = null, ?array $inputAttrs = null) {
 		parent::__construct($label, $value);
 		
 		$this->mandatory = $mandatory;

@@ -36,8 +36,8 @@ class ValDateTime extends SimplePropertyValidator {
 	private $max;
 	private $maxErrorMessage;
 	
-	public function __construct(\DateTime $min = null, $minErrorMessage = null, 
-			\DateTime $max = null, $maxErrorMessage = null) {
+	public function __construct(?\DateTime $min = null, $minErrorMessage = null,
+			?\DateTime $max = null, $maxErrorMessage = null) {
 		$this->min = $min;
 		$this->minErrorMessage = ValidationUtils::createMessage($minErrorMessage);
 		$this->max = $max;
@@ -46,7 +46,7 @@ class ValDateTime extends SimplePropertyValidator {
 		$this->restrictType(array('n2n\impl\web\dispatch\property\DateTimeProperty'));
 	}
 	
-	public static function minMax(\DateTime $min = null, \DateTime $max = null) {
+	public static function minMax(?\DateTime $min = null, ?\DateTime $max = null) {
 		return new ValDateTime($min, $max);
 	}
 
@@ -55,10 +55,10 @@ class ValDateTime extends SimplePropertyValidator {
 		
 		ArgUtils::assertTrue($value instanceof \DateTime);
 		
+		$managedProperty = $this->getManagedProperty();
+		CastUtils::assertTrue($managedProperty instanceof DateTimeProperty);
+		
 		if ($this->min !== null && $value < $this->min) {
-			$managedProperty = $this->getManagedProperty();
-			CastUtils::assertTrue($managedProperty instanceof DateTimeProperty);
-			
 			$this->failed($this->minErrorMessage, self::DEFAULT_MIN_ERROR_TEXT_CODE,
 					array('date' => $managedProperty->formatDateTime($this->min, $this->getN2nContext()->getN2nLocale())), 
 					'n2n\impl\web\dispatch');

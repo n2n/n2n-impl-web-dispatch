@@ -21,7 +21,7 @@ class BasicUiOutfitter implements UiOutfitter {
 		return array();
 	}
 
-	public function createElement(int $elemNature, array $attrs = null, $contents = ''): UiComponent {
+	public function createElement(int $elemNature, ?array $attrs = null, $contents = ''): UiComponent {
 		if ($elemNature & self::EL_NATRUE_CONTROL_ADDON_SUFFIX_WRAPPER) {
 			return new HtmlElement('div', $attrs, $contents);
 		}
@@ -60,7 +60,7 @@ class BasicUiOutfitter implements UiOutfitter {
 	 * @param HtmlView $contextView
 	 * @return UiComponent
 	 */
-	public function createMagDispatchableView(PropertyPath $propertyPath = null, HtmlView $contextView): UiComponent {
+	public function createMagDispatchableView(?PropertyPath $propertyPath, HtmlView $contextView): UiComponent {
 		return $contextView->getImport('\n2n\impl\web\dispatch\mag\view\magForm.html', array('propertyPath' => null));
 	}
 }

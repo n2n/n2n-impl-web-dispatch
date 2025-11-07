@@ -36,7 +36,7 @@ class N2nLocaleMag extends EnumMag {
 	 * @param bool $required
 	 * @param array|null $inputAttrs
 	 */
-	public function __construct(string $label, $displayN2nLocale = null, $default = null, $required = false, array $inputAttrs = null) {
+	public function __construct(string $label, $displayN2nLocale = null, $default = null, $required = false, ?array $inputAttrs = null) {
 		parent::__construct($label, $this->getN2nLocaleMags(), $default, $required, $inputAttrs);
 		$this->displayN2nLocale = $displayN2nLocale;
 	}

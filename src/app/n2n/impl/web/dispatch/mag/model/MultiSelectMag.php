@@ -54,8 +54,8 @@ class MultiSelectMag extends MagAdapter {
 	 * @param array|null $inputAttrs
 	 * @param array|null $containerAttrs
 	 */
-	public function __construct($label, array $choicesMap, array $default = null, int $min = 0, int $max = null,
-			array $inputAttrs = null, array $containerAttrs = null) {
+	public function __construct($label, array $choicesMap, ?array $default = null, int $min = 0, ?int $max = null,
+			?array $inputAttrs = null, ?array $containerAttrs = null) {
 		parent::__construct($label, (array) $default, $containerAttrs);
 		$this->choicesMap = $choicesMap;
 		$this->min = $min;

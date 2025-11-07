@@ -86,7 +86,7 @@ class ObjectProperty extends ManagedPropertyAdapter {
 	/**
 	 * @param \Closure $creator
 	 */
-	public function setCreator(\Closure $creator = null) {
+	public function setCreator(?\Closure $creator = null) {
 		$this->creator = $creator;
 	}
 	/**
