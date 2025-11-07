@@ -25,11 +25,11 @@
 	},
 	"require" : {
       "n2n/n2n-composer-module-installer": "^7.1.5",
-      "n2n/n2n-web": "~7.4",
-      "n2n/n2n-io" : "~7.4",
-      "n2n/n2n-l10n": "~7.4",
-      "n2n/n2n-reflection" : "~7.4",
-      "n2n/n2n-util" : "~7.4"
+      "n2n/n2n-web": "~7.5.0",
+      "n2n/n2n-io" : "~7.5.0",
+      "n2n/n2n-l10n": "~7.5.0",
+      "n2n/n2n-reflection" : "~7.5.0",
+      "n2n/n2n-util" : "~7.5.0"
 	},
 	"autoload" : {
 		"psr-4" : {
