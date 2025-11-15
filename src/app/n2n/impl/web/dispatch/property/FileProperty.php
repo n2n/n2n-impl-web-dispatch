@@ -57,7 +57,7 @@ class FileProperty extends ManagedPropertyAdapter {
 		$mappingResult = $bindingDefinition->getMappingResult();
 		$tmpFileManager = $n2nContext->getLookupManager()->lookup('n2n\io\managed\impl\TmpFileManager');
 		ArgUtils::assertTrue($tmpFileManager instanceof TmpFileManager);
-		$session = $n2nContext->getHttpContext()->getSession();
+		$session = $n2nContext->lookup(\n2n\web\http\HttpContext::class)->getSession();
 	
 		if (!$this->isArray()) {
 			$propertyItem = null;
